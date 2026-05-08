@@ -1,0 +1,55 @@
+{
+  "intro": {
+    "title": "About Us",
+    "paragraphs": [
+      "Award winning Venetian Plaster applicators, offering a limitless range of Venetian Plasters and Special Finishes. With over 20 years of international experience, Renaissance Decor prides itself on integrity, efficiency, and uncompromising quality.",
+      "We specialize in bringing the timeless elegance of traditional European plastering techniques directly to modern Australian architecture. Our master artisans merge heritage craftsmanship with contemporary innovation to produce surfaces that are structurally poetic."
+    ],
+    "awards": [
+      "2024 - Master Artisans Excellence",
+      "2023 - Certified Venetian Applicators",
+      "2022 - House & Garden Feature",
+      "2020 - European Heritage Award"
+    ],
+    "image": "https://renaissancedecor.com.au/wp-content/uploads/2023/07/RD_11_Struan-Kitchen.jpg"
+  },
+  "team": {
+    "title": "About Team",
+    "quote": "\"Every surface is a canvas, and our heritage is simply knowing how to let the architecture speak.\"",
+    "bio": "As the Director of Renaissance Decor, Adam McCann brings decades of passion, technical discipline, and an unrivaled eye for structural finishing. He has dedicated his career to sourcing the most authentic plastering compounds globally, ensuring every project holds a distinct narrative.",
+    "image": "https://renaissancedecor.com.au/wp-content/uploads/2023/07/Adam-McCann.jpg",
+    "members": [
+      {
+        "name": "Adam McCann",
+        "role": "Director / Sales"
+      },
+      {
+        "name": "Master Artisans",
+        "role": "Certified Venetian Applicators"
+      }
+    ]
+  },
+  "process": {
+    "title": "How We Work",
+    "steps": [
+      {
+        "id": "01",
+        "title": "Consultation",
+        "description": "We begin by understanding your architectural vision, assessing the lighting, spatial parameters, and functional requirements of your site.",
+        "image": "https://renaissancedecor.com.au/wp-content/uploads/2023/07/corridor.jpg"
+      },
+      {
+        "id": "02",
+        "title": "Prototyping",
+        "description": "Bespoke sample boards are crafted to allow you to experience the texture, color depth, and light interplay before full application.",
+        "image": "https://renaissancedecor.com.au/wp-content/uploads/2023/07/stairs-white.jpg"
+      },
+      {
+        "id": "03",
+        "title": "Execution",
+        "description": "Our master artisans meticulously apply the compounds on-site, layering the Venetian plaster strictly by hand to achieve organic motion.",
+        "image": "https://renaissancedecor.com.au/wp-content/uploads/2023/07/RenaissanceDecor-009.jpg"
+      }
+    ]
+  }
+}

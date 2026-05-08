@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { SmoothScroll } from "@/components/layout/SmoothScroll";
-import { Preloader } from "@/components/layout/Preloader";
-import { Footer } from "@/components/layout/Footer";
-import { CustomCursor } from "@/components/ui/CustomCursor";
+import { FrontendWrapper } from "@/components/layout/FrontendWrapper";
 
 export const metadata: Metadata = {
   title: "Renaissance Decor | Master Artisans of Surface Design",
@@ -21,12 +18,9 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://use.typekit.net/xvi4mxs.css" />
       </head>
       <body suppressHydrationWarning className={`font-futura antialiased selection:bg-[var(--color-stone)] selection:text-[var(--color-charcoal)]`}>
-        <SmoothScroll>
-          <CustomCursor />
-          <Preloader />
+        <FrontendWrapper>
           {children}
-          <Footer />
-        </SmoothScroll>
+        </FrontendWrapper>
       </body>
     </html>
   );

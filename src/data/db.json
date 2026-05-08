@@ -1,17 +1,37 @@
 {
   "navLinks": [
-    { "id": "1", "name": "About Us", "href": "/about" },
-    { "id": "2", "name": "Finishes", "href": "/materials" },
-    { "id": "3", "name": "Projects", "href": "/projects" },
-    { "id": "4", "name": "Products", "href": "/shop" },
-    { "id": "5", "name": "Enquire", "href": "/enquire" }
+    {
+      "id": "1",
+      "name": "About Us",
+      "href": "/about"
+    },
+    {
+      "id": "2",
+      "name": "Finishes",
+      "href": "/materials"
+    },
+    {
+      "id": "3",
+      "name": "Projects",
+      "href": "/projects"
+    },
+    {
+      "id": "4",
+      "name": "Products",
+      "href": "/shop"
+    },
+    {
+      "id": "5",
+      "name": "Enquire",
+      "href": "/enquire"
+    }
   ],
   "carouselItems": [
     {
       "id": "1",
       "imageSrc": "https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2500&auto=format&fit=crop",
       "title": "Twenty Years.<br/>Every surface applied by hand.",
-      "subtitle": "Venetian Plaster · Micro Cement · Clay · Metal"
+      "subtitle": "Test 1"
     },
     {
       "id": "2",
