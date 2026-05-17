@@ -1,9 +1,6 @@
 "use server";
-
-import fs from "fs/promises";
-import path from "path";
-
-const aboutFilePath = path.join(process.cwd(), "src", "data", "about.json");
+import { revalidatePath } from "next/cache";
+import sql from "@/lib/db";
 
 export type AboutData = {
   intro: {
@@ -30,28 +27,38 @@ export type AboutData = {
   };
 };
 
+const EMPTY_ABOUT: AboutData = {
+  intro:   { title: "", paragraphs: [], awards: [], image: "" },
+  team:    { title: "", quote: "", bio: "", image: "", members: [] },
+  process: { title: "", steps: [] },
+};
+
+// ── Read ───────────────────────────────────────────────────────────────────
+
 export async function getAbout(): Promise<AboutData> {
   try {
-    const data = await fs.readFile(aboutFilePath, "utf8");
-    return JSON.parse(data);
+    const rows = await sql`SELECT data FROM about WHERE id = 1`;
+    return (rows[0]?.data as AboutData) ?? EMPTY_ABOUT;
   } catch (error) {
-    console.error("Failed to read about.json", error);
-    // Return empty defaults if file not found
-    return {
-      intro: { title: "", paragraphs: [], awards: [], image: "" },
-      team: { title: "", quote: "", bio: "", image: "", members: [] },
-      process: { title: "", steps: [] }
-    };
+    console.error("getAbout failed:", error);
+    return EMPTY_ABOUT;
   }
 }
 
+// ── Save ───────────────────────────────────────────────────────────────────
+
 export async function saveAbout(data: AboutData): Promise<{ success: boolean; error?: string }> {
   try {
-    // In actual production without local write access, this would write to Vercel Postgres or similar.
-    await fs.writeFile(aboutFilePath, JSON.stringify(data, null, 2), "utf8");
+    await sql`
+      INSERT INTO about (id, data)
+      VALUES (1, ${JSON.stringify(data)}::jsonb)
+      ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data
+    `;
+    revalidatePath("/about");
+    revalidatePath("/");
     return { success: true };
   } catch (error: any) {
-    console.error("Failed to save about.json", error);
+    console.error("saveAbout failed:", error);
     return { success: false, error: error.message };
   }
 }

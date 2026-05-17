@@ -1,56 +1,124 @@
 "use server";
-import { promises as fs } from "fs";
-import path from "path";
+import { revalidatePath } from "next/cache";
+import sql from "@/lib/db";
 
 export interface ProjectData {
   id: string;
   title: string;
   image: string;
-  aspect?: string; // used for grid layout sizing
+  aspect?: string;
   showOnHome: boolean;
-  galleryImages?: string[]; // new optional array of images for the project detail page
-  description?: string; // new optional text description for the detail page
+  galleryImages?: string[];
+  description?: string;
 }
 
-const dataFilePath = path.join(process.cwd(), "src", "data", "projects.json");
+// ── Read ───────────────────────────────────────────────────────────────────
 
 export async function getProjects(): Promise<ProjectData[]> {
   try {
-    const fileContents = await fs.readFile(dataFilePath, "utf8");
-    return JSON.parse(fileContents);
+    const rows = await sql`
+      SELECT
+        id,
+        title,
+        image,
+        aspect,
+        show_on_home  AS "showOnHome",
+        gallery_images AS "galleryImages",
+        description
+      FROM projects
+      ORDER BY sort_order
+    `;
+    return rows as ProjectData[];
   } catch (error) {
+    console.error("getProjects failed:", error);
     return [];
   }
 }
 
-export async function saveProject(project: Partial<ProjectData>): Promise<{ success: boolean; error?: string }> {
+export async function getProjectById(id: string): Promise<ProjectData | null> {
   try {
-    const data = await fs.readFile(dataFilePath, "utf8");
-    let projects: ProjectData[] = JSON.parse(data);
-
-    if (project.id) {
-      // Update existing
-      projects = projects.map((p) => (p.id === project.id ? { ...p, ...project } : p));
-    } else {
-      // Add new
-      const newProject: ProjectData = {
-        id: Date.now().toString(),
-        title: project.title || "Untitled",
-        image: project.image || "",
-        aspect: project.aspect || "aspect-[3/4]",
-        showOnHome: project.showOnHome || false,
-        galleryImages: project.galleryImages || [],
-        description: project.description || "",
-      };
-      projects.push(newProject);
-    }
-    await fs.writeFile(dataFilePath, JSON.stringify(projects, null, 2), "utf8");
-    return { success: true };
-  } catch (error) {
-    return { success: false, error: "Failed to save project" };
+    const rows = await sql`
+      SELECT
+        id,
+        title,
+        image,
+        aspect,
+        show_on_home  AS "showOnHome",
+        gallery_images AS "galleryImages",
+        description
+      FROM projects
+      WHERE id = ${id}
+    `;
+    return (rows[0] as ProjectData) ?? null;
+  } catch {
+    return null;
   }
 }
 
+// ── Save (create or update) ────────────────────────────────────────────────
+
+export async function saveProject(project: Partial<ProjectData>): Promise<{ success: boolean; error?: string }> {
+  try {
+    if (project.id) {
+      // Update existing
+      await sql`
+        UPDATE projects SET
+          title          = ${project.title          ?? "Untitled"},
+          image          = ${project.image          ?? ""},
+          aspect         = ${project.aspect         ?? "3/4"},
+          show_on_home   = ${project.showOnHome     ?? false},
+          gallery_images = ${JSON.stringify(project.galleryImages ?? [])}::jsonb,
+          description    = ${project.description    ?? ""}
+        WHERE id = ${project.id}
+      `;
+    } else {
+      // Insert new
+      const id = Date.now().toString();
+      const maxOrder = await sql`SELECT COALESCE(MAX(sort_order), -1) as m FROM projects`;
+      const sortOrder = (maxOrder[0].m as number) + 1;
+
+      await sql`
+        INSERT INTO projects (id, title, image, aspect, show_on_home, gallery_images, description, sort_order)
+        VALUES (
+          ${id},
+          ${project.title       ?? "Untitled"},
+          ${project.image       ?? ""},
+          ${project.aspect      ?? "3/4"},
+          ${project.showOnHome  ?? false},
+          ${JSON.stringify(project.galleryImages ?? [])}::jsonb,
+          ${project.description ?? ""},
+          ${sortOrder}
+        )
+      `;
+    }
+    revalidatePath("/projects");
+    revalidatePath("/");
+    return { success: true };
+  } catch (error: any) {
+    console.error("saveProject failed:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+// ── Bulk save (used for reordering) ───────────────────────────────────────
+
 export async function saveProjects(projects: ProjectData[]): Promise<void> {
-  await fs.writeFile(dataFilePath, JSON.stringify(projects, null, 2), "utf8");
+  for (const [i, p] of projects.entries()) {
+    await sql`UPDATE projects SET sort_order = ${i} WHERE id = ${p.id}`;
+  }
+  revalidatePath("/projects");
+  revalidatePath("/");
+}
+
+// ── Delete ─────────────────────────────────────────────────────────────────
+
+export async function deleteProject(id: string): Promise<{ success: boolean }> {
+  try {
+    await sql`DELETE FROM projects WHERE id = ${id}`;
+    revalidatePath("/projects");
+    revalidatePath("/");
+    return { success: true };
+  } catch {
+    return { success: false };
+  }
 }

@@ -1,153 +1,181 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import fs from "fs/promises";
-import path from "path";
+import sql from "@/lib/db";
 
-const dbPath = path.join(process.cwd(), "src/data/db.json");
+// ── Types ──────────────────────────────────────────────────────────────────
 
-export async function getDbData() {
+type NavLink        = { id: string; name: string; href: string };
+type CarouselItem   = { id: string; imageSrc: string; title: string; subtitle: string };
+type Testimonial    = { id: string; quote: string; name: string; title: string };
+type FooterSettings = Record<string, any>;
+type SiteSettings   = { siteTitle: string; metaDescription: string };
+
+type DbData = {
+  navLinks:       NavLink[];
+  carouselItems:  CarouselItem[];
+  testimonials:   Testimonial[];
+  footerSettings: FooterSettings;
+  siteSettings:   SiteSettings;
+};
+
+// ── Read all data (used by the home page / layout) ─────────────────────────
+
+export async function getDbData(): Promise<DbData> {
   try {
-    const data = await fs.readFile(dbPath, "utf-8");
-    return JSON.parse(data);
+    const [navLinks, carouselItems, testimonials, footerRows, siteRows] = await Promise.all([
+      sql`SELECT id, name, href FROM nav_links ORDER BY sort_order`,
+      sql`SELECT id, image_src as "imageSrc", title, subtitle FROM carousel_items ORDER BY sort_order`,
+      sql`SELECT id, quote, name, title FROM testimonials ORDER BY sort_order`,
+      sql`SELECT data FROM footer_settings WHERE id = 1`,
+      sql`SELECT data FROM site_settings WHERE id = 1`,
+    ]);
+
+    return {
+      navLinks:       navLinks       as NavLink[],
+      carouselItems:  carouselItems  as CarouselItem[],
+      testimonials:   testimonials   as Testimonial[],
+      footerSettings: footerRows[0]?.data ?? {},
+      siteSettings:   siteRows[0]?.data   ?? { siteTitle: "", metaDescription: "" },
+    };
   } catch (error) {
-    console.error("Failed to read DB", error);
-    return { navLinks: [], carouselItems: [], testimonials: [], footerSettings: {}, siteSettings: {} };
+    console.error("getDbData failed:", error);
+    return { navLinks: [], carouselItems: [], testimonials: [], footerSettings: {}, siteSettings: { siteTitle: "", metaDescription: "" } };
   }
 }
 
-async function saveDbData(data: any) {
-  try {
-    await fs.writeFile(dbPath, JSON.stringify(data, null, 2));
-  } catch (error) {
-    console.error("Failed to write DB", error);
-  }
-}
+// ── NAV LINKS ──────────────────────────────────────────────────────────────
 
-// -- NAV LINKS --
 export async function addNavLink(formData: FormData) {
   const name = formData.get("name") as string;
   const href = formData.get("href") as string;
   if (!name || !href) return;
-  const db = await getDbData();
-  db.navLinks.push({ id: Date.now().toString(), name, href });
-  await saveDbData(db);
+
+  const id = Date.now().toString();
+  const maxOrder = await sql`SELECT COALESCE(MAX(sort_order), -1) as m FROM nav_links`;
+  const sortOrder = (maxOrder[0].m as number) + 1;
+
+  await sql`INSERT INTO nav_links (id, name, href, sort_order) VALUES (${id}, ${name}, ${href}, ${sortOrder})`;
   revalidatePath("/");
   revalidatePath("/admin/links");
 }
 
 export async function updateNavLink(id: string, name: string, href: string) {
-  const db = await getDbData();
-  db.navLinks = db.navLinks.map((l: any) => l.id === id ? { ...l, name, href } : l);
-  await saveDbData(db);
+  await sql`UPDATE nav_links SET name = ${name}, href = ${href} WHERE id = ${id}`;
   revalidatePath("/");
   revalidatePath("/admin/links");
 }
 
 export async function deleteNavLink(id: string) {
-  const db = await getDbData();
-  db.navLinks = db.navLinks.filter((l: any) => l.id !== id);
-  await saveDbData(db);
+  await sql`DELETE FROM nav_links WHERE id = ${id}`;
   revalidatePath("/");
   revalidatePath("/admin/links");
 }
 
-// -- CAROUSEL ITEMS --
+// ── CAROUSEL ITEMS ─────────────────────────────────────────────────────────
+
 export async function addCarouselItem(formData: FormData) {
   const imageSrc = formData.get("imageSrc") as string;
-  const title = formData.get("title") as string;
-  const subtitle = formData.get("subtitle") as string;
+  const title    = formData.get("title")    as string ?? "";
+  const subtitle = formData.get("subtitle") as string ?? "";
   if (!imageSrc) return;
-  const db = await getDbData();
-  db.carouselItems.push({ id: Date.now().toString(), imageSrc, title, subtitle });
-  await saveDbData(db);
+
+  const id = Date.now().toString();
+  const maxOrder = await sql`SELECT COALESCE(MAX(sort_order), -1) as m FROM carousel_items`;
+  const sortOrder = (maxOrder[0].m as number) + 1;
+
+  await sql`INSERT INTO carousel_items (id, image_src, title, subtitle, sort_order) VALUES (${id}, ${imageSrc}, ${title}, ${subtitle}, ${sortOrder})`;
   revalidatePath("/");
   revalidatePath("/admin/carousel");
 }
 
 export async function updateCarouselItem(id: string, imageSrc: string, title: string, subtitle: string) {
-  const db = await getDbData();
-  db.carouselItems = db.carouselItems.map((c: any) => c.id === id ? { ...c, imageSrc, title, subtitle } : c);
-  await saveDbData(db);
+  await sql`UPDATE carousel_items SET image_src = ${imageSrc}, title = ${title}, subtitle = ${subtitle} WHERE id = ${id}`;
   revalidatePath("/");
   revalidatePath("/admin/carousel");
 }
 
 export async function deleteCarouselItem(id: string) {
-  const db = await getDbData();
-  db.carouselItems = db.carouselItems.filter((c: any) => c.id !== id);
-  await saveDbData(db);
+  await sql`DELETE FROM carousel_items WHERE id = ${id}`;
   revalidatePath("/");
   revalidatePath("/admin/carousel");
 }
 
-// -- TESTIMONIALS --
+// ── TESTIMONIALS ───────────────────────────────────────────────────────────
+
 export async function addTestimonial(formData: FormData) {
   const quote = formData.get("quote") as string;
-  const name = formData.get("name") as string;
-  const title = formData.get("title") as string;
+  const name  = formData.get("name")  as string;
+  const title = formData.get("title") as string ?? "";
   if (!quote || !name) return;
-  const db = await getDbData();
-  db.testimonials.push({ id: Date.now().toString(), quote, name, title });
-  await saveDbData(db);
+
+  const id = Date.now().toString();
+  const maxOrder = await sql`SELECT COALESCE(MAX(sort_order), -1) as m FROM testimonials`;
+  const sortOrder = (maxOrder[0].m as number) + 1;
+
+  await sql`INSERT INTO testimonials (id, quote, name, title, sort_order) VALUES (${id}, ${quote}, ${name}, ${title}, ${sortOrder})`;
   revalidatePath("/");
   revalidatePath("/admin/testimonials");
 }
 
 export async function updateTestimonial(id: string, quote: string, name: string, title: string) {
-  const db = await getDbData();
-  db.testimonials = db.testimonials.map((t: any) => t.id === id ? { ...t, quote, name, title } : t);
-  await saveDbData(db);
+  await sql`UPDATE testimonials SET quote = ${quote}, name = ${name}, title = ${title} WHERE id = ${id}`;
   revalidatePath("/");
   revalidatePath("/admin/testimonials");
 }
 
 export async function deleteTestimonial(id: string) {
-  const db = await getDbData();
-  db.testimonials = db.testimonials.filter((t: any) => t.id !== id);
-  await saveDbData(db);
+  await sql`DELETE FROM testimonials WHERE id = ${id}`;
   revalidatePath("/");
   revalidatePath("/admin/testimonials");
 }
 
-// -- FOOTER SETTINGS --
+// ── FOOTER SETTINGS ────────────────────────────────────────────────────────
+
 export async function saveFooterSettings(formData: FormData) {
-  const db = await getDbData();
-  db.footerSettings = {
-    address: formData.get("address") as string,
+  const data = {
+    address:     formData.get("address")     as string,
     addressNote: formData.get("addressNote") as string,
-    phone: formData.get("phone") as string,
-    openingHours: formData.get("openingHours") as string,
-    abn: formData.get("abn") as string,
+    phone:       formData.get("phone")       as string,
+    openingHours:formData.get("openingHours")as string,
+    abn:         formData.get("abn")         as string,
     director: {
-      name: formData.get("director_name") as string,
+      name:  formData.get("director_name")  as string,
       email: formData.get("director_email") as string,
     },
     marketing: {
-      name: formData.get("marketing_name") as string,
+      name:  formData.get("marketing_name")  as string,
       email: formData.get("marketing_email") as string,
     },
     socials: {
       instagram: formData.get("instagram") as string,
-      facebook: formData.get("facebook") as string,
+      facebook:  formData.get("facebook")  as string,
       pinterest: formData.get("pinterest") as string,
-      tiktok: formData.get("tiktok") as string,
-      linkedin: formData.get("linkedin") as string,
+      tiktok:    formData.get("tiktok")    as string,
+      linkedin:  formData.get("linkedin")  as string,
     },
     copyrightName: formData.get("copyrightName") as string,
   };
-  await saveDbData(db);
+
+  await sql`
+    INSERT INTO footer_settings (id, data) VALUES (1, ${JSON.stringify(data)}::jsonb)
+    ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data
+  `;
   revalidatePath("/");
   revalidatePath("/admin/footer");
 }
 
-// -- SITE SETTINGS --
+// ── SITE SETTINGS ──────────────────────────────────────────────────────────
+
 export async function saveSiteSettings(formData: FormData) {
-  const db = await getDbData();
-  db.siteSettings = {
-    siteTitle: formData.get("siteTitle") as string,
+  const data = {
+    siteTitle:       formData.get("siteTitle")       as string,
     metaDescription: formData.get("metaDescription") as string,
   };
-  await saveDbData(db);
+
+  await sql`
+    INSERT INTO site_settings (id, data) VALUES (1, ${JSON.stringify(data)}::jsonb)
+    ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data
+  `;
   revalidatePath("/");
   revalidatePath("/admin/settings");
 }
