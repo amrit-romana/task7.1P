@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { existsSync } from "fs";
+import { put } from "@vercel/blob";
 
 export const config = { api: { bodyParser: false } };
 
@@ -15,13 +16,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No files provided" }, { status: 400 });
     }
 
-    // Create upload directory if it doesn't exist
-    const uploadDir = path.join(process.cwd(), "public", "uploads", folder);
-    if (!existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true });
-    }
-
     const uploadedPaths: string[] = [];
+    const isVercelBlobEnabled = !!process.env.BLOB_READ_WRITE_TOKEN;
+
+    // Create upload directory only if we are using local storage
+    if (!isVercelBlobEnabled) {
+      const uploadDir = path.join(process.cwd(), "public", "uploads", folder);
+      if (!existsSync(uploadDir)) {
+        await mkdir(uploadDir, { recursive: true });
+      }
+    }
 
     for (const file of files) {
       if (!(file instanceof File)) continue;
@@ -36,11 +40,20 @@ export async function POST(request: NextRequest) {
       const baseName = path.basename(originalName, ext);
       const fileName = `${baseName}_${timestamp}${ext}`;
 
-      const filePath = path.join(uploadDir, fileName);
-      await writeFile(filePath, buffer);
-
-      // Return public URL path
-      uploadedPaths.push(`/uploads/${folder}/${fileName}`);
+      if (isVercelBlobEnabled) {
+        // Upload to Vercel Blob (Production)
+        const blobPath = `${folder}/${fileName}`;
+        const blobResult = await put(blobPath, buffer, {
+          access: "public",
+        });
+        uploadedPaths.push(blobResult.url);
+      } else {
+        // Fallback to Local Storage (Development)
+        const uploadDir = path.join(process.cwd(), "public", "uploads", folder);
+        const filePath = path.join(uploadDir, fileName);
+        await writeFile(filePath, buffer);
+        uploadedPaths.push(`/uploads/${folder}/${fileName}`);
+      }
     }
 
     return NextResponse.json({ paths: uploadedPaths, count: uploadedPaths.length });
@@ -49,3 +62,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }
+
