@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Header } from "@/components/layout/Header";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
   // Await params as per Next.js 15 asynchronous routing architecture
   const { id } = await params;
