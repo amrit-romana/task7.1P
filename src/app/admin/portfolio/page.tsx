@@ -154,9 +154,10 @@ export default function AdminPortfolioPage() {
   }, []);
 
   // ── Project helpers ─────────────────────────────────────────────────────
-  const persistProjects = (updated: ProjectData[]) => {
+  // ── Project helpers ─────────────────────────────────────────────────────
+  const persistProjects = async (updated: ProjectData[]) => {
     setProjects(updated);
-    startTransition(() => saveProjects(updated));
+    await saveProjects(updated);
   };
 
   const addProject = () => {
@@ -198,9 +199,10 @@ export default function AdminPortfolioPage() {
   };
 
   // ── Finish helpers ─────────────────────────────────────────────────────
-  const persistFinishes = (updated: FinishData[]) => {
+  // ── Finish helpers ─────────────────────────────────────────────────────
+  const persistFinishes = async (updated: FinishData[]) => {
     setFinishes(updated);
-    startTransition(() => saveFinishes(updated));
+    await saveFinishes(updated);
   };
 
   const addFinish = () => {

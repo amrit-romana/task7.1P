@@ -8,6 +8,8 @@ import { getProjects } from "@/actions/projects";
 import { getFinishes } from "@/actions/finishes";
 import { getDbData } from "@/actions/admin";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const projects = await getProjects();
   const finishes = await getFinishes();

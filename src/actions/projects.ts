@@ -103,11 +103,48 @@ export async function saveProject(project: Partial<ProjectData>): Promise<{ succ
 // ── Bulk save (used for reordering) ───────────────────────────────────────
 
 export async function saveProjects(projects: ProjectData[]): Promise<void> {
-  for (const [i, p] of projects.entries()) {
-    await sql`UPDATE projects SET sort_order = ${i} WHERE id = ${p.id}`;
+  try {
+    const existingRows = await sql`SELECT id FROM projects`;
+    const existingIds = existingRows.map((r: any) => r.id);
+    const incomingIds = projects.map(p => p.id);
+
+    // Delete missing
+    for (const id of existingIds) {
+      if (!incomingIds.includes(id)) {
+        await sql`DELETE FROM projects WHERE id = ${id}`;
+      }
+    }
+
+    // Upsert remaining
+    for (const [i, p] of projects.entries()) {
+      await sql`
+        INSERT INTO projects (id, title, image, aspect, show_on_home, gallery_images, description, sort_order)
+        VALUES (
+          ${p.id},
+          ${p.title ?? "Untitled"},
+          ${p.image ?? ""},
+          ${p.aspect ?? "3/4"},
+          ${p.showOnHome ?? false},
+          ${JSON.stringify(p.galleryImages ?? [])}::jsonb,
+          ${p.description ?? ""},
+          ${i}
+        )
+        ON CONFLICT (id) DO UPDATE SET
+          title = EXCLUDED.title,
+          image = EXCLUDED.image,
+          aspect = EXCLUDED.aspect,
+          show_on_home = EXCLUDED.show_on_home,
+          gallery_images = EXCLUDED.gallery_images,
+          description = EXCLUDED.description,
+          sort_order = EXCLUDED.sort_order
+      `;
+    }
+
+    revalidatePath("/projects");
+    revalidatePath("/");
+  } catch (error) {
+    console.error("saveProjects bulk save failed:", error);
   }
-  revalidatePath("/projects");
-  revalidatePath("/");
 }
 
 // ── Delete ─────────────────────────────────────────────────────────────────

@@ -114,20 +114,46 @@ export async function saveFinish(finish: Partial<FinishData>): Promise<{ success
 // ── Bulk save (used by the admin panel for batch updates / reordering) ─────
 
 export async function saveFinishes(finishes: FinishData[]): Promise<void> {
-  for (const [i, f] of finishes.entries()) {
-    await sql`
-      UPDATE finishes SET
-        name           = ${f.name},
-        image          = ${f.image},
-        show_on_home   = ${f.showOnHome},
-        description    = ${f.description   ?? ""},
-        gallery_images = ${JSON.stringify(f.galleryImages ?? [])}::jsonb,
-        sort_order     = ${i}
-      WHERE id = ${f.id}
-    `;
+  try {
+    const existingRows = await sql`SELECT id FROM finishes`;
+    const existingIds = existingRows.map((r: any) => r.id);
+    const incomingIds = finishes.map(f => f.id);
+
+    // Delete missing
+    for (const id of existingIds) {
+      if (!incomingIds.includes(id)) {
+        await sql`DELETE FROM finishes WHERE id = ${id}`;
+      }
+    }
+
+    // Upsert remaining
+    for (const [i, f] of finishes.entries()) {
+      await sql`
+        INSERT INTO finishes (id, name, image, show_on_home, description, gallery_images, sort_order)
+        VALUES (
+          ${f.id},
+          ${f.name ?? ""},
+          ${f.image ?? ""},
+          ${f.showOnHome ?? false},
+          ${f.description ?? ""},
+          ${JSON.stringify(f.galleryImages ?? [])}::jsonb,
+          ${i}
+        )
+        ON CONFLICT (id) DO UPDATE SET
+          name = EXCLUDED.name,
+          image = EXCLUDED.image,
+          show_on_home = EXCLUDED.show_on_home,
+          description = EXCLUDED.description,
+          gallery_images = EXCLUDED.gallery_images,
+          sort_order = EXCLUDED.sort_order
+      `;
+    }
+
+    revalidatePath("/materials");
+    revalidatePath("/");
+  } catch (error) {
+    console.error("saveFinishes bulk save failed:", error);
   }
-  revalidatePath("/materials");
-  revalidatePath("/");
 }
 
 // ── Delete ─────────────────────────────────────────────────────────────────

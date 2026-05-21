@@ -4,7 +4,7 @@ import path from "path";
 import { existsSync } from "fs";
 import { put } from "@vercel/blob";
 
-export const config = { api: { bodyParser: false } };
+
 
 export async function POST(request: NextRequest) {
   try {
