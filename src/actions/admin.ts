@@ -210,3 +210,27 @@ export async function saveSiteSettings(formData: FormData) {
   revalidatePath("/");
   revalidatePath("/admin/settings");
 }
+
+export async function saveNavLinks(links: NavLink[]): Promise<void> {
+  try {
+    for (const [i, link] of links.entries()) {
+      await sql`UPDATE nav_links SET sort_order = ${i} WHERE id = ${link.id}`;
+    }
+    revalidatePath("/");
+    revalidatePath("/admin/links");
+  } catch (error) {
+    console.error("saveNavLinks failed:", error);
+  }
+}
+
+export async function saveCarouselItems(items: CarouselItem[]): Promise<void> {
+  try {
+    for (const [i, item] of items.entries()) {
+      await sql`UPDATE carousel_items SET sort_order = ${i} WHERE id = ${item.id}`;
+    }
+    revalidatePath("/");
+    revalidatePath("/admin/carousel");
+  } catch (error) {
+    console.error("saveCarouselItems failed:", error);
+  }
+}

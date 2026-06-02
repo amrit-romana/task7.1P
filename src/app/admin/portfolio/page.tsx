@@ -160,6 +160,24 @@ export default function AdminPortfolioPage() {
     await saveProjects(updated);
   };
 
+  const moveProjectUp = (idx: number) => {
+    if (idx === 0) return;
+    const updated = [...projects];
+    const temp = updated[idx];
+    updated[idx] = updated[idx - 1];
+    updated[idx - 1] = temp;
+    persistProjects(updated);
+  };
+
+  const moveProjectDown = (idx: number) => {
+    if (idx === projects.length - 1) return;
+    const updated = [...projects];
+    const temp = updated[idx];
+    updated[idx] = updated[idx + 1];
+    updated[idx + 1] = temp;
+    persistProjects(updated);
+  };
+
   const addProject = () => {
     const newItem: ProjectData = { id: Date.now().toString(), title: "New Project", image: "", aspect: "3/4", showOnHome: false, galleryImages: [] };
     const updated = [newItem, ...projects];
@@ -203,6 +221,24 @@ export default function AdminPortfolioPage() {
   const persistFinishes = async (updated: FinishData[]) => {
     setFinishes(updated);
     await saveFinishes(updated);
+  };
+
+  const moveFinishUp = (idx: number) => {
+    if (idx === 0) return;
+    const updated = [...finishes];
+    const temp = updated[idx];
+    updated[idx] = updated[idx - 1];
+    updated[idx - 1] = temp;
+    persistFinishes(updated);
+  };
+
+  const moveFinishDown = (idx: number) => {
+    if (idx === finishes.length - 1) return;
+    const updated = [...finishes];
+    const temp = updated[idx];
+    updated[idx] = updated[idx + 1];
+    updated[idx + 1] = temp;
+    persistFinishes(updated);
   };
 
   const addFinish = () => {
@@ -295,7 +331,7 @@ export default function AdminPortfolioPage() {
       {/* ── PROJECTS ── */}
       {activeTab === "projects" && (
         <div className="flex flex-col gap-3">
-          {projects.map((project) => {
+          {projects.map((project, index) => {
             const isOpen = expandedId === project.id;
             return (
               <div key={project.id} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
@@ -316,14 +352,35 @@ export default function AdminPortfolioPage() {
                     <p className="font-semibold text-sm text-gray-900 truncate">{project.title || "Untitled Project"}</p>
                     <p className="text-xs text-gray-400">{(project.galleryImages?.length || 0)} gallery image{(project.galleryImages?.length || 0) !== 1 ? "s" : ""} · {project.showOnHome ? "On Homepage" : "Hidden"}</p>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                    <button
+                      onClick={() => moveProjectUp(index)}
+                      disabled={index === 0}
+                      className="p-1 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-900 disabled:opacity-30 disabled:hover:bg-transparent transition flex items-center justify-center"
+                      title="Move Up"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="18 15 12 9 6 15"/></svg>
+                    </button>
+                    <button
+                      onClick={() => moveProjectDown(index)}
+                      disabled={index === projects.length - 1}
+                      className="p-1 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-900 disabled:opacity-30 disabled:hover:bg-transparent transition flex items-center justify-center"
+                      title="Move Down"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
                     <div
-                      onClick={(e) => { e.stopPropagation(); persistProjects(projects.map(p => p.id === project.id ? { ...p, showOnHome: !p.showOnHome } : p)); }}
+                      onClick={() => persistProjects(projects.map(p => p.id === project.id ? { ...p, showOnHome: !p.showOnHome } : p))}
                       className={`w-8 h-4 rounded-full transition-colors relative cursor-pointer flex-shrink-0 ${project.showOnHome ? "bg-gray-900" : "bg-gray-200"}`}
                     >
                       <div className="w-3 h-3 bg-white rounded-full absolute top-0.5 transition-all" style={{ left: project.showOnHome ? "18px" : "2px" }} />
                     </div>
-                    <svg className={`transition-transform ${isOpen ? "rotate-180" : ""} text-gray-400`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    <button
+                      onClick={() => setExpandedId(isOpen ? null : project.id)}
+                      className="p-1 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-900 transition flex items-center justify-center"
+                    >
+                      <svg className={`transition-transform ${isOpen ? "rotate-180" : ""}`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
                   </div>
                 </div>
 
@@ -450,7 +507,7 @@ export default function AdminPortfolioPage() {
       {/* ── FINISHES ── */}
       {activeTab === "finishes" && (
         <div className="flex flex-col gap-3">
-          {finishes.map((finish) => {
+          {finishes.map((finish, index) => {
             const isOpen = expandedId === finish.id;
             return (
               <div key={finish.id} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
@@ -471,14 +528,35 @@ export default function AdminPortfolioPage() {
                     <p className="font-semibold text-sm text-gray-900 truncate">{finish.name || "Untitled Finish"}</p>
                     <p className="text-xs text-gray-400">{(finish.galleryImages?.length || 0)} gallery image{(finish.galleryImages?.length || 0) !== 1 ? "s" : ""} · {finish.showOnHome ? "On Homepage" : "Hidden"}</p>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                    <button
+                      onClick={() => moveFinishUp(index)}
+                      disabled={index === 0}
+                      className="p-1 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-900 disabled:opacity-30 disabled:hover:bg-transparent transition flex items-center justify-center"
+                      title="Move Up"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="18 15 12 9 6 15"/></svg>
+                    </button>
+                    <button
+                      onClick={() => moveFinishDown(index)}
+                      disabled={index === finishes.length - 1}
+                      className="p-1 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-900 disabled:opacity-30 disabled:hover:bg-transparent transition flex items-center justify-center"
+                      title="Move Down"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
                     <div
-                      onClick={(e) => { e.stopPropagation(); persistFinishes(finishes.map(f => f.id === finish.id ? { ...f, showOnHome: !f.showOnHome } : f)); }}
+                      onClick={() => persistFinishes(finishes.map(f => f.id === finish.id ? { ...f, showOnHome: !f.showOnHome } : f))}
                       className={`w-8 h-4 rounded-full transition-colors relative cursor-pointer flex-shrink-0 ${finish.showOnHome ? "bg-gray-900" : "bg-gray-200"}`}
                     >
                       <div className="w-3 h-3 bg-white rounded-full absolute top-0.5 transition-all" style={{ left: finish.showOnHome ? "18px" : "2px" }} />
                     </div>
-                    <svg className={`transition-transform ${isOpen ? "rotate-180" : ""} text-gray-400`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    <button
+                      onClick={() => setExpandedId(isOpen ? null : finish.id)}
+                      className="p-1 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-900 transition flex items-center justify-center"
+                    >
+                      <svg className={`transition-transform ${isOpen ? "rotate-180" : ""}`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
                   </div>
                 </div>
 

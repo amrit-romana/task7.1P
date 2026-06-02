@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import { getDbData, addNavLink, updateNavLink, deleteNavLink } from "@/actions/admin";
+import { getDbData, addNavLink, updateNavLink, deleteNavLink, saveNavLinks } from "@/actions/admin";
 
 type NavLink = { id: string; name: string; href: string };
 
@@ -16,6 +16,30 @@ export default function AdminLinksPage() {
   useEffect(() => {
     getDbData().then(db => { setLinks(db.navLinks); setLoading(false); });
   }, []);
+
+  const moveLinkUp = (idx: number) => {
+    if (idx === 0) return;
+    const updated = [...links];
+    const temp = updated[idx];
+    updated[idx] = updated[idx - 1];
+    updated[idx - 1] = temp;
+    setLinks(updated);
+    startTransition(async () => {
+      await saveNavLinks(updated);
+    });
+  };
+
+  const moveLinkDown = (idx: number) => {
+    if (idx === links.length - 1) return;
+    const updated = [...links];
+    const temp = updated[idx];
+    updated[idx] = updated[idx + 1];
+    updated[idx + 1] = temp;
+    setLinks(updated);
+    startTransition(async () => {
+      await saveNavLinks(updated);
+    });
+  };
 
   const handleEdit = (link: NavLink) => {
     setEditingId(link.id);
@@ -63,7 +87,7 @@ export default function AdminLinksPage() {
           <div className="p-12 text-center text-gray-400 text-sm">No links added yet.</div>
         ) : (
           <div className="divide-y divide-gray-50">
-            {links.map((link) => (
+            {links.map((link, index) => (
               <div key={link.id} className="px-6 py-3">
                 {editingId === link.id ? (
                   <div className="flex items-center gap-3">
@@ -93,6 +117,23 @@ export default function AdminLinksPage() {
                       <span className="text-xs text-gray-400 font-mono bg-gray-50 px-2 py-1 rounded">{link.href}</span>
                     </div>
                     <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => moveLinkUp(index)}
+                        disabled={index === 0}
+                        className="p-1 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-900 disabled:opacity-30 disabled:hover:bg-transparent transition flex items-center justify-center"
+                        title="Move Up"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="18 15 12 9 6 15"/></svg>
+                      </button>
+                      <button
+                        onClick={() => moveLinkDown(index)}
+                        disabled={index === links.length - 1}
+                        className="p-1 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-900 disabled:opacity-30 disabled:hover:bg-transparent transition flex items-center justify-center"
+                        title="Move Down"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                      </button>
+                      <div className="w-px h-4 bg-gray-200 mx-1" />
                       <button onClick={() => handleEdit(link)} className="px-3 py-1.5 text-xs font-semibold text-gray-600 hover:bg-gray-100 rounded-lg transition">
                         Edit
                       </button>

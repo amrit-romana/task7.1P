@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import { getDbData, addCarouselItem, updateCarouselItem, deleteCarouselItem } from "@/actions/admin";
+import { getDbData, addCarouselItem, updateCarouselItem, deleteCarouselItem, saveCarouselItems } from "@/actions/admin";
 
 type Slide = { id: string; imageSrc: string; title: string; subtitle: string };
 
@@ -15,6 +15,30 @@ export default function AdminCarouselPage() {
   useEffect(() => {
     getDbData().then(db => { setSlides(db.carouselItems); setLoading(false); });
   }, []);
+
+  const moveSlideUp = (idx: number) => {
+    if (idx === 0) return;
+    const updated = [...slides];
+    const temp = updated[idx];
+    updated[idx] = updated[idx - 1];
+    updated[idx - 1] = temp;
+    setSlides(updated);
+    startTransition(async () => {
+      await saveCarouselItems(updated);
+    });
+  };
+
+  const moveSlideDown = (idx: number) => {
+    if (idx === slides.length - 1) return;
+    const updated = [...slides];
+    const temp = updated[idx];
+    updated[idx] = updated[idx + 1];
+    updated[idx + 1] = temp;
+    setSlides(updated);
+    startTransition(async () => {
+      await saveCarouselItems(updated);
+    });
+  };
 
   const handleEdit = (slide: Slide) => {
     setEditingId(slide.id);
@@ -59,6 +83,24 @@ export default function AdminCarouselPage() {
               <img src={slide.imageSrc} alt="" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400&auto=format"; }} />
               <div className="absolute top-2 left-2">
                 <span className="bg-black/60 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">Slide {idx + 1}</span>
+              </div>
+              <div className="absolute top-2 right-2 flex gap-1 bg-black/60 rounded-lg p-0.5 backdrop-blur-sm">
+                <button
+                  onClick={() => moveSlideUp(idx)}
+                  disabled={idx === 0}
+                  className="p-1 text-white hover:text-gray-300 disabled:opacity-30 disabled:hover:text-white transition flex items-center justify-center"
+                  title="Move Up"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+                </button>
+                <button
+                  onClick={() => moveSlideDown(idx)}
+                  disabled={idx === slides.length - 1}
+                  className="p-1 text-white hover:text-gray-300 disabled:opacity-30 disabled:hover:text-white transition flex items-center justify-center"
+                  title="Move Down"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
               </div>
             </div>
 
