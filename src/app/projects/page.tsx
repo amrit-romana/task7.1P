@@ -3,6 +3,8 @@ import { getProjects } from "@/actions/projects";
 import Image from "next/image";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProjectsPage() {
   const allProjects = await getProjects();
 
@@ -15,7 +17,9 @@ export default async function ProjectsPage() {
       <Header theme="dark" />
 
       <section className="pt-48 pb-12 px-6 md:px-12 w-full flex flex-col items-center">
-
+        <h1 className="font-futura font-light text-4xl md:text-5xl lg:text-6xl text-[#000000] tracking-widest uppercase mb-12">
+          Projects
+        </h1>
 
         <p className="font-futura text-sm md:text-base text-center max-w-2xl text-[var(--color-charcoal)]/70 leading-relaxed mb-24 font-light">
           A selection of our commissioned architectural finishes, spanning private residences, commercial spaces, and luxury retail across Melbourne and internationally.
