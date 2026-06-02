@@ -73,12 +73,42 @@ export async function deleteNavLink(id: string) {
 
 // ── CAROUSEL ITEMS ─────────────────────────────────────────────────────────
 
+function sanitizeImageUrl(url: string): string {
+  if (!url) return "";
+  let clean = url.trim();
+
+  // If it's a full HTML snippet containing <img src="...">, extract the src
+  const imgRegex = /<img\s+[^>]*src=["']([^"']+)["']/i;
+  const match = clean.match(imgRegex);
+  if (match && match[1]) {
+    clean = match[1];
+  }
+
+  // Try to find the first occurrence of http:// or https://
+  const httpIdx = clean.indexOf("http://");
+  const httpsIdx = clean.indexOf("https://");
+  if (httpsIdx !== -1) {
+    clean = clean.substring(httpsIdx);
+  } else if (httpIdx !== -1) {
+    clean = clean.substring(httpIdx);
+  }
+
+  // Terminate at the first character that shouldn't be in a clean URL
+  const endIdx = clean.search(/["'\s<>\[\]]/);
+  if (endIdx !== -1) {
+    clean = clean.substring(0, endIdx);
+  }
+
+  return clean;
+}
+
 export async function addCarouselItem(formData: FormData) {
-  const imageSrc = formData.get("imageSrc") as string;
+  const rawImageSrc = formData.get("imageSrc") as string;
   const title    = formData.get("title")    as string ?? "";
   const subtitle = formData.get("subtitle") as string ?? "";
-  if (!imageSrc) return;
+  if (!rawImageSrc) return;
 
+  const imageSrc = sanitizeImageUrl(rawImageSrc);
   const id = Date.now().toString();
   const maxOrder = await sql`SELECT COALESCE(MAX(sort_order), -1) as m FROM carousel_items`;
   const sortOrder = (maxOrder[0].m as number) + 1;
@@ -89,7 +119,8 @@ export async function addCarouselItem(formData: FormData) {
 }
 
 export async function updateCarouselItem(id: string, imageSrc: string, title: string, subtitle: string) {
-  await sql`UPDATE carousel_items SET image_src = ${imageSrc}, title = ${title}, subtitle = ${subtitle} WHERE id = ${id}`;
+  const cleanImageSrc = sanitizeImageUrl(imageSrc);
+  await sql`UPDATE carousel_items SET image_src = ${cleanImageSrc}, title = ${title}, subtitle = ${subtitle} WHERE id = ${id}`;
   revalidatePath("/");
   revalidatePath("/admin/carousel");
 }

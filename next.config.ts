@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "renaissancedecor.com.au",
       },
+      {
+        protocol: "https",
+        hostname: "*.public.blob.vercel-storage.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**",
+      },
     ],
     // Allow locally uploaded images from public/uploads without optimization
     localPatterns: [
