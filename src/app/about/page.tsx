@@ -20,36 +20,47 @@ export default function AboutPage() {
           <div className="flex flex-col gap-6 font-sans text-sm md:text-base text-[#000000]/80 leading-loose">
             <FadeIn delay={0.2} direction="up">
               <p>
-                Award winning Venetian Plaster applicators, offering a limitless range of Venetian Plasters and Special Finishes. With over 20 years of international experience, Renaissance Decor prides itself on integrity, efficiency, and uncompromising quality.
+              Founded by Adam McCann, Renaissance Décor is a
+Melbourne-based team of skilled artisans specialising in
+handcrafted luxury finishes. With over 20 years of experience,
+some international, we create bespoke surfaces that bring
+depth, texture and character to residential and commercial
+spaces throughout Melbourne and the Mornington Peninsula.  
               </p>
             </FadeIn>
             <FadeIn delay={0.3} direction="up">
               <p>
-                We specialize in bringing the timeless elegance of traditional European plastering techniques directly to modern Australian architecture. Our master artisans merge heritage craftsmanship with contemporary innovation to produce surfaces that are structurally poetic.
+              Trained in the art of Venetian plastering in London, Adam
+brought his expertise to Australia in 2017 and has since built
+Renaissance Décor into one of Melbourne&#39;s leading decorative
+finish specialists. We currently work closely with High End
+Builders, Architects, Interior designers and Homeowners to
+deliver exceptional Venetian Plaster, Micro cement, Clay and
+Metal finishes in high end Hotels, Spas, Restaurants, Bars and exclusive Residencies. 
               </p>
             </FadeIn>
+            <FadeIn delay={0.4} direction="up">
+              <p>
+              Known for our integrity, craftsmanship and attention to detail,
+we are passionate about transforming spaces and bringing our
+clients&#39; vision to life. We are one of the few suppliers and
+applicators of decorative Metal and Clay finishes in
+Melbourne, we proudly use and stock a unique range of
+Australian-made products and bespoke surface solutions. 
+              </p>
+            </FadeIn>
+
+            
           </div>
 
-          <FadeIn delay={0.4} direction="up">
-            <div className="mt-8 flex flex-col gap-6">
-              <h3 className="font-futura font-bold text-lg text-[#000000] uppercase tracking-widest">
-                Awards & Accolades
-              </h3>
-              <ul className="flex flex-col gap-3 font-sans text-xs md:text-sm text-[#000000]/70 font-medium">
-                 <li>2024 - Master Artisans Excellence</li>
-                 <li>2023 - Certified Venetian Applicators</li>
-                 <li>2022 - House & Garden Feature</li>
-                 <li>2020 - European Heritage Award</li>
-              </ul>
-            </div>
-          </FadeIn>
+        
         </div>
         
         <div className="lg:col-span-7 flex flex-col justify-center">
           <FadeIn delay={0.5} direction="left" className="w-full">
             <div className="relative w-full aspect-[4/3] bg-stone-200">
               <Image 
-                src="https://renaissancedecor.com.au/wp-content/uploads/2023/07/RD_11_Struan-Kitchen.jpg" 
+                src="https://i.ibb.co/zVwfty39/SHOWROOM.jpg" 
                 alt="Renaissance Decor Application" 
                 fill 
                 className="object-cover"
@@ -66,7 +77,7 @@ export default function AboutPage() {
             <FadeIn delay={0.1} direction="right">
               <div className="relative w-full aspect-[3/4] bg-stone-900 border border-[var(--color-parchment)]/10">
                 <Image 
-                  src="https://renaissancedecor.com.au/wp-content/uploads/2023/07/Adam-McCann.jpg" 
+                  src="https://i.ibb.co/5XZZvpt6/CORRECRT.jpg" 
                   alt="Adam McCann" 
                   fill 
                   className="object-cover filter grayscale contrast-125 brightness-90"
@@ -90,7 +101,10 @@ export default function AboutPage() {
             <FadeIn delay={0.4} direction="up">
               <div className="flex flex-col gap-6 font-sans text-sm md:text-base text-[var(--color-parchment)]/80 leading-loose max-w-xl">
                 <p>
-                  As the Director of Renaissance Decor, Adam McCann brings decades of passion, technical discipline, and an unrivaled eye for structural finishing. He has dedicated his career to sourcing the most authentic plastering compounds globally, ensuring every project holds a distinct narrative.
+                The people behind Renaissance Décor. A close-knit team of
+Skilled artisans who are committed to delivering exceptional
+finishes, outstanding service and quality workmanship on
+every project we deliver. 
                 </p>
               </div>
             </FadeIn>
@@ -103,7 +117,11 @@ export default function AboutPage() {
                 <ul className="flex flex-col gap-2 font-sans text-sm text-[var(--color-parchment)]/70 max-w-md">
                   <li className="grid grid-cols-[1fr_2fr] border-b border-[var(--color-parchment)]/20 pb-3">
                     <span className="font-bold text-[var(--color-parchment)] tracking-wide">Adam McCann</span>
-                    <span>Director / Sales</span>
+                    <span>Director</span>
+                  </li>
+                   <li className="grid grid-cols-[1fr_2fr] border-b border-[var(--color-parchment)]/20 pb-3">
+                    <span className="font-bold text-[var(--color-parchment)] tracking-wide">Toni McCann</span>
+                    <span>Marketing Director</span>
                   </li>
                   <li className="grid grid-cols-[1fr_2fr] border-b border-[var(--color-parchment)]/20 pb-3 pt-3">
                     <span className="font-bold text-[var(--color-parchment)] tracking-wide">Master Artisans</span>
