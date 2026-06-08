@@ -9,6 +9,8 @@ const defaultNavLinks = [
   { name: "About Us", href: "/about" },
   { name: "Finishes", href: "/materials" },
   { name: "Projects", href: "/projects" },
+  { name: "Courses", href: "/courses" },
+  { name: "Journal", href: "/blog" },
   { name: "Products", href: "/shop" },
   { name: "Enquire", href: "/enquire" },
 ];
