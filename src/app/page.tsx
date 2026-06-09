@@ -7,10 +7,12 @@ import { EnquirySection } from "@/components/home/EnquirySection";
 import { getProjects } from "@/actions/projects";
 import { getFinishes } from "@/actions/finishes";
 import { getDbData } from "@/actions/admin";
+import { incrementPageView } from "@/actions/analytics";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
+  await incrementPageView("/");
   const projects = await getProjects();
   const finishes = await getFinishes();
   const db = await getDbData();

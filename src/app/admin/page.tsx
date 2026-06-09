@@ -1,59 +1,84 @@
 import { getDbData } from "@/actions/admin";
 import { getProjects } from "@/actions/projects";
 import { getFinishes } from "@/actions/finishes";
+import { getBlogPosts } from "@/actions/blog";
+import { getAnalyticsReports } from "@/actions/analytics";
+import { getProducts } from "@/actions/products";
+import { getCourses } from "@/actions/courses";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
-  const [db, projects, finishes] = await Promise.all([getDbData(), getProjects(), getFinishes()]);
+  const [db, projects, finishes, posts, analytics, products, courses] = await Promise.all([
+    getDbData(),
+    getProjects(),
+    getFinishes(),
+    getBlogPosts(false),
+    getAnalyticsReports(),
+    getProducts(),
+    getCourses(),
+  ]);
+
+  const publishedPosts = posts.filter((p) => p.published).length;
+  const draftPosts = posts.length - publishedPosts;
+
+  // Total views
+  const totalViews = analytics.reduce((sum, a) => sum + (a.views || 0), 0);
+
+  // Top 5 pages by views
+  const topPages = analytics.slice(0, 5);
+
+  // Most popular page
+  const topPage = analytics[0];
 
   const stats = [
-    { label: "Hero Slides", value: db.carouselItems.length, href: "/admin/carousel", color: "bg-violet-50 text-violet-600", icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-    )},
-    { label: "Testimonials", value: db.testimonials.length, href: "/admin/testimonials", color: "bg-emerald-50 text-emerald-600", icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-    )},
-    { label: "Navbar Links", value: db.navLinks.length, href: "/admin/links", color: "bg-blue-50 text-blue-600", icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-    )},
-    { label: "Projects", value: projects.length, href: "/admin/portfolio", color: "bg-amber-50 text-amber-600", icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-    )},
-    { label: "Finishes", value: finishes.length, href: "/admin/portfolio", color: "bg-rose-50 text-rose-600", icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-    )},
+    { label: "Hero Slides", value: db.carouselItems.length, href: "/admin/carousel", color: "bg-violet-50 text-violet-600", icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> },
+    { label: "Projects", value: projects.length, href: "/admin/portfolio", color: "bg-amber-50 text-amber-600", icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg> },
+    { label: "Blog Posts", value: posts.length, href: "/admin/blog", color: "bg-blue-50 text-blue-600", icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> },
+    { label: "Total Page Views", value: totalViews, href: "/admin", color: "bg-emerald-50 text-emerald-600", icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> },
+    { label: "Finishes", value: finishes.length, href: "/admin/portfolio", color: "bg-rose-50 text-rose-600", icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg> },
+    { label: "Courses", value: courses.length, href: "/admin/courses", color: "bg-orange-50 text-orange-600", icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> },
   ];
 
   const quickActions = [
     { label: "Edit Hero Slides", desc: "Add or remove homepage carousel images", href: "/admin/carousel" },
-    { label: "Manage Testimonials", desc: "Update client quotes and names", href: "/admin/testimonials" },
-    { label: "Edit Navbar Links", desc: "Change navigation menu items", href: "/admin/links" },
-    { label: "Footer Settings", desc: "Update contact info and social links", href: "/admin/footer" },
+    { label: "Manage Blog Posts", desc: "Write, edit and publish journal articles", href: "/admin/blog" },
+    { label: "Manage Courses", desc: "Update training course details and dates", href: "/admin/courses" },
+    { label: "Manage Products", desc: "Update product categories and images", href: "/admin/products" },
     { label: "Portfolio", desc: "Manage projects and surface finishes", href: "/admin/portfolio" },
+    { label: "Navbar Links", desc: "Change navigation menu items", href: "/admin/links" },
+    { label: "Testimonials", desc: "Update client quotes and names", href: "/admin/testimonials" },
+    { label: "Footer Settings", desc: "Update contact info and social links", href: "/admin/footer" },
     { label: "Site Settings", desc: "Update page title and meta description", href: "/admin/settings" },
   ];
 
-  // Content health checks
   const health = [
     { label: "Hero slides configured", ok: db.carouselItems.length > 0 },
     { label: "Testimonials present", ok: db.testimonials.length > 0 },
     { label: "Navbar links set", ok: db.navLinks.length > 0 },
     { label: "Projects added", ok: projects.length > 0 },
     { label: "Finishes added", ok: finishes.length > 0 },
+    { label: "Blog posts published", ok: publishedPosts > 0 },
+    { label: "Courses listed", ok: courses.length > 0 },
     { label: "Footer phone set", ok: !!db.footerSettings?.phone },
-    { label: "Social links configured", ok: !!(db.footerSettings?.socials?.instagram && db.footerSettings?.socials?.instagram !== "#") },
   ];
 
-  const healthScore = Math.round((health.filter(h => h.ok).length / health.length) * 100);
+  const healthScore = Math.round((health.filter((h) => h.ok).length / health.length) * 100);
+
+  // Build page view bar chart data (top 6 pages)
+  const chartPages = analytics.slice(0, 6);
+  const maxViews = Math.max(...chartPages.map((p) => p.views), 1);
 
   return (
     <div className="flex flex-col gap-8 pb-12">
-
-      {/* Page Header */}
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-500 text-sm mt-0.5">Welcome back — your site is live and running.</p>
+          <p className="text-gray-500 text-sm mt-0.5">
+            Welcome back — {totalViews} total page views tracked.
+          </p>
         </div>
         <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse inline-block"></span>
@@ -62,7 +87,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* KPI Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         {stats.map((stat) => (
           <Link
             key={stat.label}
@@ -72,49 +97,60 @@ export default async function AdminDashboard() {
             <div className={`w-9 h-9 rounded-lg ${stat.color} flex items-center justify-center mb-3`}>
               {stat.icon}
             </div>
-            <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+            <p className="text-2xl font-bold text-gray-900">{stat.value.toLocaleString()}</p>
             <p className="text-xs text-gray-500 mt-0.5 group-hover:text-gray-700 transition">{stat.label}</p>
           </Link>
         ))}
       </div>
 
-      {/* Charts + Health Row */}
+      {/* Analytics + Health Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        {/* Audience Chart */}
+        {/* Live Page Views Chart */}
         <div className="lg:col-span-2 bg-white border border-gray-100 rounded-xl p-6">
           <div className="flex items-start justify-between mb-6">
             <div>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Audience Overview</p>
-              <p className="text-2xl font-bold text-gray-900 mt-1">14,204 <span className="text-sm font-normal text-gray-400">visitors / mo</span></p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Live Page Views</p>
+              <p className="text-2xl font-bold text-gray-900 mt-1">
+                {totalViews.toLocaleString()} <span className="text-sm font-normal text-gray-400">total tracked</span>
+              </p>
+              {topPage && (
+                <p className="text-xs text-gray-400 mt-1">
+                  Most visited: <span className="font-semibold text-gray-600">{topPage.page_path}</span> ({topPage.views} views)
+                </p>
+              )}
             </div>
-            <span className="flex items-center gap-1 text-emerald-600 text-xs font-semibold bg-emerald-50 px-2 py-1 rounded-full">
-              ↑ 12% vs last month
+            <span className="text-[10px] text-gray-400 bg-gray-50 border border-gray-100 px-2 py-1 rounded font-mono">
+              Live DB data
             </span>
           </div>
-          <svg viewBox="0 0 700 160" className="w-full h-32" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#111827" stopOpacity="0.1"/>
-                <stop offset="100%" stopColor="#111827" stopOpacity="0"/>
-              </linearGradient>
-            </defs>
-            {/* Grid lines */}
-            {[40, 80, 120].map(y => (
-              <line key={y} x1="0" y1={y} x2="700" y2={y} stroke="#f3f4f6" strokeWidth="1"/>
-            ))}
-            {/* Area */}
-            <path d="M0,140 C50,120 80,100 140,110 C200,120 230,60 300,70 C370,80 400,30 470,40 C540,50 580,10 700,20 L700,160 L0,160 Z" fill="url(#grad)"/>
-            {/* Line */}
-            <path d="M0,140 C50,120 80,100 140,110 C200,120 230,60 300,70 C370,80 400,30 470,40 C540,50 580,10 700,20" fill="none" stroke="#111827" strokeWidth="2.5" strokeLinecap="round"/>
-            {/* Dots */}
-            {[[0,140],[140,110],[300,70],[470,40],[700,20]].map(([x,y], i) => (
-              <circle key={i} cx={x} cy={y} r="4" fill="white" stroke="#111827" strokeWidth="2"/>
-            ))}
-          </svg>
-          <div className="flex justify-between text-[11px] text-gray-400 mt-2">
-            {["Jan","Feb","Mar","Apr","May","Jun","Jul"].map(m => <span key={m}>{m}</span>)}
-          </div>
+
+          {/* Bar Chart */}
+          {chartPages.length > 0 ? (
+            <div className="space-y-3">
+              {chartPages.map((page) => {
+                const pct = Math.round((page.views / maxViews) * 100);
+                return (
+                  <div key={page.page_path} className="flex items-center gap-3">
+                    <p className="text-xs font-mono text-gray-500 w-32 truncate flex-shrink-0">{page.page_path}</p>
+                    <div className="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden">
+                      <div
+                        className="h-full bg-gray-900 rounded-full transition-all duration-700"
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                    <p className="text-xs font-semibold text-gray-700 w-10 text-right flex-shrink-0">
+                      {page.views}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-8 text-gray-400 text-sm">
+              No page views recorded yet. Views will appear as visitors browse your site.
+            </div>
+          )}
         </div>
 
         {/* Content Health */}
@@ -145,6 +181,25 @@ export default async function AdminDashboard() {
               </div>
             ))}
           </div>
+
+          {/* Blog publish summary */}
+          {posts.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-gray-100">
+              <p className="text-xs text-gray-400 mb-2">Blog Status</p>
+              <div className="flex gap-3">
+                <span className="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-1 rounded-full">
+                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block"></span>
+                  {publishedPosts} Published
+                </span>
+                {draftPosts > 0 && (
+                  <span className="flex items-center gap-1.5 bg-gray-50 text-gray-500 text-xs font-semibold px-2 py-1 rounded-full">
+                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full inline-block"></span>
+                    {draftPosts} Draft
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

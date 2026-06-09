@@ -2,10 +2,12 @@ import { Header } from "@/components/layout/Header";
 import { getProjects } from "@/actions/projects";
 import Image from "next/image";
 import Link from "next/link";
+import { incrementPageView } from "@/actions/analytics";
 
 export const dynamic = "force-dynamic";
 
 export default async function ProjectsPage() {
+  await incrementPageView("/projects");
   const allProjects = await getProjects();
 
   // Create an artificial larger array for a staggered gallery effect if needed, 

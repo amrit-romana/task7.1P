@@ -2,12 +2,13 @@ import { getProjects } from "@/actions/projects";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Header } from "@/components/layout/Header";
+import { incrementPageView } from "@/actions/analytics";
 
 export const dynamic = "force-dynamic";
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  // Await params as per Next.js 15 asynchronous routing architecture
   const { id } = await params;
+  await incrementPageView("/projects/" + id);
 
   const projects = await getProjects();
   const project = projects.find(p => p.id === id);

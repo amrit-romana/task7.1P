@@ -2,10 +2,12 @@ import { Header } from "@/components/layout/Header";
 import { getFinishes } from "@/actions/finishes";
 import Image from "next/image";
 import Link from "next/link";
+import { incrementPageView } from "@/actions/analytics";
 
 export const dynamic = "force-dynamic";
 
 export default async function MaterialsPage() {
+  await incrementPageView("/materials");
   const finishes = await getFinishes();
 
   return (

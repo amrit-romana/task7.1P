@@ -3,6 +3,7 @@ import { Header } from "@/components/layout/Header";
 import Image from "next/image";
 import Link from "next/link";
 import { Footer } from "@/components/layout/Footer";
+import { incrementPageView } from "@/actions/analytics";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +14,7 @@ export const metadata = {
 };
 
 export default async function BlogPage() {
+  await incrementPageView("/blog");
   const posts = await getBlogPosts(true); // published only
 
   return (

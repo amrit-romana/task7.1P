@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { incrementPageView } from "@/actions/analytics";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +15,7 @@ export async function generateStaticParams() {
 
 export default async function FinishDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  await incrementPageView("/materials/" + id);
   const finish = await getFinishById(id);
 
   if (!finish) notFound();
