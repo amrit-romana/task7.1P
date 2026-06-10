@@ -44,7 +44,7 @@ export function ProjectStack({ projects }: { projects: ProjectData[] }) {
           >
             <span className="font-serif text-4xl text-[var(--color-charcoal)] leading-none mb-2">“</span>
             <p className="font-sans text-lg md:text-xl text-[var(--color-charcoal)] leading-relaxed font-medium">
-              Adam applies his keen eye for design to creating quietly joyful and glamorous yet welcoming interiors
+              Adam and the Renaissance Décor team combine exceptional artistry with a keen eye for design to create elegant, welcoming interiors that stand the test of time.
             </p>
           
           </motion.div>

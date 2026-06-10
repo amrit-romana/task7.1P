@@ -31,7 +31,7 @@ export function TestimonialSection({ testimonials = [] }: { testimonials?: any[]
   return (
     <section className="w-full bg-[#000000] text-[var(--color-parchment)] py-32 md:py-48 px-6 md:px-12 flex flex-col items-center justify-center relative overflow-hidden group">
       
-      <FadeIn direction="up" className="max-w-4xl w-full text-center flex flex-col items-center gap-8 relative z-10 min-h-[300px] justify-center">
+      <FadeIn direction="up" className=" w-full text-center flex flex-col items-center gap-8 relative z-10 min-h-[300px] justify-center">
         <span className="font-serif text-5xl md:text-7xl leading-none opacity-40 absolute -top-12 left-1/2 -translate-x-1/2">“</span>
         
         <AnimatePresence mode="wait">

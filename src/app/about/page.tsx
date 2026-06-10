@@ -70,14 +70,14 @@ Australian-made products and bespoke surface solutions.
         </div>
       </section>
 
-      {/* 2. About Adam (Dark Section) */}
+      {/* 2. About Team (Dark Section) */}
       <section className="py-32 px-6 md:px-12 w-full bg-[#000000] text-[var(--color-parchment)] overflow-hidden">
         <div className="max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
           <div className="lg:col-span-5">
             <FadeIn delay={0.1} direction="right">
               <div className="relative w-full aspect-[3/4] bg-stone-900 border border-[var(--color-parchment)]/10">
                 <Image 
-                  src="https://i.ibb.co/5XZZvpt6/CORRECRT.jpg" 
+                  src="https://i.ibb.co/QFs773sm/IMG-4352.jpg" 
                   alt="Adam McCann" 
                   fill 
                   className="object-cover filter grayscale contrast-125 brightness-90"
@@ -162,7 +162,9 @@ every project we deliver.
               <FadeIn delay={0.2} direction="up">
                 <span className="font-serif text-6xl text-[#000000]/20">01</span>
                 <h3 className="font-futura font-bold text-xl uppercase tracking-widest text-[#000000] mt-4">Consultation</h3>
-                <p className="font-sans text-sm text-[#000000]/80 leading-loose max-w-sm mt-4">We begin by understanding your architectural vision, assessing the lighting, spatial parameters, and functional requirements of your site.</p>
+                <p className="font-sans text-sm text-[#000000]/80 leading-loose max-w-sm mt-4">We begin by understanding your vision, desired finish, budget and timeframe, while assessing the substrate and application area to determine the most suitable solution for your project.
+
+</p>
               </FadeIn>
             </div>
           </div>
@@ -182,8 +184,8 @@ every project we deliver.
             <div className="md:w-1/2 flex flex-col gap-4 md:pr-24 items-start md:items-end text-left flex-end md:text-right mt-8 md:mt-0 w-full">
               <FadeIn delay={0.2} direction="up" className="flex flex-col items-start md:items-end w-full">
                 <span className="font-serif text-6xl text-[#000000]/20">02</span>
-                <h3 className="font-futura font-bold text-xl uppercase tracking-widest text-[#000000] mt-4">Prototyping</h3>
-                <p className="font-sans text-sm text-[#000000]/80 leading-loose max-w-sm mt-4">Bespoke sample boards are crafted to allow you to experience the texture, color depth, and light interplay before full application.</p>
+                <h3 className="font-futura font-bold text-xl uppercase tracking-widest text-[#000000] mt-4">SAMPLES & APPROVAL</h3>
+                <p className="font-sans text-sm text-[#000000]/80 leading-loose max-w-sm mt-4">Bespoke sample boards are created for you to view in your home or project space, allowing you to experience the texture, colour and finish before making a final selection.</p>
               </FadeIn>
             </div>
           </div>
@@ -204,7 +206,7 @@ every project we deliver.
                <FadeIn delay={0.2} direction="up">
                   <span className="font-serif text-6xl text-[#000000]/20">03</span>
                   <h3 className="font-futura font-bold text-xl uppercase tracking-widest text-[#000000] mt-4">Execution</h3>
-                  <p className="font-sans text-sm text-[#000000]/80 leading-loose max-w-sm mt-4">Our master artisans meticulously apply the compounds on-site, layering the Venetian plaster strictly by hand to achieve organic motion.</p>
+                  <p className="font-sans text-sm text-[#000000]/80 leading-loose max-w-sm mt-4">Our experienced team expertly applies the selected finish on-site, delivering a seamless result that brings your vision to life.</p>
                </FadeIn>
             </div>
           </div>
@@ -212,7 +214,7 @@ every project we deliver.
       </section>
 
       {/* 4. You May Also Like / Featured Grids */}
-      <section className="py-24 px-6 md:px-12 w-full max-w-[1600px] mx-auto border-t border-[#000000]/10">
+      {/* <section className="py-24 px-6 md:px-12 w-full max-w-[1600px] mx-auto border-t border-[#000000]/10">
         <FadeIn direction="up">
           <h2 className="text-center font-futura font-light text-2xl md:text-3xl text-[#000000] tracking-widest uppercase mb-16">
             Featured Projects
@@ -245,7 +247,7 @@ every project we deliver.
             </Link>
           </FadeIn>
         </div>
-      </section>
+      </section> */}
       
     </main>
   );

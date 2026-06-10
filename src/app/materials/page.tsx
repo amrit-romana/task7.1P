@@ -20,6 +20,10 @@ export default async function MaterialsPage() {
         </h1>
         <p className="font-futura text-sm md:text-base text-center max-w-2xl text-[#000000]/70 leading-relaxed mb-24 font-light">
           Choose from our extensive range of Finishes, or alternatively we can create custom finishes to suit your requirements. For bespoke finishes please contact us and provide images and details from which sample boards can be created.
+        <br />
+     
+       
+          Visit our showroom by appointment or browse our online gallery to explore the wide range of finishes and textures available.
         </p>
       </section>
 

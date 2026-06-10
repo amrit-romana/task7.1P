@@ -50,7 +50,7 @@ export function Preloader() {
               className="relative w-64 h-64 md:w-[36rem] md:h-[36rem] mb-4 md:mb-6"
             >
               <Image
-                src="/images/preloader-logo-new.png"
+                src="/images/crest-white.png"
                 alt="Renaissance Decor Emblem"
                 fill
                 className="object-contain"

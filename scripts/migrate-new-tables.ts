@@ -90,7 +90,7 @@ async function migrate() {
         duration: "1 Day",
         location: "Unit 5 / 314 Governor Road, Braeside 3195",
         date: "TBC (Register Interest)",
-        image: "/images/textured_wall_detail_1779881978134.png",
+        image: "https://i.ibb.co/VpM8nkST/training-venetian.jpg",
         description: "Intensive hands-on training of key Venetian plaster finishes. Learn the fundamentals of surface preparation, base coating, and refined trowel techniques to achieve authentic polished and textured Italian finishes.",
         inclusions: [
           "Certificate of completion",
@@ -110,8 +110,8 @@ async function migrate() {
         duration: "1 Day",
         location: "Unit 5 / 314 Governor Road, Braeside 3195",
         date: "TBC (Register Interest)",
-        image: "/images/modern_concrete_interior_1779881917291.png",
-        description: "Master the application of liquid metal coatings and advanced oxidation techniques. Discover how to apply real metal to any surface and accelerate beautiful, natural rust, patina, and burnished textures.",
+        image: "https://i.ibb.co/B2qDmdh9/training-coating.jpg",
+        description: "This course introduces you to the world of decorative metal coatings, including application methods, polishing, and sealing techniques. Ideal for those looking to achieve modern, metallic effects on walls or feature surfaces.",
         inclusions: [
           "Certificate of completion",
           "Intensive training of key metal finishes by LustreFX",
@@ -130,8 +130,8 @@ async function migrate() {
         duration: "1 Day",
         location: "Unit 5 / 314 Governor Road, Braeside 3195",
         date: "TBC (Register Interest)",
-        image: "/images/db_verification_test_1778646278288.webp",
-        description: "Gain expert skills in microcement floor and wall applications. Learn the step-by-step processes of applying durable, seamless, waterproof microcement finishes by Hychem for residential and commercial spaces.",
+        image: "https://i.ibb.co/MxhtgwSs/training-microcement.jpg",
+        description: "Learn how to apply seamless, contemporary Microcement finishes suitable for walls, floors, and wet areas. This beginner-friendly course provides hands-on training to help you master this popular, durable material.",
         inclusions: [
           "Certificate of completion",
           "Intensive training in Microcement finishing by Hychem",
