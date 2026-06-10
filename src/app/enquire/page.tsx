@@ -1,15 +1,14 @@
 "use client";
 
 import { Header } from "@/components/layout/Header";
+import { FadeIn } from "@/components/ui/FadeIn";
 import { useState, useRef } from "react";
-import Image from "next/image";
-import Link from "next/link";
 
 const contactData = {
   address: {
     line1: "Unit 5 / 314 Governor Road,",
     line2: "Braeside 3195",
-    note: "Showroom/Warehouse — Visits by appointment only"
+    note: "Visits by appointment only"
   },
   hours: "9:00am — 5:00pm, Mon – Fri",
   abn: "ABN 70 890 172 250",
@@ -25,10 +24,9 @@ export default function EnquirePage() {
   const [fileName, setFileName] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: { preventDefault(): void }) => {
     e.preventDefault();
     setSubmitting(true);
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
     setSubmitting(false);
     setSubmitted(true);
@@ -36,237 +34,284 @@ export default function EnquirePage() {
 
   if (submitted) {
     return (
-      <main className="min-h-screen bg-[#f0ede9] flex flex-col">
+      <main className="min-h-screen bg-[var(--color-parchment)] flex flex-col">
         <Header theme="dark" />
-        <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-          <h1 className="font-futura text-lg uppercase tracking-[0.4em] text-black mb-4">Enquiry Received</h1>
-          <p className="font-futura text-base text-black/60 max-w-sm mb-8 leading-relaxed font-light">
-            Thank you for your enquiry. We will review your project details and get back to you shortly.
-          </p>
-          <button 
-            onClick={() => setSubmitted(false)}
-            className="font-futura text-[11px] uppercase tracking-[0.3em] border-b border-black pb-1 hover:opacity-50 transition-opacity"
-          >
-            Send Another
-          </button>
+        <div className="flex-1 flex flex-col items-center justify-center px-6 text-center gap-8">
+          <FadeIn direction="up">
+            <span className="font-sans text-[10px] uppercase tracking-[0.4em] font-bold opacity-60">Thank You</span>
+          </FadeIn>
+          <FadeIn delay={0.15} direction="up" duration={1.2}>
+            <h1 className="font-futura font-light text-4xl md:text-5xl text-[#000000] tracking-widest uppercase">
+              Enquiry Received
+            </h1>
+          </FadeIn>
+          <FadeIn delay={0.3} direction="up">
+            <p className="font-serif italic text-xl text-[#000000]/60 max-w-sm leading-relaxed">
+              We will review your project details and be in touch shortly.
+            </p>
+          </FadeIn>
+          <FadeIn delay={0.45} direction="up">
+            <button
+              onClick={() => setSubmitted(false)}
+              className="font-sans text-[11px] uppercase tracking-[0.3em] border-b border-black pb-1 hover:opacity-50 transition-opacity"
+            >
+              Send Another
+            </button>
+          </FadeIn>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-[#f0ede9] flex flex-col selection:bg-black/10">
+    <main className="min-h-screen bg-[var(--color-parchment)] flex flex-col">
       <Header theme="dark" />
 
-      {/* Main Container */}
-      <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12 pt-32 pb-20">
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
-          
-          {/* LEFT COLUMN: Content + Form */}
-          <section className="flex flex-col">
-            
-            {/* Info Header: 2-column grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
-              
-              {/* Column 1: Core Info */}
-              <div className="flex flex-col gap-10">
-                <div>
-                  <h1 className="font-futura text-[15px] font-bold uppercase tracking-[0.4em] text-black mb-6">Enquire</h1>
-                  <div className="flex flex-col font-futura text-base leading-relaxed text-black/80 font-light">
-                    <p>{contactData.address.line1}</p>
-                    <p>{contactData.address.line2}</p>
-                  </div>
-                </div>
+      {/* Page Hero */}
+      <section className="pt-48 pb-16 px-6 md:px-12 w-full max-w-[1800px] mx-auto">
+        <div className="flex flex-col gap-6 items-center text-center w-full">
+          <FadeIn direction="up">
+            <span className="font-sans text-[10px] uppercase tracking-[0.4em] font-bold opacity-60">
+              Connect
+            </span>
+          </FadeIn>
+          <FadeIn delay={0.15} direction="up" duration={1.2}>
+            <h1 className="font-futura font-light text-6xl md:text-8xl text-[#000000] tracking-widest uppercase">
+              Enquire
+            </h1>
+          </FadeIn>
+          <FadeIn delay={0.3} direction="up">
+            <p className="font-serif italic text-xl md:text-2xl text-[#000000]/60 leading-relaxed max-w-lg">
+              Tell us about your project and we'll be in touch with bespoke recommendations.
+            </p>
+          </FadeIn>
+        </div>
+      </section>
 
-                <div>
-                  <h2 className="font-futura text-[11px] uppercase tracking-[0.25em] text-black/40 mb-3">Office Hours</h2>
-                  <p className="font-futura text-base text-black/80 font-light">{contactData.hours}</p>
-                </div>
+      {/* Main Grid */}
+      <section className="pb-32 px-6 md:px-12 w-full max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
 
-                <div>
-                  <h2 className="font-futura text-[11px] uppercase tracking-[0.25em] text-black/40 mb-3">Registered Office</h2>
-                  <p className="font-futura text-base text-black/80 font-light">{contactData.abn}</p>
+        {/* LEFT: Contact Info + Form */}
+        <div className="lg:col-span-7 flex flex-col gap-16">
+
+          {/* Contact Info */}
+          <FadeIn direction="up" delay={0.1}>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 pb-16 border-b border-[#000000]/10">
+              <div className="flex flex-col gap-2">
+                <span className="font-sans text-[10px] uppercase tracking-[0.3em] font-bold opacity-40">Address</span>
+                <p className="font-sans text-sm text-[#000000]/80 leading-loose">
+                  {contactData.address.line1}<br />
+                  {contactData.address.line2}
+                </p>
+                <p className="font-sans text-xs text-[#000000]/40 italic">{contactData.address.note}</p>
+              </div>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-2">
+                  <span className="font-sans text-[10px] uppercase tracking-[0.3em] font-bold opacity-40">Telephone</span>
+                  <a href={`tel:${contactData.telephone.replace(/\s/g, "")}`} className="font-sans text-sm text-[#000000]/80 hover:text-[#000000] transition-colors">
+                    {contactData.telephone}
+                  </a>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <span className="font-sans text-[10px] uppercase tracking-[0.3em] font-bold opacity-40">Hours</span>
+                  <p className="font-sans text-sm text-[#000000]/80">{contactData.hours}</p>
                 </div>
               </div>
-
-              {/* Column 2: Contact Links */}
-              <div className="flex flex-col gap-10 lg:pt-[4.2rem]">
-                <div>
-                  <h2 className="font-futura text-[11px] uppercase tracking-[0.25em] text-black/40 mb-3">Telephone</h2>
-                  <a href={`tel:${contactData.telephone.replace(/\s/g, "")}`} className="font-futura text-base text-black/80 font-light hover:text-black transition-colors">{contactData.telephone}</a>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-2">
+                  <span className="font-sans text-[10px] uppercase tracking-[0.3em] font-bold opacity-40">Email</span>
+                  <a href={`mailto:${contactData.email}`} className="font-sans text-sm text-[#000000]/80 hover:text-[#000000] transition-colors">
+                    {contactData.email}
+                  </a>
+                  <a href={`mailto:${contactData.marketing}`} className="font-sans text-xs text-[#000000]/40 italic hover:text-[#000000]/70 transition-colors">
+                    Press: {contactData.marketing}
+                  </a>
                 </div>
-
-                <div>
-                  <h2 className="font-futura text-[11px] uppercase tracking-[0.25em] text-black/40 mb-3">Email</h2>
-                  <div className="flex flex-col gap-2">
-                    <a href={`mailto:${contactData.email}`} className="font-futura text-base text-black/80 font-light hover:text-black transition-colors">{contactData.email}</a>
-                    <a href={`mailto:${contactData.marketing}`} className="font-futura text-[14px] text-black/50 font-light hover:text-black transition-colors underline decoration-black/10 underline-offset-4 decoration-1 lowercase italic">Press: {contactData.marketing}</a>
-                  </div>
-                </div>
-
-                <div>
-                  <h2 className="font-futura text-[11px] uppercase tracking-[0.25em] text-black/40 mb-3">Instagram</h2>
-                  <a href="https://instagram.com/renaissancedecor" target="_blank" rel="noopener noreferrer" className="font-futura text-base text-black/80 font-light hover:text-black transition-colors underline decoration-black/10 underline-offset-4 decoration-1">{contactData.instagram}</a>
+                <div className="flex flex-col gap-2">
+                  <span className="font-sans text-[10px] uppercase tracking-[0.3em] font-bold opacity-40">Instagram</span>
+                  <a href="https://instagram.com/renaissancedecor" target="_blank" rel="noopener noreferrer" className="font-sans text-sm text-[#000000]/80 hover:text-[#000000] transition-colors">
+                    {contactData.instagram}
+                  </a>
                 </div>
               </div>
             </div>
+          </FadeIn>
 
-            {/* THE FORM */}
-            <form onSubmit={handleSubmit} className="flex flex-col gap-14 w-full">
-              
-              {/* NAME ROW */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="flex flex-col gap-12">
+
+            <FadeIn direction="up" delay={0.15}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-12">
                 <div className="flex flex-col gap-3">
-                  <label className="font-futura text-xs uppercase tracking-[0.2em] text-black/80 font-bold">First name <span className="text-red-500">*</span></label>
-                  <input 
-                    type="text" 
-                    required 
-                    className="bg-transparent border-b border-black/50 focus:border-black outline-none py-3 font-futura text-lg text-black transition-colors placeholder:text-black/10"
+                  <label className="font-sans text-[10px] uppercase tracking-[0.25em] font-bold text-[#000000]/60">
+                    First name <span className="text-[#000000]">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
                     placeholder="First name"
+                    className="bg-transparent border-b border-[#000000]/30 focus:border-[#000000] outline-none py-3 font-sans text-base text-[#000000] transition-colors placeholder:text-[#000000]/20"
                   />
                 </div>
                 <div className="flex flex-col gap-3">
-                  <label className="font-futura text-xs uppercase tracking-[0.2em] text-black/80 font-bold">Last name <span className="text-red-500">*</span></label>
-                  <input 
-                    type="text" 
-                    required 
-                    className="bg-transparent border-b border-black/50 focus:border-black outline-none py-3 font-futura text-lg text-black transition-colors placeholder:text-black/10"
+                  <label className="font-sans text-[10px] uppercase tracking-[0.25em] font-bold text-[#000000]/60">
+                    Last name <span className="text-[#000000]">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
                     placeholder="Last name"
+                    className="bg-transparent border-b border-[#000000]/30 focus:border-[#000000] outline-none py-3 font-sans text-base text-[#000000] transition-colors placeholder:text-[#000000]/20"
                   />
                 </div>
               </div>
+            </FadeIn>
 
-              {/* EMAIL / PHONE ROW */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
+            <FadeIn direction="up" delay={0.2}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-12">
                 <div className="flex flex-col gap-3">
-                  <label className="font-futura text-xs uppercase tracking-[0.2em] text-black/80 font-bold">Your email address <span className="text-red-500">*</span></label>
-                  <input 
-                    type="email" 
-                    required 
-                    className="bg-transparent border-b border-black/50 focus:border-black outline-none py-3 font-futura text-lg text-black transition-colors placeholder:text-black/10"
+                  <label className="font-sans text-[10px] uppercase tracking-[0.25em] font-bold text-[#000000]/60">
+                    Email address <span className="text-[#000000]">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    required
                     placeholder="name@example.com"
+                    className="bg-transparent border-b border-[#000000]/30 focus:border-[#000000] outline-none py-3 font-sans text-base text-[#000000] transition-colors placeholder:text-[#000000]/20"
                   />
                 </div>
                 <div className="flex flex-col gap-3">
-                  <label className="font-futura text-xs uppercase tracking-[0.2em] text-black/80 font-bold">Telephone</label>
-                  <input 
-                    type="tel" 
-                    className="bg-transparent border-b border-black/50 focus:border-black outline-none py-3 font-futura text-lg text-black transition-colors placeholder:text-black/10"
+                  <label className="font-sans text-[10px] uppercase tracking-[0.25em] font-bold text-[#000000]/60">
+                    Telephone <span className="text-[#000000]/30 lowercase tracking-normal font-light italic">optional</span>
+                  </label>
+                  <input
+                    type="tel"
                     placeholder="Optional"
+                    className="bg-transparent border-b border-[#000000]/30 focus:border-[#000000] outline-none py-3 font-sans text-base text-[#000000] transition-colors placeholder:text-[#000000]/20"
                   />
                 </div>
               </div>
+            </FadeIn>
 
-              {/* ADDRESS ROW */}
-              <div className="flex flex-col gap-3 w-full">
-                <label className="font-futura text-xs uppercase tracking-[0.2em] text-black/80 font-bold">Project address</label>
-                <input 
-                  type="text" 
-                  className="bg-transparent border-b border-black/50 focus:border-black outline-none py-3 font-futura text-lg text-black transition-colors placeholder:text-black/10"
+            <FadeIn direction="up" delay={0.25}>
+              <div className="flex flex-col gap-3">
+                <label className="font-sans text-[10px] uppercase tracking-[0.25em] font-bold text-[#000000]/60">
+                  Project address <span className="text-[#000000]/30 lowercase tracking-normal font-light italic">optional</span>
+                </label>
+                <input
+                  type="text"
                   placeholder="Suburb or full address"
+                  className="bg-transparent border-b border-[#000000]/30 focus:border-[#000000] outline-none py-3 font-sans text-base text-[#000000] transition-colors placeholder:text-[#000000]/20"
                 />
               </div>
+            </FadeIn>
 
-              {/* WALL DIMENSIONS ROW */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
+            <FadeIn direction="up" delay={0.3}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-12">
                 <div className="flex flex-col gap-3">
-                  <label className="font-futura text-xs uppercase tracking-[0.2em] text-black/80 font-bold">Wall length <span className="text-black/30 md:ml-2 lowercase tracking-normal font-light italic">optional</span></label>
-                  <input 
-                    type="text" 
-                    className="bg-transparent border-b border-black/50 focus:border-black outline-none py-3 font-futura text-lg text-black transition-colors placeholder:text-black/10"
+                  <label className="font-sans text-[10px] uppercase tracking-[0.25em] font-bold text-[#000000]/60">
+                    Wall length <span className="text-[#000000]/30 lowercase tracking-normal font-light italic">optional</span>
+                  </label>
+                  <input
+                    type="text"
                     placeholder="e.g. 4.5m"
+                    className="bg-transparent border-b border-[#000000]/30 focus:border-[#000000] outline-none py-3 font-sans text-base text-[#000000] transition-colors placeholder:text-[#000000]/20"
                   />
                 </div>
                 <div className="flex flex-col gap-3">
-                  <label className="font-futura text-xs uppercase tracking-[0.2em] text-black/80 font-bold">Wall height <span className="text-black/30 md:ml-2 lowercase tracking-normal font-light italic">optional</span></label>
-                  <input 
-                    type="text" 
-                    className="bg-transparent border-b border-black/50 focus:border-black outline-none py-3 font-futura text-lg text-black transition-colors placeholder:text-black/10"
+                  <label className="font-sans text-[10px] uppercase tracking-[0.25em] font-bold text-[#000000]/60">
+                    Wall height <span className="text-[#000000]/30 lowercase tracking-normal font-light italic">optional</span>
+                  </label>
+                  <input
+                    type="text"
                     placeholder="e.g. 2.7m"
+                    className="bg-transparent border-b border-[#000000]/30 focus:border-[#000000] outline-none py-3 font-sans text-base text-[#000000] transition-colors placeholder:text-[#000000]/20"
                   />
                 </div>
               </div>
+            </FadeIn>
 
-              {/* INSPIRATIONAL IMAGE */}
-              <div className="flex flex-col gap-3 w-full">
-                <label className="font-futura text-xs uppercase tracking-[0.2em] text-black/80 font-bold">Inspirational image <span className="text-black/30 md:ml-2 lowercase tracking-normal font-light italic">optional</span></label>
-                <div 
+            <FadeIn direction="up" delay={0.35}>
+              <div className="flex flex-col gap-3">
+                <label className="font-sans text-[10px] uppercase tracking-[0.25em] font-bold text-[#000000]/60">
+                  Inspirational image <span className="text-[#000000]/30 lowercase tracking-normal font-light italic">optional</span>
+                </label>
+                <div
                   onClick={() => fileInputRef.current?.click()}
-                  className="bg-transparent border-b border-black/50 border-dashed hover:border-black transition-colors cursor-pointer py-5 flex items-center justify-between"
+                  className="border-b border-dashed border-[#000000]/30 hover:border-[#000000] transition-colors cursor-pointer py-4 flex items-center justify-between gap-4"
                 >
-                  <span className="font-futura text-base text-black/40">
+                  <span className="font-sans text-sm text-[#000000]/40">
                     {fileName || "Attach a photo or rendering"}
                   </span>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="shrink-0 opacity-40">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
                   </svg>
                 </div>
-                <input 
+                <input
                   ref={fileInputRef}
-                  type="file" 
-                  className="hidden" 
+                  type="file"
+                  className="hidden"
                   onChange={(e) => setFileName(e.target.files?.[0]?.name || "")}
                 />
               </div>
+            </FadeIn>
 
-              {/* MESSAGE */}
-              <div className="flex flex-col gap-3 w-full">
-                <label className="font-futura text-xs uppercase tracking-[0.2em] text-black/80 font-bold">Your message <span className="text-red-500">*</span></label>
-                <textarea 
-                  required 
-                  rows={4}
-                  className="bg-transparent border-b border-black/50 focus:border-black outline-none py-3 font-futura text-lg text-black transition-colors placeholder:text-black/10 resize-none"
+            <FadeIn direction="up" delay={0.4}>
+              <div className="flex flex-col gap-3">
+                <label className="font-sans text-[10px] uppercase tracking-[0.25em] font-bold text-[#000000]/60">
+                  Your message <span className="text-[#000000]">*</span>
+                </label>
+                <textarea
+                  required
+                  rows={5}
                   placeholder="Details about your surfaces, preferred finish, and timeline..."
+                  className="bg-transparent border-b border-[#000000]/30 focus:border-[#000000] outline-none py-3 font-sans text-base text-[#000000] transition-colors placeholder:text-[#000000]/20 resize-none"
                 />
               </div>
+            </FadeIn>
 
-              {/* SEND BUTTON */}
-              <button 
-                type="submit" 
+            <FadeIn direction="up" delay={0.45}>
+              <button
+                type="submit"
                 disabled={submitting}
-                className="w-full md:w-fit mt-8 bg-[#2b1f1f] text-white font-futura text-[11px] uppercase tracking-[0.4em] px-20 py-7 hover:bg-black transition-colors disabled:opacity-50"
+                className="mt-4 w-full sm:w-fit font-sans text-xs font-bold uppercase tracking-[0.2em] border border-[#000000] px-16 py-5 hover:bg-[#000000] hover:text-[var(--color-parchment)] transition-colors duration-500 disabled:opacity-40"
               >
                 {submitting ? "Sending..." : "Send Enquiry"}
               </button>
-            </form>
+            </FadeIn>
 
-          </section>
-
-          {/* RIGHT COLUMN: RECTANGULAR MAP CONTAINER */}
-          <aside className="flex flex-col gap-10">
-            <div className="relative w-full aspect-[4/5] bg-[#e5e1dc] overflow-hidden rounded-sm shadow-sm">
-              {/* Subtle grid pattern overlay */}
-              <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-              
-              {/* Map background placeholder */}
-              <div className="absolute inset-0 flex items-center justify-center grayscale opacity-80 mix-blend-multiply">
-                <div className="w-full h-full bg-[#dad6d0]" />
-              </div>
-
-              {/* Map Controls */}
-              <div className="absolute top-8 right-8 flex flex-col gap-2">
-                <div className="w-10 h-10 bg-white/90 backdrop-blur-sm border border-black/5 flex items-center justify-center text-sm font-light text-black/60 cursor-pointer hover:bg-white transition-colors">+</div>
-                <div className="w-10 h-10 bg-white/90 backdrop-blur-sm border border-black/5 flex items-center justify-center text-sm font-light text-black/60 cursor-pointer hover:bg-white transition-colors">-</div>
-              </div>
-
-              {/* Logo / Pin */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-5">
-                <div className="w-2.5 h-2.5 rounded-full bg-black shadow-[0_0_0_10px_rgba(0,0,0,0.05)]" />
-                <div className="bg-black text-[#f0ede9] px-6 py-3 font-futura text-[10px] uppercase tracking-[0.2em] shadow-2xl whitespace-nowrap">
-                  Renaissance Decor
-                </div>
-              </div>
-            </div>
-
-            {/* Extra Info under map if needed, or just whitespace */}
-            <div className="flex flex-col gap-4 font-futura text-sm text-black/40 italic font-light leading-relaxed">
-              <p>Visiting our Braeside showroom is by appointment only to ensure we can provide you with dedicated time and specialized samples for your project.</p>
-            </div>
-          </aside>
-
+          </form>
         </div>
-      </div>
+
+        {/* RIGHT: Map + Note */}
+        <aside className="lg:col-span-5 flex flex-col gap-8 lg:pt-4">
+          <FadeIn direction="left" delay={0.2} className="w-full">
+            <div className="relative w-full overflow-hidden" style={{ aspectRatio: "4/5" }}>
+              <iframe
+                src="https://maps.google.com/maps?q=314+Governor+Road+Braeside+VIC+3195+Australia&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="absolute inset-0 w-full h-full"
+              />
+            </div>
+          </FadeIn>
+
+          <FadeIn direction="up" delay={0.35}>
+            <div className="flex flex-col gap-4 border-t border-[#000000]/10 pt-8">
+              <span className="font-sans text-[10px] uppercase tracking-[0.3em] font-bold opacity-40">Showroom</span>
+              <p className="font-sans text-sm text-[#000000]/70 leading-loose max-w-xs">
+                Visiting our Braeside showroom is by appointment only — we want to ensure dedicated time and bring the right samples to your consultation.
+              </p>
+              <p className="font-sans text-xs text-[#000000]/40">{contactData.abn}</p>
+            </div>
+          </FadeIn>
+        </aside>
+
+      </section>
     </main>
   );
 }

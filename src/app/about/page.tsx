@@ -58,12 +58,13 @@ Australian-made products and bespoke surface solutions.
         
         <div className="lg:col-span-7 flex flex-col justify-center">
           <FadeIn delay={0.5} direction="left" className="w-full">
-            <div className="relative w-full aspect-[4/3] bg-stone-200">
-              <Image 
-                src="https://i.ibb.co/zVwfty39/SHOWROOM.jpg" 
-                alt="Renaissance Decor Application" 
-                fill 
-                className="object-cover"
+            <div className="overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://i.ibb.co/4RB4m7TB/IMG-9936-2.jpg"
+                alt="Renaissance Decor Application"
+                className="w-full block"
+                style={{ height: "auto", marginTop: "-25%", marginBottom: "-25%" }}
               />
             </div>
           </FadeIn>
@@ -72,21 +73,19 @@ Australian-made products and bespoke surface solutions.
 
       {/* 2. About Team (Dark Section) */}
       <section className="py-32 px-6 md:px-12 w-full bg-[#000000] text-[var(--color-parchment)] overflow-hidden">
-        <div className="max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
-          <div className="lg:col-span-5">
+        <div className="max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          <div className="w-full">
             <FadeIn delay={0.1} direction="right">
-              <div className="relative w-full aspect-[3/4] bg-stone-900 border border-[var(--color-parchment)]/10">
-                <Image 
-                  src="https://i.ibb.co/QFs773sm/IMG-4352.jpg" 
-                  alt="Adam McCann" 
-                  fill 
-                  className="object-cover filter grayscale contrast-125 brightness-90"
-                />
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://i.ibb.co/QFs773sm/IMG-4352.jpg"
+                alt="The Renaissance Decor Team"
+                className="w-full h-auto block filter grayscale contrast-125 brightness-90"
+              />
             </FadeIn>
           </div>
-          
-          <div className="lg:col-span-7 flex flex-col gap-12 lg:pl-12">
+
+          <div className="flex flex-col gap-12 lg:pl-12">
             <FadeIn delay={0.2} direction="up" duration={1.2}>
               <h2 className="font-futura font-light text-4xl md:text-5xl tracking-widest uppercase">
                 About Team
@@ -151,7 +150,7 @@ every project we deliver.
             <div className="md:w-1/2 flex justify-end md:pr-24 w-full">
               <FadeIn direction="right" className="w-full max-w-[400px]">
                 <div className="relative w-full aspect-[4/5] bg-stone-200">
-                  <Image src="https://renaissancedecor.com.au/wp-content/uploads/2023/07/corridor.jpg" alt="Consultation" fill className="object-cover" />
+                  <Image src="https://i.ibb.co/zVwfty39/SHOWROOM.jpg" alt="Consultation" fill className="object-cover" />
                 </div>
               </FadeIn>
             </div>
@@ -174,7 +173,7 @@ every project we deliver.
             <div className="md:w-1/2 flex justify-start md:pl-24 w-full">
               <FadeIn direction="left" className="w-full max-w-[400px]">
                 <div className="relative w-full aspect-[4/3] bg-stone-200">
-                  <Image src="https://renaissancedecor.com.au/wp-content/uploads/2023/07/stairs-white.jpg" alt="Sampling" fill className="object-cover" />
+                  <Image src="https://i.ibb.co/8yh5XrF/494208455-1273030034823090-647951896159338908-n.jpg" alt="Sampling" fill className="object-cover" />
                 </div>
               </FadeIn>
             </div>
@@ -195,7 +194,7 @@ every project we deliver.
             <div className="md:w-1/2 flex justify-end md:pr-24 w-full">
               <FadeIn direction="right" className="w-full max-w-[400px]">
                 <div className="relative w-full aspect-[4/5] bg-stone-200">
-                  <Image src="https://renaissancedecor.com.au/wp-content/uploads/2023/07/RenaissanceDecor-009.jpg" alt="Application" fill className="object-cover" />
+                  <Image src="https://i.ibb.co/Wpyc8FD4/626429525-18092861459004740-604214084003201179-n.jpg" alt="Application" fill className="object-cover" />
                 </div>
               </FadeIn>
             </div>
