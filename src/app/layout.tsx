@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css";
 import { FrontendWrapper } from "@/components/layout/FrontendWrapper";
 
@@ -21,6 +22,7 @@ export default function RootLayout({
         <FrontendWrapper>
           {children}
         </FrontendWrapper>
+        <SpeedInsights />
       </body>
     </html>
   );
