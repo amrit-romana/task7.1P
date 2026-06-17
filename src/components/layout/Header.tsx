@@ -113,7 +113,7 @@ export function Header({ theme = "light", navLinks: propNavLinks }: { theme?: "l
             initial={{ opacity: 0, y: "-100%" }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "-100%" }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
             className="fixed inset-0 z-50 bg-[#000000] flex flex-col items-center justify-center"
           >
             <button

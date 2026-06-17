@@ -37,7 +37,7 @@ const rowVariants = {
   visible: (i: number) => ({
     opacity: 1,
     x: 0,
-    transition: { duration: 0.28, ease: [0.16, 1, 0.3, 1], delay: i * 0.06 },
+    transition: { duration: 0.28, ease: [0.16, 1, 0.3, 1] as [number, number, number, number], delay: i * 0.06 },
   }),
   exit: { opacity: 0, x: 20, transition: { duration: 0.18 } },
 };
@@ -92,7 +92,7 @@ export function FloatingContact() {
         className="pointer-events-auto w-11 h-11 bg-espresso text-parchment flex items-center justify-center hover:bg-charcoal transition-colors duration-200"
         aria-label={open ? "Close contact panel" : "Contact us"}
         animate={{ rotate: open ? 90 : 0 }}
-        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
       >
         {open ? <CloseIcon /> : <PhoneIcon />}
       </motion.button>

@@ -28,7 +28,7 @@ export function ProjectGrid() {
             <motion.div 
               className="absolute inset-0 w-full h-full origin-center"
               whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
+              transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] as [number, number, number, number] }}
             >
               <Image 
                 src={project.image} 

@@ -23,7 +23,7 @@ export function FadeIn({
       initial={{ opacity: 0, y, x }}
       whileInView={{ opacity: 1, y: 0, x: 0 }}
       viewport={{ once: true, margin: "-10%" }}
-      transition={{ duration, ease: [0.16, 1, 0.3, 1], delay }}
+      transition={{ duration, ease: [0.16, 1, 0.3, 1] as [number, number, number, number], delay }}
       className={className}
     >
       {children}

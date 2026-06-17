@@ -51,7 +51,7 @@ export function FaqAccordion({ faqs }: { faqs: FaqData[] }) {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
                   className="overflow-hidden"
                 >
                   <p className="font-sans text-sm md:text-base text-[var(--color-charcoal)]/65 leading-relaxed pb-7 max-w-2xl">
