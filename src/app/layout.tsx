@@ -29,6 +29,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://use.typekit.net" crossOrigin="" />
+        <link rel="preconnect" href="https://p.typekit.net" crossOrigin="" />
       </head>
       <body suppressHydrationWarning className={`font-futura antialiased selection:bg-stone selection:text-charcoal`}>
         <TypeKitLoader />

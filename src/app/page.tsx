@@ -18,8 +18,14 @@ export default async function Home() {
     getDbData(),
   ]);
 
+  const lcpImageSrc = db.carouselItems[0]?.imageSrc;
+
   return (
     <main className="flex flex-col min-h-screen bg-[var(--color-parchment)]">
+      {lcpImageSrc && (
+        // eslint-disable-next-line @next/next/no-page-custom-font
+        <link rel="preload" as="image" href={lcpImageSrc} fetchPriority="high" />
+      )}
       <h1 className="sr-only">Venetian Plaster &amp; Decorative Finishes Melbourne</h1>
       <Header navLinks={db.navLinks} />
       <Hero carouselItems={db.carouselItems} />

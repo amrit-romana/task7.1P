@@ -1,5 +1,5 @@
 "use server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag, unstable_cache } from "next/cache";
 import sql from "@/lib/db";
 
 export interface ProjectData {
@@ -14,7 +14,7 @@ export interface ProjectData {
 
 // ── Read ───────────────────────────────────────────────────────────────────
 
-export async function getProjects(): Promise<ProjectData[]> {
+const _getProjects = async (): Promise<ProjectData[]> => {
   try {
     const rows = await sql`
       SELECT
@@ -33,7 +33,12 @@ export async function getProjects(): Promise<ProjectData[]> {
     console.error("getProjects failed:", error);
     return [];
   }
-}
+};
+
+export const getProjects = unstable_cache(_getProjects, ["projects"], {
+  tags: ["projects"],
+  revalidate: 3600,
+});
 
 export async function getProjectById(id: string): Promise<ProjectData | null> {
   try {
@@ -91,6 +96,7 @@ export async function saveProject(project: Partial<ProjectData>): Promise<{ succ
         )
       `;
     }
+    updateTag("projects");
     revalidatePath("/projects");
     revalidatePath("/");
     return { success: true };
@@ -140,6 +146,7 @@ export async function saveProjects(projects: ProjectData[]): Promise<void> {
       `;
     }
 
+    updateTag("projects");
     revalidatePath("/projects");
     revalidatePath("/");
   } catch (error) {
@@ -152,6 +159,7 @@ export async function saveProjects(projects: ProjectData[]): Promise<void> {
 export async function deleteProject(id: string): Promise<{ success: boolean }> {
   try {
     await sql`DELETE FROM projects WHERE id = ${id}`;
+    updateTag("projects");
     revalidatePath("/projects");
     revalidatePath("/");
     return { success: true };

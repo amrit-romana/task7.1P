@@ -1,5 +1,5 @@
 "use server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag, unstable_cache } from "next/cache";
 import sql from "@/lib/db";
 
 // ── Types ──────────────────────────────────────────────────────────────────
@@ -20,7 +20,7 @@ type DbData = {
 
 // ── Read all data (used by the home page / layout) ─────────────────────────
 
-export async function getDbData(): Promise<DbData> {
+const _getDbData = async (): Promise<DbData> => {
   try {
     const [navLinks, carouselItems, testimonials, footerRows, siteRows] = await Promise.all([
       sql`SELECT id, name, href FROM nav_links ORDER BY sort_order`,
@@ -41,7 +41,12 @@ export async function getDbData(): Promise<DbData> {
     console.error("getDbData failed:", error);
     return { navLinks: [], carouselItems: [], testimonials: [], footerSettings: {}, siteSettings: { siteTitle: "", metaDescription: "" } };
   }
-}
+};
+
+export const getDbData = unstable_cache(_getDbData, ["db-data"], {
+  tags: ["db-data"],
+  revalidate: 3600,
+});
 
 // ── NAV LINKS ──────────────────────────────────────────────────────────────
 
@@ -55,18 +60,21 @@ export async function addNavLink(formData: FormData) {
   const sortOrder = (maxOrder[0].m as number) + 1;
 
   await sql`INSERT INTO nav_links (id, name, href, sort_order) VALUES (${id}, ${name}, ${href}, ${sortOrder})`;
+  updateTag("db-data");
   revalidatePath("/");
   revalidatePath("/admin/links");
 }
 
 export async function updateNavLink(id: string, name: string, href: string) {
   await sql`UPDATE nav_links SET name = ${name}, href = ${href} WHERE id = ${id}`;
+  updateTag("db-data");
   revalidatePath("/");
   revalidatePath("/admin/links");
 }
 
 export async function deleteNavLink(id: string) {
   await sql`DELETE FROM nav_links WHERE id = ${id}`;
+  updateTag("db-data");
   revalidatePath("/");
   revalidatePath("/admin/links");
 }
@@ -114,6 +122,7 @@ export async function addCarouselItem(formData: FormData) {
   const sortOrder = (maxOrder[0].m as number) + 1;
 
   await sql`INSERT INTO carousel_items (id, image_src, title, subtitle, sort_order) VALUES (${id}, ${imageSrc}, ${title}, ${subtitle}, ${sortOrder})`;
+  updateTag("db-data");
   revalidatePath("/");
   revalidatePath("/admin/carousel");
 }
@@ -121,12 +130,14 @@ export async function addCarouselItem(formData: FormData) {
 export async function updateCarouselItem(id: string, imageSrc: string, title: string, subtitle: string) {
   const cleanImageSrc = sanitizeImageUrl(imageSrc);
   await sql`UPDATE carousel_items SET image_src = ${cleanImageSrc}, title = ${title}, subtitle = ${subtitle} WHERE id = ${id}`;
+  updateTag("db-data");
   revalidatePath("/");
   revalidatePath("/admin/carousel");
 }
 
 export async function deleteCarouselItem(id: string) {
   await sql`DELETE FROM carousel_items WHERE id = ${id}`;
+  updateTag("db-data");
   revalidatePath("/");
   revalidatePath("/admin/carousel");
 }
@@ -144,18 +155,21 @@ export async function addTestimonial(formData: FormData) {
   const sortOrder = (maxOrder[0].m as number) + 1;
 
   await sql`INSERT INTO testimonials (id, quote, name, title, sort_order) VALUES (${id}, ${quote}, ${name}, ${title}, ${sortOrder})`;
+  updateTag("db-data");
   revalidatePath("/");
   revalidatePath("/admin/testimonials");
 }
 
 export async function updateTestimonial(id: string, quote: string, name: string, title: string) {
   await sql`UPDATE testimonials SET quote = ${quote}, name = ${name}, title = ${title} WHERE id = ${id}`;
+  updateTag("db-data");
   revalidatePath("/");
   revalidatePath("/admin/testimonials");
 }
 
 export async function deleteTestimonial(id: string) {
   await sql`DELETE FROM testimonials WHERE id = ${id}`;
+  updateTag("db-data");
   revalidatePath("/");
   revalidatePath("/admin/testimonials");
 }
@@ -191,6 +205,7 @@ export async function saveFooterSettings(formData: FormData) {
     INSERT INTO footer_settings (id, data) VALUES (1, ${JSON.stringify(data)}::jsonb)
     ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data
   `;
+  updateTag("db-data");
   revalidatePath("/");
   revalidatePath("/admin/footer");
 }
@@ -207,6 +222,7 @@ export async function saveSiteSettings(formData: FormData) {
     INSERT INTO site_settings (id, data) VALUES (1, ${JSON.stringify(data)}::jsonb)
     ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data
   `;
+  updateTag("db-data");
   revalidatePath("/");
   revalidatePath("/admin/settings");
 }
@@ -216,6 +232,7 @@ export async function saveNavLinks(links: NavLink[]): Promise<void> {
     for (const [i, link] of links.entries()) {
       await sql`UPDATE nav_links SET sort_order = ${i} WHERE id = ${link.id}`;
     }
+    updateTag("db-data");
     revalidatePath("/");
     revalidatePath("/admin/links");
   } catch (error) {
@@ -228,6 +245,7 @@ export async function saveCarouselItems(items: CarouselItem[]): Promise<void> {
     for (const [i, item] of items.entries()) {
       await sql`UPDATE carousel_items SET sort_order = ${i} WHERE id = ${item.id}`;
     }
+    updateTag("db-data");
     revalidatePath("/");
     revalidatePath("/admin/carousel");
   } catch (error) {

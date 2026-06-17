@@ -1,5 +1,5 @@
 "use server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag, unstable_cache } from "next/cache";
 import sql from "@/lib/db";
 import { toSlug } from "@/utils";
 
@@ -14,7 +14,7 @@ export interface FinishData {
 
 // ── Read ───────────────────────────────────────────────────────────────────
 
-export async function getFinishes(): Promise<FinishData[]> {
+const _getFinishes = async (): Promise<FinishData[]> => {
   try {
     const rows = await sql`
       SELECT
@@ -32,7 +32,12 @@ export async function getFinishes(): Promise<FinishData[]> {
     console.error("getFinishes failed:", error);
     return [];
   }
-}
+};
+
+export const getFinishes = unstable_cache(_getFinishes, ["finishes"], {
+  tags: ["finishes"],
+  revalidate: 3600,
+});
 
 export async function getFinishById(id: string): Promise<FinishData | null> {
   try {
@@ -112,6 +117,7 @@ export async function saveFinish(finish: Partial<FinishData>): Promise<{ success
         )
       `;
     }
+    updateTag("finishes");
     revalidatePath("/materials");
     revalidatePath("/");
     return { success: true };
@@ -159,6 +165,7 @@ export async function saveFinishes(finishes: FinishData[]): Promise<void> {
       `;
     }
 
+    updateTag("finishes");
     revalidatePath("/materials");
     revalidatePath("/");
   } catch (error) {
@@ -171,6 +178,7 @@ export async function saveFinishes(finishes: FinishData[]): Promise<void> {
 export async function deleteFinish(id: string): Promise<{ success: boolean }> {
   try {
     await sql`DELETE FROM finishes WHERE id = ${id}`;
+    updateTag("finishes");
     revalidatePath("/materials");
     revalidatePath("/");
     return { success: true };

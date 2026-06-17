@@ -7,11 +7,10 @@ import { getDbData } from "@/actions/admin";
 
 const defaultNavLinks = [
   { name: "About Us", href: "/about" },
+    { name: "Projects", href: "/projects" },
   { name: "Finishes", href: "/materials" },
-  { name: "Projects", href: "/projects" },
-  { name: "Courses", href: "/courses" },
-  { name: "Journal", href: "/blog" },
   { name: "Products", href: "/shop" },
+  { name: "Journal", href: "/blog" },
   { name: "Enquire", href: "/enquire" },
 ];
 
