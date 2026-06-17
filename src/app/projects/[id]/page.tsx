@@ -3,12 +3,11 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Header } from "@/components/layout/Header";
 import { incrementPageView } from "@/actions/analytics";
-
-export const dynamic = "force-dynamic";
+import { after } from "next/server";
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  await incrementPageView("/projects/" + id);
+  after(() => incrementPageView("/projects/" + id));
 
   const projects = await getProjects();
   const project = projects.find(p => p.id === id);

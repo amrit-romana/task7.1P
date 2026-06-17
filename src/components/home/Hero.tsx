@@ -69,10 +69,10 @@ export function Hero({ carouselItems = [] }: { carouselItems?: any[] }) {
       >
         {items.length > 0 && (
           <>
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1.5, delay: 2.5 }}
+              transition={{ duration: 1.5, delay: 1.0 }}
               className="font-serif text-4xl md:text-5xl lg:text-[64px] leading-[1.15] w-full max-w-4xl"
               style={{ letterSpacing: '0.04em' }}
               dangerouslySetInnerHTML={{ __html: items[index].title }}
@@ -80,7 +80,7 @@ export function Hero({ carouselItems = [] }: { carouselItems?: any[] }) {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 2.8 }}
+              transition={{ duration: 1, delay: 1.3 }}
               className="font-sans text-[10px] md:text-xs tracking-[0.2em] font-light uppercase mt-6 md:mt-8"
             >
               {items[index].subtitle}
@@ -90,15 +90,15 @@ export function Hero({ carouselItems = [] }: { carouselItems?: any[] }) {
       </motion.div>
 
       {/* Carousel Controls */}
-      <div className="absolute inset-x-0 bottom-1/2 md:bottom-12 md:top-auto px-4 md:px-12 flex justify-between md:justify-end items-center gap-6 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
-        <button 
+      <div className="absolute inset-x-0 bottom-1/2 md:bottom-12 md:top-auto px-4 md:px-12 flex justify-between md:justify-end items-center gap-6 z-20 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
+        <button
           onClick={prevImage}
           className="p-3 rounded-full bg-[var(--color-parchment)]/10 text-[var(--color-parchment)] hover:bg-[var(--color-parchment)]/30 backdrop-blur-md transition-all active:scale-95"
           aria-label="Previous Slide"
         >
           <ChevronLeft className="w-6 h-6 stroke-[1.5]" />
         </button>
-        <button 
+        <button
           onClick={nextImage}
           className="p-3 rounded-full bg-[var(--color-parchment)]/10 text-[var(--color-parchment)] hover:bg-[var(--color-parchment)]/30 backdrop-blur-md transition-all active:scale-95"
           aria-label="Next Slide"
@@ -106,6 +106,24 @@ export function Hero({ carouselItems = [] }: { carouselItems?: any[] }) {
           <ChevronRight className="w-6 h-6 stroke-[1.5]" />
         </button>
       </div>
+
+      {/* Mobile slide dots */}
+      {items.length > 1 && (
+        <div className="absolute bottom-6 inset-x-0 flex justify-center items-center gap-2 z-20 md:hidden pointer-events-auto">
+          {items.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`rounded-full transition-all duration-500 ${
+                i === index
+                  ? "w-5 h-1 bg-white"
+                  : "w-1 h-1 bg-white/40"
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

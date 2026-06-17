@@ -5,6 +5,7 @@ import { SmoothScroll } from "./SmoothScroll";
 import { Preloader } from "./Preloader";
 import { Footer } from "./Footer";
 import { CustomCursor } from "../ui/CustomCursor";
+import { FloatingContact } from "../ui/FloatingContact";
 
 export function FrontendWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -19,6 +20,7 @@ export function FrontendWrapper({ children }: { children: React.ReactNode }) {
   return (
     <SmoothScroll>
       <CustomCursor />
+      <FloatingContact />
       <Preloader />
       {children}
       <Footer />

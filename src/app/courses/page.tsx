@@ -4,8 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getCourses } from "@/actions/courses";
 import { incrementPageView } from "@/actions/analytics";
-
-export const dynamic = "force-dynamic";
+import { after } from "next/server";
 
 export const metadata = {
   title: "Courses & Training | Renaissance Decor",
@@ -14,8 +13,7 @@ export const metadata = {
 };
 
 export default async function CoursesPage() {
-  // Track page view
-  await incrementPageView("/courses");
+  after(() => incrementPageView("/courses"));
 
   const courses = await getCourses();
 
@@ -24,7 +22,7 @@ export default async function CoursesPage() {
       <Header theme="dark" />
 
       {/* Hero Header */}
-      <section className="pt-48 pb-12 px-6 md:px-12 w-full flex flex-col items-center">
+      <section className="pt-36 md:pt-48 pb-12 px-6 md:px-12 w-full flex flex-col items-center">
         <h1 className="font-futura font-light text-4xl md:text-5xl lg:text-6xl text-[#000000] tracking-widest uppercase mb-6 text-center">
           Artisan Courses
         </h1>
@@ -154,28 +152,9 @@ export default async function CoursesPage() {
         )}
       </section>
 
-      {/* Showroom Invite Banner */}
-      <section className="w-full bg-[#eadecf] py-20 px-6 md:px-12 text-center flex flex-col items-center">
-        <span className="font-futura text-[9px] uppercase tracking-[0.25em] text-[var(--color-bark)] mb-4 block">
-          Visit Our Showroom
-        </span>
-        <h2 className="font-futura font-light text-2xl md:text-3xl text-black tracking-widest uppercase mb-6 max-w-xl">
-          Interested in Private or Custom Group Training?
-        </h2>
-        <p className="font-futura text-xs md:text-sm text-black/70 max-w-lg leading-relaxed mb-8 font-light">
-          We host private masterclasses for architecture firms, design studios, and commercial contracting teams. Speak with Adam to coordinate a custom syllabus.
-        </p>
-        <div className="flex gap-4">
-          <Link
-            href="/enquire"
-            className="font-futura font-bold text-[10px] uppercase tracking-[0.25em] text-black border-b border-black pb-1 hover:opacity-50 transition-opacity"
-          >
-            Contact Adam
-          </Link>
-        </div>
-      </section>
+    
 
-      <Footer />
+      
     </main>
   );
 }

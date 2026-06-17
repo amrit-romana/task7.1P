@@ -1,6 +1,7 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import sql from "@/lib/db";
+import { toSlug } from "@/utils";
 
 export interface FinishData {
   id: string;
@@ -50,6 +51,15 @@ export async function getFinishById(id: string): Promise<FinishData | null> {
   } catch {
     return null;
   }
+}
+
+export async function getFinishBySlug(slug: string): Promise<FinishData | null> {
+  const finishes = await getFinishes();
+  return (
+    finishes.find((f) => toSlug(f.name) === slug) ??
+    finishes.find((f) => f.id === slug) ?? // backward compat with old ID-based URLs
+    null
+  );
 }
 
 // ── Save (create or update) ────────────────────────────────────────────────

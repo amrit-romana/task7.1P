@@ -4,19 +4,19 @@ import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export function CustomCursor() {
-  const mouseX = useMotionValue(-100);
-  const mouseY = useMotionValue(-100);
+  const mouseX = useMotionValue(-200);
+  const mouseY = useMotionValue(-200);
   const isHovering = useRef(false);
-  const scaleValue = useMotionValue(1);
+  const outerScale = useMotionValue(1);
 
-  // Dot — tight spring, nearly instant
-  const dotX = useSpring(mouseX, { stiffness: 900, damping: 35, mass: 0.15 });
-  const dotY = useSpring(mouseY, { stiffness: 900, damping: 35, mass: 0.15 });
+  // Inner diamond — near-instant tracking
+  const innerX = useSpring(mouseX, { stiffness: 2000, damping: 60, mass: 0.05 });
+  const innerY = useSpring(mouseY, { stiffness: 2000, damping: 60, mass: 0.05 });
 
-  // Ring — looser spring for elegant trail
-  const ringX = useSpring(mouseX, { stiffness: 180, damping: 22, mass: 0.4 });
-  const ringY = useSpring(mouseY, { stiffness: 180, damping: 22, mass: 0.4 });
-  const ringScale = useSpring(scaleValue, { stiffness: 250, damping: 22, mass: 0.3 });
+  // Outer diamond — relaxed lag for a trailing effect
+  const outerX = useSpring(mouseX, { stiffness: 130, damping: 20, mass: 0.7 });
+  const outerY = useSpring(mouseY, { stiffness: 130, damping: 20, mass: 0.7 });
+  const outerScaleSpring = useSpring(outerScale, { stiffness: 220, damping: 26 });
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.matchMedia("(hover: none)").matches) return;
@@ -28,13 +28,14 @@ export function CustomCursor() {
 
     const onOver = (e: MouseEvent) => {
       const t = e.target as HTMLElement;
-      const hoverable = t.tagName === "A" || t.tagName === "BUTTON" || t.closest("a") || t.closest("button");
+      const hoverable =
+        t.tagName === "A" || t.tagName === "BUTTON" || t.closest("a") || t.closest("button");
       if (hoverable && !isHovering.current) {
         isHovering.current = true;
-        scaleValue.set(1.8);
+        outerScale.set(2.4);
       } else if (!hoverable && isHovering.current) {
         isHovering.current = false;
-        scaleValue.set(1);
+        outerScale.set(1);
       }
     };
 
@@ -44,7 +45,7 @@ export function CustomCursor() {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseover", onOver);
     };
-  }, [mouseX, mouseY, scaleValue]);
+  }, [mouseX, mouseY, outerScale]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && !window.matchMedia("(hover: none)").matches) {
@@ -59,25 +60,34 @@ export function CustomCursor() {
 
   return (
     <div className="hidden md:contents">
-      {/* Trailing ring */}
+      {/* Outer diamond outline — lags behind */}
       <motion.div
-        className="fixed top-0 left-0 w-9 h-9 rounded-full border border-white mix-blend-difference pointer-events-none z-9999"
+        className="fixed top-0 left-0 pointer-events-none z-9999 mix-blend-difference"
         style={{
-          x: ringX,
-          y: ringY,
+          x: outerX,
+          y: outerY,
           translateX: "-50%",
           translateY: "-50%",
-          scale: ringScale,
+          rotate: 45,
+          scale: outerScaleSpring,
+          width: 24,
+          height: 24,
+          border: "1.5px solid white",
         }}
       />
-      {/* Precise dot */}
+
+      {/* Inner filled diamond — precise */}
       <motion.div
-        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-white mix-blend-difference pointer-events-none z-10000"
+        className="fixed top-0 left-0 pointer-events-none z-10000 mix-blend-difference"
         style={{
-          x: dotX,
-          y: dotY,
+          x: innerX,
+          y: innerY,
           translateX: "-50%",
           translateY: "-50%",
+          rotate: 45,
+          width: 7,
+          height: 7,
+          backgroundColor: "white",
         }}
       />
     </div>

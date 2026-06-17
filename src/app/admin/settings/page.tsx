@@ -1,4 +1,5 @@
 import { getDbData, saveSiteSettings } from "@/actions/admin";
+import ChangePasswordForm from "@/components/admin/ChangePasswordForm";
 
 export default async function AdminSettingsPage() {
   const db = await getDbData();
@@ -42,18 +43,7 @@ export default async function AdminSettingsPage() {
         </div>
       </form>
 
-      {/* Admin Password Info */}
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-        <h2 className="font-semibold text-gray-900 text-sm mb-2 flex items-center gap-2">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-400"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          Admin Password
-        </h2>
-        <p className="text-sm text-gray-500 mb-4">To change the admin password, update the <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-700">ADMIN_PASSWORD</code> environment variable in your <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-gray-700">.env</code> file and restart the server.</p>
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-          <pre className="text-xs font-mono text-gray-600">ADMIN_PASSWORD=your_new_secure_password</pre>
-        </div>
-        <p className="text-xs text-gray-400 mt-3">Default password if not set: <code className="bg-gray-100 px-1.5 py-0.5 rounded font-mono">admin123</code> — change this before deploying!</p>
-      </div>
+      <ChangePasswordForm />
 
       {/* Info panel */}
       <div className="bg-blue-50 border border-blue-100 rounded-xl p-5 flex items-start gap-3">

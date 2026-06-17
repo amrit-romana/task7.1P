@@ -5,8 +5,7 @@ import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { incrementPageView } from "@/actions/analytics";
-
-export const dynamic = "force-dynamic";
+import { after } from "next/server";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -20,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogPostDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  await incrementPageView("/blog/" + slug);
+  after(() => incrementPageView("/blog/" + slug));
   const post = await getBlogPostBySlug(slug);
 
   if (!post || !post.published) {

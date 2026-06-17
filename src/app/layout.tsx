@@ -2,10 +2,22 @@ import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css";
 import { FrontendWrapper } from "@/components/layout/FrontendWrapper";
+import { TypeKitLoader } from "@/components/layout/TypeKitLoader";
 
 export const metadata: Metadata = {
-  title: "Renaissance Decor | Master Artisans of Surface Design",
-  description: "Bespoke Venetian Plaster, Micro Cement, and unique surface finishes. Based in Australia, executing internationally.",
+  metadataBase: new URL("https://renaissancedecor.com.au"),
+  title: {
+    default: "Renaissance Decor | Venetian Plaster & Decorative Finishes Melbourne",
+    template: "%s | Renaissance Decor",
+  },
+  description: "Premium Venetian Plaster, Micro Cement, and decorative surface finishes across Melbourne, Mornington Peninsula, and greater Victoria. Bespoke craftsmanship for interior designers, builders, and architects.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    siteName: "Renaissance Decor",
+    locale: "en_AU",
+  },
 };
 
 export default function RootLayout({
@@ -16,9 +28,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="stylesheet" href="https://use.typekit.net/xvi4mxs.css" />
+        <link rel="preconnect" href="https://use.typekit.net" crossOrigin="" />
       </head>
-      <body suppressHydrationWarning className={`font-futura antialiased selection:bg-[var(--color-stone)] selection:text-[var(--color-charcoal)]`}>
+      <body suppressHydrationWarning className={`font-futura antialiased selection:bg-stone selection:text-charcoal`}>
+        <TypeKitLoader />
         <FrontendWrapper>
           {children}
         </FrontendWrapper>

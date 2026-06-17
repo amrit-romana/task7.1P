@@ -68,7 +68,7 @@ export default function EnquirePage() {
       <Header theme="dark" />
 
       {/* Page Hero */}
-      <section className="pt-48 pb-16 px-6 md:px-12 w-full max-w-[1800px] mx-auto">
+      <section className="pt-36 md:pt-48 pb-16 px-6 md:px-12 w-full max-w-[1800px] mx-auto">
         <div className="flex flex-col gap-6 items-center text-center w-full">
           <FadeIn direction="up">
             <span className="font-sans text-[10px] uppercase tracking-[0.4em] font-bold opacity-60">
@@ -76,7 +76,7 @@ export default function EnquirePage() {
             </span>
           </FadeIn>
           <FadeIn delay={0.15} direction="up" duration={1.2}>
-            <h1 className="font-futura font-light text-6xl md:text-8xl text-[#000000] tracking-widest uppercase">
+            <h1 className="font-futura font-light text-5xl md:text-6xl lg:text-8xl text-[#000000] tracking-widest uppercase">
               Enquire
             </h1>
           </FadeIn>

@@ -1,27 +1,41 @@
-import { getFinishes, getFinishById } from "@/actions/finishes";
+import { getFinishes, getFinishBySlug } from "@/actions/finishes";
+import { toSlug } from "@/utils";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 import { incrementPageView } from "@/actions/analytics";
-
-export const dynamic = "force-dynamic";
+import { after } from "next/server";
 
 export async function generateStaticParams() {
   const finishes = await getFinishes();
-  return finishes.map((f) => ({ id: f.id }));
+  return finishes.map((f) => ({ slug: toSlug(f.name) }));
 }
 
-export default async function FinishDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  await incrementPageView("/materials/" + id);
-  const finish = await getFinishById(id);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const finish = await getFinishBySlug(slug);
+  if (!finish) return {};
+  return {
+    title: `${finish.name} Melbourne | Renaissance Decor`,
+    description: finish.description
+      ? `${finish.description.slice(0, 140)}…`
+      : `Bespoke ${finish.name} finishes for Melbourne homes and commercial interiors. Handcrafted by Renaissance Decor's artisan specialists.`,
+    alternates: { canonical: `/materials/${toSlug(finish.name)}` },
+  };
+}
+
+export default async function FinishDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const finish = await getFinishBySlug(slug);
 
   if (!finish) notFound();
 
+  after(() => incrementPageView("/materials/" + slug));
+
   const allFinishes = await getFinishes();
-  const otherFinishes = allFinishes.filter(f => f.id !== id).slice(0, 4);
+  const otherFinishes = allFinishes.filter((f) => toSlug(f.name) !== slug).slice(0, 4);
 
   const galleryImages = finish.galleryImages && finish.galleryImages.length > 0
     ? finish.galleryImages
@@ -41,9 +55,7 @@ export default async function FinishDetailPage({ params }: { params: Promise<{ i
           priority
           sizes="100vw"
         />
-        {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/60" />
-        {/* Title over hero */}
         <div className="absolute bottom-0 left-0 w-full px-8 md:px-16 pb-12 md:pb-16">
           <p className="font-futura text-[10px] md:text-xs tracking-[0.25em] text-white/70 uppercase mb-3">
             <Link href="/materials" className="hover:text-white transition-colors">Finishes</Link>
@@ -75,7 +87,7 @@ export default async function FinishDetailPage({ params }: { params: Promise<{ i
                 </Link>
               </div>
             </div>
-            <div className="w-full md:w-56 flex-shrink-0">
+            <div className="w-full md:w-56 shrink-0">
               <div className="relative w-full aspect-[3/4] overflow-hidden bg-[var(--color-stone)]">
                 <Image
                   src={finish.image}
@@ -135,7 +147,7 @@ export default async function FinishDetailPage({ params }: { params: Promise<{ i
           </span>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             {otherFinishes.map((f) => (
-              <Link key={f.id} href={`/materials/${f.id}`} className="group flex flex-col gap-3">
+              <Link key={f.id} href={`/materials/${toSlug(f.name)}`} className="group flex flex-col gap-3">
                 <div className="relative w-full aspect-[3/4] overflow-hidden bg-[var(--color-stone)]">
                   <Image
                     src={f.image}

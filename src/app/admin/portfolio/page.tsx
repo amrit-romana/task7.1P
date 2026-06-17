@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef, useTransition, useCallback } from "react";
 import { getProjects, saveProjects, ProjectData } from "@/actions/projects";
 import { getFinishes, saveFinishes, FinishData } from "@/actions/finishes";
+import { toSlug } from "@/utils";
 
 type UploadSection = "thumbnail" | "gallery";
 
@@ -641,12 +642,12 @@ export default function AdminPortfolioPage() {
                     <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 flex items-center justify-between">
                       <p className="text-xs text-gray-600">Public page:</p>
                       <a
-                        href={`/materials/${finish.id}`}
+                        href={`/materials/${toSlug(finish.name)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs text-gray-500 font-mono hover:text-gray-900 transition flex items-center gap-1"
                       >
-                        /materials/{finish.id}
+                        /materials/{toSlug(finish.name)}
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                       </a>
                     </div>

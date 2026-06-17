@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FinishData } from "@/actions/finishes";
+import { toSlug } from "@/utils";
 import { FadeIn } from "@/components/ui/FadeIn";
 
 export function FinishesSection({ finishes }: { finishes: FinishData[] }) {
@@ -20,7 +21,7 @@ export function FinishesSection({ finishes }: { finishes: FinishData[] }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 w-full mb-16">
           {displayFinishes.map((finish, idx) => (
             <FadeIn key={finish.id} delay={0.15 * idx} direction="up" className="w-full">
-              <Link href={`/materials/${finish.id}`} className="flex flex-col gap-4 group cursor-pointer">
+              <Link href={`/materials/${toSlug(finish.name)}`} className="flex flex-col gap-4 group cursor-pointer">
                 <div className="relative w-full aspect-[3/4] overflow-hidden bg-[var(--color-stone)]">
                   <Image
                     src={finish.image}

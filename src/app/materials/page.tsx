@@ -1,20 +1,20 @@
 import { Header } from "@/components/layout/Header";
 import { getFinishes } from "@/actions/finishes";
+import { toSlug } from "@/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { incrementPageView } from "@/actions/analytics";
-
-export const dynamic = "force-dynamic";
+import { after } from "next/server";
 
 export default async function MaterialsPage() {
-  await incrementPageView("/materials");
+  after(() => incrementPageView("/materials"));
   const finishes = await getFinishes();
 
   return (
     <main className="flex flex-col min-h-screen bg-[var(--color-parchment)]">
       <Header theme="dark" />
       
-      <section className="pt-48 pb-12 px-6 md:px-12 w-full flex flex-col items-center">
+      <section className="pt-36 md:pt-48 pb-12 px-6 md:px-12 w-full flex flex-col items-center">
         <h1 className="font-futura font-light text-4xl md:text-5xl lg:text-6xl text-[#000000] tracking-widest uppercase mb-12">
           Finishes
         </h1>
@@ -30,10 +30,10 @@ export default async function MaterialsPage() {
       {/* Grid of Finishes */}
       <section className="w-full max-w-[1600px] mx-auto px-6 md:px-12 pb-32">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-          {finishes.map((finish, idx) => (
+          {finishes.map((finish) => (
             <Link
               key={finish.id}
-              href={`/materials/${finish.id}`}
+              href={`/materials/${toSlug(finish.name)}`}
               className="group cursor-pointer flex flex-col gap-6"
             >
               <div className="relative w-full overflow-hidden bg-[var(--color-stone)] aspect-[4/5]">

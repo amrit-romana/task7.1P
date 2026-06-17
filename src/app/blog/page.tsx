@@ -4,8 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Footer } from "@/components/layout/Footer";
 import { incrementPageView } from "@/actions/analytics";
-
-export const dynamic = "force-dynamic";
+import { after } from "next/server";
 
 export const metadata = {
   title: "Journal | Renaissance Decor",
@@ -14,7 +13,7 @@ export const metadata = {
 };
 
 export default async function BlogPage() {
-  await incrementPageView("/blog");
+  after(() => incrementPageView("/blog"));
   const posts = await getBlogPosts(true); // published only
 
   return (
@@ -22,13 +21,14 @@ export default async function BlogPage() {
       <Header theme="dark" />
 
       {/* Page Header */}
-      <section className="pt-48 pb-12 px-6 md:px-12 w-full flex flex-col items-center">
+      <section className="pt-36 md:pt-48 pb-12 px-6 md:px-12 w-full flex flex-col items-center">
         <h1 className="font-futura font-light text-4xl md:text-5xl lg:text-6xl text-[#000000] tracking-widest uppercase mb-12">
           Journal
         </h1>
         <p className="font-futura text-sm md:text-base text-center max-w-2xl text-[var(--color-charcoal)]/70 leading-relaxed mb-24 font-light">
-          Insights, inspiration, and craft from our studio — exploring the
-          intersection of texture, material, and light.
+          Your written resource for Venetian Plaster Melbourne, Microcement
+Melbourne, Clay Plaster Finishes, Metal Coatings, Maintenance advise and
+project ideas by Renaissance Décor Decorative Finishes Specialists
         </p>
       </section>
 

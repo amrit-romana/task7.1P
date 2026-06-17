@@ -2,8 +2,8 @@ import { Header } from "@/components/layout/Header";
 import Image from "next/image";
 import { getProducts } from "@/actions/products";
 import { incrementPageView } from "@/actions/analytics";
-
-export const dynamic = "force-dynamic";
+import { FadeIn } from "@/components/ui/FadeIn";
+import { after } from "next/server";
 
 export const metadata = {
   title: "Products | Renaissance Decor",
@@ -11,8 +11,7 @@ export const metadata = {
 };
 
 export default async function ShopPage() {
-  // Track page view
-  await incrementPageView("/shop");
+  after(() => incrementPageView("/shop"));
 
   const products = await getProducts();
 
@@ -20,13 +19,52 @@ export default async function ShopPage() {
     <main className="flex flex-col min-h-screen bg-[var(--color-parchment)]">
       <Header theme="dark" />
 
-      <section className="pt-48 pb-12 px-6 md:px-12 w-full flex flex-col items-center">
-        <h1 className="font-futura font-light text-4xl md:text-5xl lg:text-6xl text-[var(--color-charcoal)] tracking-widest uppercase mb-6 md:mb-12">
-          Products
-        </h1>
-        <p className="font-futura text-sm md:text-base text-[var(--color-charcoal)]/80 leading-relaxed font-light text-center max-w-2xl mb-12">
-          Explore our curated range of premium decorative finishes and tools. Trusted by leading artisans and designers globally.
-        </p>
+      {/* Page Title */}
+      <section className="pt-36 md:pt-48 pb-16 px-6 md:px-12 w-full flex flex-col items-center">
+        <FadeIn direction="up">
+          <h1 className="font-futura font-light text-4xl md:text-5xl lg:text-6xl text-charcoal tracking-widest uppercase mb-0">
+            Products
+          </h1>
+        </FadeIn>
+      </section>
+
+      {/* LustreFX Stockist Section */}
+      <section className="w-full border-t border-stone/30">
+        <div className="max-w-300 mx-auto px-6 md:px-12 py-16 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
+
+          {/* Left: text */}
+          <FadeIn direction="right" duration={1.1}>
+            <div className="flex flex-col gap-6">
+              <span className="font-futura text-[9px] uppercase tracking-[0.4em] text-bark">
+                Official Stockist
+              </span>
+              <h2 className="font-serif text-2xl md:text-3xl font-light text-charcoal leading-snug">
+                Renaissance Décor are proud stockists for LustreFX.
+              </h2>
+              <p className="font-futura font-light text-sm text-bark leading-relaxed">
+                LustreFX is defined by innovation — hand-crafted by a family
+                company in Canberra. All products are proudly Australian Made,
+                trusted by artisans, interior designers, and builders across
+                the country.
+              </p>
+            </div>
+          </FadeIn>
+
+          {/* Right: logo */}
+          <FadeIn direction="left" duration={1.1} delay={0.15}>
+            <div className="flex items-center justify-center md:justify-end">
+              <Image
+                src="/images/logo-lustrefx.png"
+                alt="LustreFX"
+                width={300}
+                height={150}
+                className="w-50 md:w-65 h-auto opacity-85"
+                style={{ mixBlendMode: "multiply" }}
+              />
+            </div>
+          </FadeIn>
+
+        </div>
       </section>
 
       {/* Dynamic Product Grid */}

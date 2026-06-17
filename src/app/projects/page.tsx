@@ -3,11 +3,10 @@ import { getProjects } from "@/actions/projects";
 import Image from "next/image";
 import Link from "next/link";
 import { incrementPageView } from "@/actions/analytics";
-
-export const dynamic = "force-dynamic";
+import { after } from "next/server";
 
 export default async function ProjectsPage() {
-  await incrementPageView("/projects");
+  after(() => incrementPageView("/projects"));
   const allProjects = await getProjects();
 
   // Create an artificial larger array for a staggered gallery effect if needed, 
@@ -18,13 +17,14 @@ export default async function ProjectsPage() {
     <main className="flex flex-col min-h-screen bg-[var(--color-parchment)]">
       <Header theme="dark" />
 
-      <section className="pt-48 pb-12 px-6 md:px-12 w-full flex flex-col items-center">
+      <section className="pt-36 md:pt-48 pb-12 px-6 md:px-12 w-full flex flex-col items-center">
         <h1 className="font-futura font-light text-4xl md:text-5xl lg:text-6xl text-[#000000] tracking-widest uppercase mb-12">
           Projects
         </h1>
 
         <p className="font-futura text-sm md:text-base text-center max-w-2xl text-[var(--color-charcoal)]/70 leading-relaxed mb-24 font-light">
-          A selection of our commissioned architectural finishes, spanning private residences, commercial spaces, and luxury retail across Melbourne and internationally.
+         A selection of our commissioned architectural finishes across private residences, commercial
+spaces, and luxury retail projects throughout Melbourne and Australia.
         </p>
       </section>
 

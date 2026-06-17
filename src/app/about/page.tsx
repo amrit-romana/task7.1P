@@ -9,7 +9,7 @@ export default function AboutPage() {
       <Header theme="dark" />
       
       {/* 1. Foundation & Accolades */}
-      <section className="pt-48 pb-24 px-6 md:px-12 w-full max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 overflow-hidden">
+      <section className="pt-36 md:pt-48 pb-24 px-6 md:px-12 w-full max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 overflow-hidden">
         <div className="lg:col-span-5 flex flex-col gap-12">
           <FadeIn delay={0.1} direction="up" duration={1.2}>
             <h1 className="font-futura font-light text-5xl md:text-6xl text-[#000000] tracking-widest uppercase">
@@ -35,7 +35,7 @@ brought his expertise to Australia in 2017 and has since built
 Renaissance Décor into one of Melbourne&#39;s leading decorative
 finish specialists. We currently work closely with High End
 Builders, Architects, Interior designers and Homeowners to
-deliver exceptional Venetian Plaster, Micro cement, Clay and
+deliver exceptional Venetian Plaster, Microcement, Clay and
 Metal finishes in high end Hotels, Spas, Restaurants, Bars and exclusive Residencies. 
               </p>
             </FadeIn>
@@ -88,11 +88,11 @@ Australian-made products and bespoke surface solutions.
           <div className="flex flex-col gap-12 lg:pl-12">
             <FadeIn delay={0.2} direction="up" duration={1.2}>
               <h2 className="font-futura font-light text-4xl md:text-5xl tracking-widest uppercase">
-                About Team
+                THE TEAM
               </h2>
             </FadeIn>
             <FadeIn delay={0.3} direction="up">
-              <p className="font-serif italic text-3xl md:text-4xl leading-snug">
+              <p className="font-serif italic text-2xl md:text-3xl lg:text-4xl leading-snug">
                 "Every surface is a canvas, and our heritage is simply knowing how to let the architecture speak."
               </p>
             </FadeIn>
@@ -121,6 +121,10 @@ every project we deliver.
                    <li className="grid grid-cols-[1fr_2fr] border-b border-[var(--color-parchment)]/20 pb-3">
                     <span className="font-bold text-[var(--color-parchment)] tracking-wide">Toni McCann</span>
                     <span>Marketing Director</span>
+                  </li>
+                      <li className="grid grid-cols-[1fr_2fr] border-b border-[var(--color-parchment)]/20 pb-3">
+                    <span className="font-bold text-[var(--color-parchment)] tracking-wide">Adam Grisdale</span>
+                    <span>Project Manager</span>
                   </li>
                   <li className="grid grid-cols-[1fr_2fr] border-b border-[var(--color-parchment)]/20 pb-3 pt-3">
                     <span className="font-bold text-[var(--color-parchment)] tracking-wide">Master Artisans</span>

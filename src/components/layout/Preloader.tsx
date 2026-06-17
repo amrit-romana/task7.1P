@@ -10,8 +10,8 @@ export function Preloader() {
   const [stage, setStage] = useState<0 | 1 | 2>(0);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setStage(1), 2200); // BG starts to fade at 2.2s
-    const t2 = setTimeout(() => setStage(2), 2800); // Logo fades and unmounts
+    const t1 = setTimeout(() => setStage(1), 900);  // BG starts to fade at 0.9s
+    const t2 = setTimeout(() => setStage(2), 1500); // Logo fades and unmounts
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
