@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const finish = await getFinishBySlug(slug);
   if (!finish) return {};
   return {
-    title: `${finish.name} Melbourne | Renaissance Decor`,
+    title: `${finish.name} Melbourne`,
     description: finish.description
       ? `${finish.description.slice(0, 140)}…`
       : `Bespoke ${finish.name} finishes for Melbourne homes and commercial interiors. Handcrafted by Renaissance Decor's artisan specialists.`,

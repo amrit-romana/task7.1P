@@ -3,6 +3,7 @@
 import { Header } from "@/components/layout/Header";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { useState, useRef } from "react";
+import { submitEnquiry } from "@/actions/enquiries";
 
 const contactData = {
   address: {
@@ -21,15 +22,25 @@ const contactData = {
 export default function EnquirePage() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const [fileName, setFileName] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = async (e: { preventDefault(): void }) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const result = await submitEnquiry(formData);
+
     setSubmitting(false);
-    setSubmitted(true);
+    if (result.success) {
+      setSubmitted(true);
+    } else {
+      setError(result.error ?? "Something went wrong. Please try again.");
+    }
   };
 
   if (submitted) {
@@ -138,7 +149,7 @@ export default function EnquirePage() {
           </FadeIn>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-12">
+          <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-12">
 
             <FadeIn direction="up" delay={0.15}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-12">
@@ -147,6 +158,7 @@ export default function EnquirePage() {
                     First name <span className="text-[#000000]">*</span>
                   </label>
                   <input
+                    name="firstName"
                     type="text"
                     required
                     placeholder="First name"
@@ -158,6 +170,7 @@ export default function EnquirePage() {
                     Last name <span className="text-[#000000]">*</span>
                   </label>
                   <input
+                    name="lastName"
                     type="text"
                     required
                     placeholder="Last name"
@@ -174,6 +187,7 @@ export default function EnquirePage() {
                     Email address <span className="text-[#000000]">*</span>
                   </label>
                   <input
+                    name="email"
                     type="email"
                     required
                     placeholder="name@example.com"
@@ -185,6 +199,7 @@ export default function EnquirePage() {
                     Telephone <span className="text-[#000000]/30 lowercase tracking-normal font-light italic">optional</span>
                   </label>
                   <input
+                    name="phone"
                     type="tel"
                     placeholder="Optional"
                     className="bg-transparent border-b border-[#000000]/30 focus:border-[#000000] outline-none py-3 font-sans text-base text-[#000000] transition-colors placeholder:text-[#000000]/20"
@@ -199,6 +214,7 @@ export default function EnquirePage() {
                   Project address <span className="text-[#000000]/30 lowercase tracking-normal font-light italic">optional</span>
                 </label>
                 <input
+                  name="projectAddress"
                   type="text"
                   placeholder="Suburb or full address"
                   className="bg-transparent border-b border-[#000000]/30 focus:border-[#000000] outline-none py-3 font-sans text-base text-[#000000] transition-colors placeholder:text-[#000000]/20"
@@ -213,6 +229,7 @@ export default function EnquirePage() {
                     Wall length <span className="text-[#000000]/30 lowercase tracking-normal font-light italic">optional</span>
                   </label>
                   <input
+                    name="wallLength"
                     type="text"
                     placeholder="e.g. 4.5m"
                     className="bg-transparent border-b border-[#000000]/30 focus:border-[#000000] outline-none py-3 font-sans text-base text-[#000000] transition-colors placeholder:text-[#000000]/20"
@@ -223,6 +240,7 @@ export default function EnquirePage() {
                     Wall height <span className="text-[#000000]/30 lowercase tracking-normal font-light italic">optional</span>
                   </label>
                   <input
+                    name="wallHeight"
                     type="text"
                     placeholder="e.g. 2.7m"
                     className="bg-transparent border-b border-[#000000]/30 focus:border-[#000000] outline-none py-3 font-sans text-base text-[#000000] transition-colors placeholder:text-[#000000]/20"
@@ -249,7 +267,9 @@ export default function EnquirePage() {
                 </div>
                 <input
                   ref={fileInputRef}
+                  name="image"
                   type="file"
+                  accept="image/*"
                   className="hidden"
                   onChange={(e) => setFileName(e.target.files?.[0]?.name || "")}
                 />
@@ -262,6 +282,7 @@ export default function EnquirePage() {
                   Your message <span className="text-[#000000]">*</span>
                 </label>
                 <textarea
+                  name="message"
                   required
                   rows={5}
                   placeholder="Details about your surfaces, preferred finish, and timeline..."
@@ -269,6 +290,12 @@ export default function EnquirePage() {
                 />
               </div>
             </FadeIn>
+
+            {error && (
+              <FadeIn direction="up">
+                <p className="font-sans text-xs text-red-600 tracking-wide">{error}</p>
+              </FadeIn>
+            )}
 
             <FadeIn direction="up" delay={0.45}>
               <button

@@ -278,7 +278,7 @@ export async function generateMetadata({
   const suburb = SUBURBS.find((s) => s.slug === location);
   if (!suburb) return {};
   return {
-    title: `Venetian Plaster ${suburb.name} | Renaissance Decor`,
+    title: `Venetian Plaster ${suburb.name}`,
     description: `Premium Venetian plaster and decorative surface finishes in ${suburb.name} ${suburb.postcode}. Handcrafted by Renaissance Decor — Melbourne and ${suburb.region}'s artisan plaster specialists.`,
     alternates: { canonical: `/venetian-plaster/${suburb.slug}` },
   };

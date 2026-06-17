@@ -65,7 +65,7 @@ export function Header({ theme = "light", navLinks: propNavLinks }: { theme?: "l
       >
         <div className={`pointer-events-auto transition-colors duration-700 ${textColorClass} flex-shrink-0`}>
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-40 h-11 sm:w-60 sm:h-16 md:w-96 md:h-20 lg:w-[32rem] lg:h-24">
+            <div className="relative w-72 h-16 sm:w-80 sm:h-20 md:w-md md:h-24 lg:w-160 lg:h-28">
               <Image
                 src="/images/header-logo-initial.png"
                 alt="Renaissance Decor Initial Logo"
