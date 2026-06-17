@@ -9,13 +9,9 @@ export function CustomCursor() {
   const isHovering = useRef(false);
   const outerScale = useMotionValue(1);
 
-  // Inner diamond — near-instant tracking
   const innerX = useSpring(mouseX, { stiffness: 2000, damping: 60, mass: 0.05 });
   const innerY = useSpring(mouseY, { stiffness: 2000, damping: 60, mass: 0.05 });
 
-  // Outer diamond — relaxed lag for a trailing effect
-  const outerX = useSpring(mouseX, { stiffness: 130, damping: 20, mass: 0.7 });
-  const outerY = useSpring(mouseY, { stiffness: 130, damping: 20, mass: 0.7 });
   const outerScaleSpring = useSpring(outerScale, { stiffness: 220, damping: 26 });
 
   useEffect(() => {
@@ -59,35 +55,21 @@ export function CustomCursor() {
   if (typeof window !== "undefined" && window.matchMedia("(hover: none)").matches) return null;
 
   return (
-    <div className="hidden md:contents">
-      {/* Outer diamond outline — lags behind */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-9999 mix-blend-difference"
-        style={{
-          x: outerX,
-          y: outerY,
-          translateX: "-50%",
-          translateY: "-50%",
-          rotate: 45,
-          scale: outerScaleSpring,
-          width: 24,
-          height: 24,
-          border: "1.5px solid white",
-        }}
-      />
-
-      {/* Inner filled diamond — precise */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-10000 mix-blend-difference"
+    <div>
+      <motion.img
+        src="https://i.ibb.co/gF3nFy2k/RD-Crest-On-Black-No-BG.png"
+        alt="cursor-logo"
+        className="fixed top-0 left-0 pointer-events-none"
         style={{
           x: innerX,
           y: innerY,
           translateX: "-50%",
           translateY: "-50%",
-          rotate: 45,
-          width: 7,
-          height: 7,
-          backgroundColor: "white",
+          width: 40,
+          height: 40,
+          scale: outerScaleSpring,
+          zIndex: 10000,
+          mixBlendMode: "difference",
         }}
       />
     </div>
