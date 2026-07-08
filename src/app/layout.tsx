@@ -4,6 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css";
 import { FrontendWrapper } from "@/components/layout/FrontendWrapper";
 import { TypeKitLoader } from "@/components/layout/TypeKitLoader";
+import BusinessSchema from "@/components/seo/BusinessSchema";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://renaissancedecor.com.au"),
@@ -31,6 +32,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://use.typekit.net" crossOrigin="" />
         <link rel="preconnect" href="https://p.typekit.net" crossOrigin="" />
+        <BusinessSchema />
         <Script id="gtm-head" strategy="beforeInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
