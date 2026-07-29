@@ -35,7 +35,7 @@ export default async function Home() {
         </h2>
       </section>
       {/* SEO body copy — below fold */}
-      <section className="py-16 md:py-24 px-6 md:px-12 w-full bg-[var(--color-charcoal)] text-[var(--color-parchment)]">
+      <section className="py-16 md:py-24 px-6 md:px-12 w-full bg-[var(--color-charcoal)] text-[var(--color-parchment)] mb-16 md:mb-24">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-start">
           <div>
             <p className="text-[10px] font-sans tracking-[0.25em] uppercase text-[var(--color-parchment)]/50 mb-4">Melbourne &amp; Mornington Peninsula</p>
