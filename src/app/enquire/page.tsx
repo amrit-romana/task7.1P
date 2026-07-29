@@ -96,6 +96,18 @@ export default function EnquirePage() {
               Tell us about your project and we'll be in touch with bespoke recommendations.
             </p>
           </FadeIn>
+          <FadeIn delay={0.4} direction="up">
+            <p className="font-sans text-sm text-[#000000]/70 leading-relaxed max-w-xl">
+              Submit the form below with a few details about your space and preferred finish, and our team will respond within one business day with next steps — including a free, no-obligation site visit where required. We service Melbourne metro, Bayside, and the Mornington Peninsula, and travel throughout greater Victoria for larger projects.
+            </p>
+          </FadeIn>
+          <FadeIn delay={0.5} direction="up">
+            <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 font-sans text-[10px] uppercase tracking-[0.25em] font-bold text-[#000000]/50">
+              <span>Response within 24hrs</span>
+              <span>Free Site Visits</span>
+              <span>No-Obligation Quotes</span>
+            </div>
+          </FadeIn>
         </div>
       </section>
 

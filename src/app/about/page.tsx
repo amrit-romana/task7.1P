@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { FadeIn } from "@/components/ui/FadeIn";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "About Renaissance Decor | Melbourne's Venetian Plaster Specialists",
+  description:
+    "Founded by Adam McCann and trained in Venetian plastering in London, Renaissance Decor is a Melbourne-based team of artisans with over 20 years of experience in decorative finishes.",
+  alternates: { canonical: "/about" },
+};
 
 export default function AboutPage() {
   return (

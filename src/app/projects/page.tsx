@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { getProjects } from "@/actions/projects";
 import Image from "next/image";
@@ -5,11 +6,18 @@ import Link from "next/link";
 import { incrementPageView } from "@/actions/analytics";
 import { after } from "next/server";
 
+export const metadata: Metadata = {
+  title: "Venetian Plaster Projects Melbourne | Residential & Commercial Portfolio",
+  description:
+    "Browse Renaissance Decor's portfolio of Venetian plaster, microcement and decorative finish projects across Melbourne, the Mornington Peninsula and Victoria — residential, hospitality and commercial interiors.",
+  alternates: { canonical: "/projects" },
+};
+
 export default async function ProjectsPage() {
   after(() => incrementPageView("/projects"));
   const allProjects = await getProjects();
 
-  // Create an artificial larger array for a staggered gallery effect if needed, 
+  // Create an artificial larger array for a staggered gallery effect if needed,
   // or simply map the existing projects into a 3-column classic masonry.
   // HFL Interiors uses a distinct, slightly asymmetrical 3-column masonry with varied image ratios.
 
@@ -22,9 +30,12 @@ export default async function ProjectsPage() {
           Projects
         </h1>
 
-        <p className="font-futura text-sm md:text-base text-center max-w-2xl text-[var(--color-charcoal)]/70 leading-relaxed mb-24 font-light">
-         A selection of our commissioned architectural finishes across private residences, commercial
+        <p className="font-futura text-sm md:text-base text-center max-w-2xl text-[var(--color-charcoal)]/70 leading-relaxed mb-6 font-light">
+          A selection of our commissioned architectural finishes across private residences, commercial
 spaces, and luxury retail projects throughout Melbourne and Australia.
+        </p>
+        <p className="font-futura text-sm md:text-base text-center max-w-2xl text-[var(--color-charcoal)]/70 leading-relaxed mb-24 font-light">
+          Every project is hand-applied on-site by our Braeside-based team, working directly with interior designers, architects and builders across Melbourne suburbs including Toorak, South Yarra, Brighton and Hawthorn, as well as the Mornington Peninsula. From Venetian plaster feature walls to full microcement floors, each finish is selected to suit the architecture, lighting and character of the space.
         </p>
       </section>
 

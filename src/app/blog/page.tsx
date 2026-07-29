@@ -7,9 +7,10 @@ import { incrementPageView } from "@/actions/analytics";
 import { after } from "next/server";
 
 export const metadata = {
-  title: "Journal | Renaissance Decor",
+  title: "Venetian Plaster Tips & Inspiration Melbourne",
   description:
-    "Insights, inspiration and behind-the-scenes stories from the Renaissance Decor team.",
+    "Guides, tips and inspiration on Venetian plaster, microcement, clay plaster and decorative finishes from Melbourne's artisan specialists at Renaissance Decor.",
+  alternates: { canonical: "/blog" },
 };
 
 export default async function BlogPage() {

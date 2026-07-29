@@ -7,9 +7,10 @@ import { incrementPageView } from "@/actions/analytics";
 import { after } from "next/server";
 
 export const metadata = {
-  title: "Courses & Training | Renaissance Decor",
+  title: "Venetian Plaster Courses Melbourne | Hands-On Training",
   description:
     "Join our expert-led hands-on training courses in Venetian Plaster, Metal Finishes, and Microcement in Melbourne.",
+  alternates: { canonical: "/courses" },
 };
 
 export default async function CoursesPage() {

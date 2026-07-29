@@ -5,7 +5,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       // ── Old com.au URLs → new slug-based material pages ──────────────────
-      { source: "/venetian-plaster",       destination: "/venetian-plaster",          permanent: true },
       { source: "/polished-plasters",      destination: "/materials/polished-plaster", permanent: true },
       { source: "/polished-plasters/",     destination: "/materials/polished-plaster", permanent: true },
       { source: "/finishes/microcement",   destination: "/materials/micro-cement",     permanent: true },

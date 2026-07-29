@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { getFinishes } from "@/actions/finishes";
 import { toSlug } from "@/utils";
@@ -6,6 +7,40 @@ import Link from "next/link";
 import { incrementPageView } from "@/actions/analytics";
 import { after } from "next/server";
 
+export const metadata: Metadata = {
+  title: "Decorative Wall Finishes Melbourne | Venetian Plaster, Microcement & More",
+  description:
+    "Explore Renaissance Decor's full range of decorative wall finishes — Venetian plaster, microcement, clay plaster, tadelakt, textured plaster and metal coatings — handcrafted for Melbourne homes and commercial interiors.",
+  alternates: { canonical: "/materials" },
+};
+
+const MATERIAL_HIGHLIGHTS = [
+  {
+    name: "Venetian Plaster",
+    desc: "Our signature finish: slaked lime putty and marble dust, hand-burnished in multiple thin layers to a smooth, luminous, marble-like surface. Ideal for feature walls, hallways and living areas.",
+  },
+  {
+    name: "Microcement",
+    desc: "A seamless, ultra-thin cement overlay applied to floors, walls and joinery with no grout lines. Popular in Melbourne kitchens and bathrooms for its clean, contemporary look.",
+  },
+  {
+    name: "Clay Plaster",
+    desc: "A natural, breathable finish with excellent humidity-regulating and acoustic properties, prized for its warm, earthy texture in bedrooms and living spaces.",
+  },
+  {
+    name: "Tadelakt",
+    desc: "Traditional waterproof Moroccan lime plaster, hand-burnished to a soft sheen — the finish of choice for showers, bathrooms and other wet areas.",
+  },
+  {
+    name: "Metal Coatings",
+    desc: "Decorative metallic and oxidised finishes that bring an industrial, sculptural edge to feature walls and architectural surfaces.",
+  },
+  {
+    name: "Textured Plaster",
+    desc: "Custom texture and colour combinations, hand-applied to create sculptural depth that paint and wallpaper cannot replicate.",
+  },
+];
+
 export default async function MaterialsPage() {
   after(() => incrementPageView("/materials"));
   const finishes = await getFinishes();
@@ -13,18 +48,29 @@ export default async function MaterialsPage() {
   return (
     <main className="flex flex-col min-h-screen bg-[var(--color-parchment)]">
       <Header theme="dark" />
-      
+
       <section className="pt-36 md:pt-48 pb-12 px-6 md:px-12 w-full flex flex-col items-center">
-        <h1 className="font-futura font-light text-4xl md:text-5xl lg:text-6xl text-[#000000] tracking-widest uppercase mb-12">
-          Finishes
+        <h1 className="font-futura font-light text-4xl md:text-5xl lg:text-6xl text-[#000000] tracking-widest uppercase mb-12 text-center">
+          Premium Decorative Wall Finishes for Melbourne Homes &amp; Commercial Spaces
         </h1>
-        <p className="font-futura text-sm md:text-base text-center max-w-2xl text-[#000000]/70 leading-relaxed mb-24 font-light">
-          Choose from our extensive range of Finishes, or alternatively we can create custom finishes to suit your requirements. For bespoke finishes please contact us and provide images and details from which sample boards can be created.
-        <br />
-     
-       
-          Visit our showroom by appointment or browse our online gallery to explore the wide range of finishes and textures available.
+        <p className="font-futura text-sm md:text-base text-center max-w-2xl text-[#000000]/70 leading-relaxed mb-6 font-light">
+          Renaissance Decor offers an extensive range of hand-applied decorative finishes, including Venetian plaster, microcement, clay plaster, tadelakt, metal coatings and textured plaster, or we can create a custom finish to suit your project. For bespoke work, contact us with images and details so we can prepare sample boards.
         </p>
+        <p className="font-futura text-sm md:text-base text-center max-w-2xl text-[#000000]/70 leading-relaxed mb-24 font-light">
+          Visit our Braeside showroom by appointment or browse our online gallery below to explore the wide range of finishes and textures available across Melbourne and the Mornington Peninsula.
+        </p>
+      </section>
+
+      {/* Material descriptions for SEO depth */}
+      <section className="w-full max-w-5xl mx-auto px-6 md:px-12 pb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {MATERIAL_HIGHLIGHTS.map(({ name, desc }) => (
+            <div key={name} className="flex flex-col gap-2">
+              <h2 className="font-futura font-bold text-[11px] uppercase tracking-[0.2em] text-[#000000]">{name}</h2>
+              <p className="font-futura font-light text-sm text-[#000000]/70 leading-relaxed">{desc}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Grid of Finishes */}
