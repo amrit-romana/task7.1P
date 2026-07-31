@@ -50,27 +50,14 @@ export default async function MaterialsPage() {
       <Header theme="dark" />
 
       <section className="pt-36 md:pt-48 pb-12 px-6 md:px-12 w-full flex flex-col items-center">
-        <h1 className="font-futura font-light text-4xl md:text-5xl lg:text-6xl text-[#000000] tracking-widest uppercase mb-12 text-center">
-          Premium Decorative Wall Finishes for Melbourne Homes &amp; Commercial Spaces
+        <h1 className="font-futura font-light text-4xl md:text-5xl lg:text-6xl text-[#000000] tracking-widest uppercase mb-12">
+          Decorative Wall Finishes
         </h1>
-        <p className="font-futura text-sm md:text-base text-center max-w-2xl text-[#000000]/70 leading-relaxed mb-6 font-light">
-          Renaissance Decor offers an extensive range of hand-applied decorative finishes, including Venetian plaster, microcement, clay plaster, tadelakt, metal coatings and textured plaster, or we can create a custom finish to suit your project. For bespoke work, contact us with images and details so we can prepare sample boards.
-        </p>
         <p className="font-futura text-sm md:text-base text-center max-w-2xl text-[#000000]/70 leading-relaxed mb-24 font-light">
-          Visit our Braeside showroom by appointment or browse our online gallery below to explore the wide range of finishes and textures available across Melbourne and the Mornington Peninsula.
+          Choose from our extensive range of Venetian plaster, microcement, clay plaster, tadelakt, metal coatings and textured plaster finishes, or alternatively we can create custom finishes to suit your requirements. For bespoke finishes please contact us and provide images and details from which sample boards can be created.
+          <br />
+          Visit our showroom by appointment or browse our online gallery to explore the wide range of finishes and textures available.
         </p>
-      </section>
-
-      {/* Material descriptions for SEO depth */}
-      <section className="w-full max-w-5xl mx-auto px-6 md:px-12 pb-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {MATERIAL_HIGHLIGHTS.map(({ name, desc }) => (
-            <div key={name} className="flex flex-col gap-2">
-              <h2 className="font-futura font-bold text-[11px] uppercase tracking-[0.2em] text-[#000000]">{name}</h2>
-              <p className="font-futura font-light text-sm text-[#000000]/70 leading-relaxed">{desc}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
       {/* Grid of Finishes */}
@@ -98,6 +85,21 @@ export default async function MaterialsPage() {
               </div>
             </Link>
           ))}
+        </div>
+      </section>
+
+      {/* Material descriptions for SEO depth */}
+      <section className="w-full bg-[var(--color-linen)] py-20 px-6 md:px-12">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-[10px] font-futura tracking-[0.25em] uppercase text-[var(--color-bark)] mb-10">About Our Finishes</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {MATERIAL_HIGHLIGHTS.map(({ name, desc }) => (
+              <div key={name} className="flex flex-col gap-2 p-6 bg-white border border-[var(--color-stone)]/40">
+                <h2 className="font-futura font-bold text-[11px] uppercase tracking-[0.2em] text-[#000000]">{name}</h2>
+                <p className="font-futura font-light text-sm text-[#000000]/70 leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </main>
