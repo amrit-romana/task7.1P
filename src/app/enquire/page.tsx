@@ -33,13 +33,19 @@ export default function EnquirePage() {
     setError("");
 
     const formData = new FormData(e.currentTarget);
-    const result = await submitEnquiry(formData);
 
-    setSubmitting(false);
-    if (result.success) {
-      setSubmitted(true);
-    } else {
-      setError(result.error ?? "Something went wrong. Please try again.");
+    try {
+      const result = await submitEnquiry(formData);
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        setError(result.error ?? "Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      console.error("Enquiry submission failed:", err);
+      setError("Something went wrong. Please try again, or contact us directly on 0468 326 303.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
