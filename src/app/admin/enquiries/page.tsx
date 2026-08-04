@@ -16,26 +16,52 @@ function formatDate(iso: string) {
 export default function AdminEnquiriesPage() {
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [expandedId, setExpandedId] = useState<number | null>(null);
 
   const load = useCallback(async () => {
-    const data = await getEnquiries();
-    setEnquiries(data);
-    setLoading(false);
+    setLoading(true);
+    setLoadError("");
+    try {
+      const data = await getEnquiries();
+      setEnquiries(data);
+    } catch (err) {
+      console.error("Failed to load enquiries:", err);
+      setLoadError("Couldn't load enquiries. Please refresh the page.");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => { load(); }, [load]);
 
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this enquiry?")) return;
-    await deleteEnquiry(id);
-    setEnquiries((prev) => prev.filter((e) => e.id !== id));
-    if (expandedId === id) setExpandedId(null);
+    try {
+      await deleteEnquiry(id);
+      setEnquiries((prev) => prev.filter((e) => e.id !== id));
+      if (expandedId === id) setExpandedId(null);
+    } catch (err) {
+      console.error("Failed to delete enquiry:", err);
+      alert("Couldn't delete this enquiry. Please try again.");
+    }
   };
 
   if (loading) return (
     <div className="flex items-center justify-center h-64">
       <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-900 rounded-full animate-spin" />
+    </div>
+  );
+
+  if (loadError) return (
+    <div className="bg-white border border-red-100 rounded-xl p-12 text-center">
+      <p className="text-red-500 text-sm font-medium">{loadError}</p>
+      <button
+        onClick={load}
+        className="mt-4 px-4 py-2 bg-gray-900 text-white text-xs font-semibold rounded-lg hover:bg-gray-700 transition"
+      >
+        Retry
+      </button>
     </div>
   );
 
