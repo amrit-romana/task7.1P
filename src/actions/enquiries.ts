@@ -3,8 +3,6 @@ import sql from "@/lib/db";
 import { Resend } from "resend";
 import { put } from "@vercel/blob";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const NOTIFY_EMAIL = "office@renaissancedecor.com.au";
 const FROM_ADDRESS = "Renaissance Decor <enquiries@renaissancedecor.com.au>";
 
@@ -94,6 +92,7 @@ export async function submitEnquiry(
     </div>`;
 
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     await Promise.all([
       resend.emails.send({
         from: FROM_ADDRESS,
