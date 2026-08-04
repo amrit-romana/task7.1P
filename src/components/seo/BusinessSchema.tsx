@@ -6,6 +6,10 @@ const LOGO_URL = `${SITE_URL}/images/logo-dark-v2.png`;
 // Suburbs mirrored from the /venetian-plaster/[location] location pages —
 // keep in sync with SUBURBS in src/app/venetian-plaster/[location]/page.tsx.
 const AREA_SERVED = [
+  // Home base
+  "Braeside",
+  // Broader named regions
+  "Melbourne", "Bayside", "Mornington Peninsula",
   // Mornington Peninsula
   "Portsea", "Sorrento", "Flinders", "Blairgowrie", "Rye", "Mornington",
   "Mount Eliza", "Mount Martha", "Red Hill", "Balnarring",
@@ -15,6 +19,12 @@ const AREA_SERVED = [
   "Hawthorn", "Kew", "Camberwell", "Canterbury", "Balwyn",
   "Middle Park", "Albert Park", "St Kilda", "Elwood", "Port Melbourne",
 ];
+
+// Regions/LGAs use AdministrativeArea; individual suburbs and the home base use City.
+const AREA_SERVED_TYPE: Record<string, string> = {
+  "Bayside": "AdministrativeArea",
+  "Mornington Peninsula": "AdministrativeArea",
+};
 
 // Service → representative page. Marmarino plaster is a fine Italian
 // polished-lime finish covered under the general Venetian plaster service
@@ -48,7 +58,7 @@ const SERVICES = [
     name: "Microcement Flooring",
     description:
       "Seamless, ultra-thin microcement overlay for floors, walls, and joinery with no grout lines.",
-    url: `${SITE_URL}/materials/microcement`,
+    url: `${SITE_URL}/microcement`,
   },
   {
     name: "Marmarino Plaster",
@@ -115,7 +125,7 @@ export default async function BusinessSchema() {
       postalCode: "3195",
       addressCountry: "AU",
     },
-    areaServed: AREA_SERVED.map((name) => ({ "@type": "City", name })),
+    areaServed: AREA_SERVED.map((name) => ({ "@type": AREA_SERVED_TYPE[name] ?? "City", name })),
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",

@@ -69,7 +69,7 @@ export function Hero({ carouselItems = [] }: { carouselItems?: any[] }) {
       >
         {items.length > 0 && (
           <>
-            <motion.h1
+            <motion.h2
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.5, delay: 1.0 }}

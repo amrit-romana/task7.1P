@@ -35,6 +35,18 @@ const FAQS = [
     q: "Can Venetian plaster be applied over existing walls?",
     a: "In most cases, yes. Walls need to be structurally sound, primed, and free of moisture. Our team assesses each substrate before application to ensure the best result.",
   },
+  {
+    q: "What colours and finishes are available?",
+    a: "Venetian plaster can be tinted to almost any colour and finished with a polished, matte, or textured sheen. We work with you and your designer to develop a sample board before starting the project.",
+  },
+  {
+    q: "How long does the application take?",
+    a: "Most residential feature walls take 2-4 days including preparation and multiple coats. Larger rooms, staircases, or full-home projects are scheduled individually based on scope.",
+  },
+  {
+    q: "How do I maintain a Venetian plaster wall?",
+    a: "Sealed Venetian plaster requires minimal maintenance — occasional dusting or a light wipe-down with a damp cloth. Avoid abrasive cleaners, which can dull the burnished surface.",
+  },
 ];
 
 const SUBURBS = [
@@ -75,7 +87,10 @@ export default async function VenetianPlasterPage() {
             Melbourne &amp; Mornington Peninsula
           </p>
           <h1 className="font-futura font-bold text-4xl md:text-6xl lg:text-7xl text-white tracking-widest uppercase leading-none">
-            Venetian<br />Plaster
+            Venetian Plaster
+            <span className="block font-futura font-light normal-case text-lg md:text-2xl lg:text-3xl tracking-[0.08em] mt-3">
+              Melbourne – Handcrafted Polished Plaster Walls
+            </span>
           </h1>
           <p className="font-futura font-light text-sm md:text-base text-white/80 mt-5 max-w-xl leading-relaxed">
             Handcrafted polished plaster and decorative wall finishes by Melbourne&apos;s artisan specialists.
@@ -102,6 +117,50 @@ export default async function VenetianPlasterPage() {
           <p>
             At Renaissance Decor, every application is carried out by hand using traditional techniques refined over decades. We work with interior designers, builders, and private clients across Melbourne and the Mornington Peninsula.
           </p>
+          <p>
+            Unlike paint, which sits on the surface and is prone to chipping, scuffing, and fading, Venetian plaster becomes part of the wall itself. As the lime cures, it carbonates and hardens, developing a stone-like density that resists everyday wear while still allowing the surface to breathe. The result is a finish that ages gracefully rather than deteriorating — a genuine long-term investment in a property&apos;s interior.
+          </p>
+          <p>
+            Because every layer is hand-applied and hand-burnished, no two Venetian plaster walls are identical. Light plays across the surface differently throughout the day, revealing subtle variations in tone and texture that give a room a sense of depth and craftsmanship that flat, uniform paint finishes simply cannot achieve.
+          </p>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="w-full max-w-5xl mx-auto px-8 md:px-16 py-20">
+        <p className="text-[10px] font-futura tracking-[0.25em] uppercase text-[var(--color-bark)] mb-6">Our Process</p>
+        <h2 className="font-serif text-2xl md:text-3xl text-[var(--color-charcoal)] mb-12 max-w-2xl">
+          How We Apply Venetian Plaster, Start to Finish
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          {[
+            {
+              step: "01",
+              title: "Site Assessment",
+              desc: "We inspect the substrate, discuss finish, colour and sheen with you, and confirm surface preparation requirements before any work begins.",
+            },
+            {
+              step: "02",
+              title: "Surface Preparation",
+              desc: "Walls are primed, patched, and levelled so the plaster bonds evenly and the finished surface reads smooth and true under light.",
+            },
+            {
+              step: "03",
+              title: "Hand Application",
+              desc: "Multiple thin coats of lime and marble-dust plaster are trowelled on by hand, each layer building the depth that defines a genuine Venetian finish.",
+            },
+            {
+              step: "04",
+              title: "Burnishing & Sealing",
+              desc: "The final coat is burnished to a smooth or textured sheen and sealed to protect the surface, ready for decades of everyday use.",
+            },
+          ].map(({ step, title, desc }) => (
+            <div key={step} className="flex flex-col gap-3">
+              <span className="font-futura font-bold text-2xl text-[var(--color-stone)]">{step}</span>
+              <h3 className="font-futura font-bold text-[11px] uppercase tracking-[0.2em] text-[var(--color-charcoal)]">{title}</h3>
+              <p className="font-futura font-light text-sm text-[var(--color-charcoal)] leading-relaxed">{desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -111,12 +170,12 @@ export default async function VenetianPlasterPage() {
           <p className="text-[10px] font-futura tracking-[0.25em] uppercase text-[var(--color-bark)] mb-10">Our Plaster Services</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {[
-              { title: "Polished Venetian Plaster", desc: "High-gloss marble-dust finish. Ideal for feature walls, hallways, and luxury interiors." },
-              { title: "Matte Venetian Plaster", desc: "A softer, wax-finished texture with the same depth and warmth as its polished counterpart." },
-              { title: "Tadelakt", desc: "Traditional Moroccan lime plaster — waterproof and perfect for bathrooms and wet areas." },
-              { title: "Clay Plaster", desc: "Natural, breathable finish with excellent acoustic and humidity-regulating properties." },
-              { title: "Textured Plaster", desc: "Custom texture and colour combinations for feature walls with sculptural presence." },
-              { title: "Micro Cement", desc: "Seamless, ultra-thin cement overlay for floors, walls, and joinery — no grout lines." },
+              { title: "Polished Venetian Plaster", desc: "High-gloss marble-dust finish burnished to a mirror-like sheen. Ideal for feature walls, hallways, and luxury interiors where light and reflection matter most." },
+              { title: "Matte Venetian Plaster", desc: "A softer, wax-finished texture with the same depth and warmth as its polished counterpart — a popular choice for living areas and bedrooms." },
+              { title: "Tadelakt", desc: "Traditional Moroccan lime plaster — fully waterproof once sealed, and perfect for bathrooms, showers, and other wet areas across Melbourne homes." },
+              { title: "Clay Plaster", desc: "Natural, breathable finish with excellent acoustic and humidity-regulating properties, favoured for bedrooms and health-conscious interiors." },
+              { title: "Textured Plaster", desc: "Custom texture, colour, and pattern combinations for feature walls with genuine sculptural presence and hand-crafted character." },
+              { title: "Micro Cement", desc: "Seamless, ultra-thin cement overlay for floors, walls, and joinery — no grout lines, no seams, just a continuous architectural surface." },
             ].map(({ title, desc }) => (
               <div key={title} className="flex flex-col gap-3 p-6 bg-white border border-[var(--color-stone)]/40">
                 <h3 className="font-futura font-bold text-[11px] uppercase tracking-[0.2em] text-[var(--color-charcoal)]">{title}</h3>
@@ -133,6 +192,9 @@ export default async function VenetianPlasterPage() {
         <h2 className="font-serif text-2xl md:text-3xl text-[var(--color-charcoal)] mb-10">
           Venetian Plaster Across Melbourne &amp; Beyond
         </h2>
+        <p className="font-futura font-light text-base text-[var(--color-charcoal)] leading-relaxed max-w-3xl mb-10">
+          Renaissance Decor is based in Braeside and services Venetian plaster projects across greater Melbourne, from the inner-city apartments of the CBD and Fitzroy through to the bayside homes of Brighton and Toorak, and out along the Mornington Peninsula to Portsea, Sorrento, and Rye. Whether it&apos;s a single feature wall, a full residential renovation, or a commercial fit-out, our team travels to you for an on-site assessment before any work begins.
+        </p>
         <div className="flex flex-wrap gap-3">
           {SUBURBS.map((suburb) => (
             <span key={suburb} className="font-futura text-xs text-[var(--color-charcoal)] border border-[var(--color-stone)] px-3 py-1.5">

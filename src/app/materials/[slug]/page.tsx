@@ -17,12 +17,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const finish = await getFinishBySlug(slug);
   if (!finish) return {};
+  // Microcement has its own dedicated, more comprehensive landing page at /microcement —
+  // canonicalize this thinner DB-driven variant to it to avoid duplicate content.
+  const canonicalPath = slug === "microcement" ? "/microcement" : `/materials/${toSlug(finish.name)}`;
   return {
     title: `${finish.name} Melbourne`,
     description: finish.description
       ? `${finish.description.slice(0, 140)}…`
       : `Bespoke ${finish.name} finishes for Melbourne homes and commercial interiors. Handcrafted by Renaissance Decor's artisan specialists.`,
-    alternates: { canonical: `/materials/${toSlug(finish.name)}` },
+    alternates: { canonical: canonicalPath },
   };
 }
 

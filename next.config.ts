@@ -10,10 +10,9 @@ const nextConfig: NextConfig = {
       // ── Old com.au URLs → new slug-based material pages ──────────────────
       { source: "/polished-plasters",      destination: "/materials/polished-plaster", permanent: true },
       { source: "/polished-plasters/",     destination: "/materials/polished-plaster", permanent: true },
-      { source: "/finishes/microcement",   destination: "/materials/micro-cement",     permanent: true },
-      { source: "/finishes/microcement/",  destination: "/materials/micro-cement",     permanent: true },
-      { source: "/microcement",            destination: "/materials/micro-cement",     permanent: true },
-      { source: "/microcement/",           destination: "/materials/micro-cement",     permanent: true },
+      { source: "/finishes/microcement",   destination: "/microcement",     permanent: true },
+      { source: "/finishes/microcement/",  destination: "/microcement",     permanent: true },
+      { source: "/materials/micro-cement", destination: "/materials/microcement", permanent: true },
       { source: "/clay-plaster",           destination: "/materials/clay-plaster",     permanent: true },
       { source: "/clay-plaster/",          destination: "/materials/clay-plaster",     permanent: true },
       { source: "/metal-coatings",         destination: "/materials/metal-coatings",   permanent: true },
@@ -39,7 +38,7 @@ const nextConfig: NextConfig = {
       { source: "/materials/f6",  destination: "/materials/tadelakt",         permanent: true },
       { source: "/materials/f7",  destination: "/materials/clay-plaster",     permanent: true },
       { source: "/materials/f8",  destination: "/materials/flooring",          permanent: true },
-      { source: "/materials/f9",  destination: "/materials/micro-cement",     permanent: true },
+      { source: "/materials/f9",  destination: "/materials/microcement",      permanent: true },
       // ── Site structure ────────────────────────────────────────────────────
       { source: "/our-projects",  destination: "/projects", permanent: true },
       { source: "/our-projects/", destination: "/projects", permanent: true },
