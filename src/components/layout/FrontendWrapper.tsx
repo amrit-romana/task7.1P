@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import { SmoothScroll } from "./SmoothScroll";
 import { Preloader } from "./Preloader";
 import { Footer } from "./Footer";
-import { CustomCursor } from "../ui/CustomCursor";
 import { FloatingContact } from "../ui/FloatingContact";
 
 export function FrontendWrapper({ children }: { children: React.ReactNode }) {
@@ -19,7 +18,6 @@ export function FrontendWrapper({ children }: { children: React.ReactNode }) {
   // Otherwise, wrap the standard public frontend layout
   return (
     <SmoothScroll>
-      <CustomCursor />
       <FloatingContact />
       <Preloader />
       {children}
