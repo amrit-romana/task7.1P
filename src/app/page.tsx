@@ -34,8 +34,8 @@ export default async function Home() {
           We work with Interior Designers, Builders and Architects who value exceptional craftsmanship and attention to detail. Every surface is an opportunity to create something lasting.
         </h2>
       </section>
-      {/* SEO body copy — below fold */}
-      <section className="py-16 md:py-24 px-6 md:px-12 w-full bg-[var(--color-charcoal)] text-[var(--color-parchment)] mb-16 md:mb-24">
+      {/* SEO body copy — below fold (visually hidden, present for search engines) */}
+      <section className="sr-only">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-start">
           <div>
             <p className="text-[10px] font-sans tracking-[0.25em] uppercase text-[var(--color-parchment)]/50 mb-4">Melbourne &amp; Mornington Peninsula</p>
@@ -67,8 +67,8 @@ export default async function Home() {
       <FinishesSection finishes={finishes} />
      
 
-      {/* Process & why choose us */}
-      <section className="w-full py-20 md:py-28 px-6 md:px-12">
+      {/* Why choose us (visually hidden, present for search engines) */}
+      <section className="sr-only">
         <div className="max-w-5xl mx-auto">
           <p className="text-[10px] font-futura tracking-[0.25em] uppercase text-[var(--color-bark)] mb-10 text-center">Why Choose Renaissance Decor</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-14">
@@ -94,8 +94,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      {/* Process */}
-      <section className="w-full bg-[var(--color-linen)] py-20 md:py-28 px-6 md:px-12">
+      {/* Process (visually hidden, present for search engines) */}
+      <section className="sr-only">
         <div className="max-w-5xl mx-auto">
           <p className="text-[10px] font-futura tracking-[0.25em] uppercase text-[var(--color-bark)] mb-6 text-center">Our Process</p>
           <h2 className="font-serif text-2xl md:text-3xl text-[var(--color-charcoal)] mb-12 text-center max-w-2xl mx-auto">
@@ -118,8 +118,8 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Materials at a glance */}
-      <section className="w-full py-20 md:py-28 px-6 md:px-12">
+      {/* Materials at a glance (visually hidden, present for search engines) */}
+      <section className="sr-only">
         <div className="max-w-5xl mx-auto">
           <p className="text-[10px] font-futura tracking-[0.25em] uppercase text-[var(--color-bark)] mb-6 text-center">Our Decorative Finishes</p>
           <p className="font-futura font-light text-sm md:text-base text-center max-w-2xl mx-auto text-[var(--color-charcoal)]/70 leading-relaxed mb-14">
