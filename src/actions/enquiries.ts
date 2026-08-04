@@ -5,7 +5,7 @@ import { put } from "@vercel/blob";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const NOTIFY_EMAIL = "info@renaissancedecor.com.au";
+const NOTIFY_EMAIL = "office@renaissancedecor.com.au";
 const FROM_ADDRESS = "Renaissance Decor <enquiries@renaissancedecor.com.au>";
 
 export type Enquiry = {
