@@ -36,6 +36,50 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Press feedback lives on pointer-down, not on release — never only at the end */
+.press {
+  transition: transform 100ms ease-out;
+}
+.press:active {
+  transform: scale(0.97);
+}
+
+/* Same press feedback applied wholesale across the admin CMS shell,
+   so every button/link there gets it without touching each page. */
+[data-admin] button:not(:disabled),
+[data-admin] a {
+  transition: transform 100ms ease-out;
+}
+[data-admin] button:not(:disabled):active,
+[data-admin] a:active {
+  transform: scale(0.98);
+}
+
+/* Reduced motion: gentler, non-vestibular equivalents — not "no feedback" */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Reduced transparency: frostier/solid translucent surfaces.
+   Surfaces set --material-bg to their own solid fallback; defaults to parchment. */
+.material {
+  --material-bg: var(--color-parchment);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .material {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: var(--material-bg) !important;
+  }
+}
+
 /* Base styles for Lenis */
 html.lenis, html.lenis body {
   height: auto;

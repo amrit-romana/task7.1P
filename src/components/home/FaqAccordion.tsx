@@ -19,7 +19,7 @@ export function FaqAccordion({ faqs }: { faqs: FaqData[] }) {
             className={`border-t border-[var(--color-charcoal)]/10 ${i === faqs.length - 1 ? "border-b" : ""}`}
           >
             <button
-              className="w-full flex items-start justify-between py-7 text-left gap-8 group"
+              className="press w-full flex items-start justify-between py-7 text-left gap-8 group"
               onClick={() => setOpenId(isOpen ? null : faq.id)}
               aria-expanded={isOpen}
             >
@@ -51,7 +51,7 @@ export function FaqAccordion({ faqs }: { faqs: FaqData[] }) {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+                  transition={{ type: "spring", bounce: 0, duration: 0.35, opacity: { duration: 0.2 } }}
                   className="overflow-hidden"
                 >
                   <p className="font-sans text-sm md:text-base text-[var(--color-charcoal)]/65 leading-relaxed pb-7 max-w-2xl">

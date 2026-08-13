@@ -72,7 +72,7 @@ export default async function MicrocementPage() {
           </p>
           <h1 className="font-futura font-bold text-4xl md:text-6xl lg:text-7xl text-white tracking-widest uppercase leading-none">
             Microcement
-            <span className="block font-futura font-light normal-case text-lg md:text-2xl lg:text-3xl tracking-[0.08em] mt-3">
+            <span className="block font-futura font-light normal-case text-lg md:text-2xl lg:text-3xl tracking-[0.08em] md:tracking-[0.05em] lg:tracking-[0.03em] mt-3">
               Melbourne – Seamless, Grout-Free Surfaces
             </span>
           </h1>

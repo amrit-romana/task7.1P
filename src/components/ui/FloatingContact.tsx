@@ -58,6 +58,7 @@ export function FloatingContact() {
               initial="hidden"
               animate="visible"
               exit="exit"
+              whileTap={{ scale: 0.97 }}
               className="pointer-events-auto flex items-center gap-3 bg-espresso text-parchment px-4 py-3 hover:bg-charcoal transition-colors duration-200"
               onClick={() => setOpen(false)}
             >
@@ -75,6 +76,7 @@ export function FloatingContact() {
               initial="hidden"
               animate="visible"
               exit="exit"
+              whileTap={{ scale: 0.97 }}
               className="pointer-events-auto flex items-center gap-3 bg-espresso text-parchment px-4 py-3 hover:bg-charcoal transition-colors duration-200"
             >
               <PhoneIcon />
@@ -92,7 +94,8 @@ export function FloatingContact() {
         className="pointer-events-auto w-11 h-11 bg-espresso text-parchment flex items-center justify-center hover:bg-charcoal transition-colors duration-200"
         aria-label={open ? "Close contact panel" : "Contact us"}
         animate={{ rotate: open ? 90 : 0 }}
-        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+        whileTap={{ scale: 0.9 }}
+        transition={{ type: "spring", bounce: 0, duration: 0.25 }}
       >
         {open ? <CloseIcon /> : <PhoneIcon />}
       </motion.button>

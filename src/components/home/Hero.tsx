@@ -73,8 +73,7 @@ export function Hero({ carouselItems = [] }: { carouselItems?: any[] }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.5, delay: 1.0 }}
-              className="font-serif text-4xl md:text-5xl lg:text-[64px] leading-[1.15] w-full max-w-4xl"
-              style={{ letterSpacing: '0.04em' }}
+              className="font-serif text-4xl md:text-5xl lg:text-[64px] leading-[1.15] w-full max-w-4xl tracking-[0.04em] md:tracking-[0.03em] lg:tracking-[0.02em]"
               dangerouslySetInnerHTML={{ __html: items[index].title }}
             />
             <motion.p
@@ -93,14 +92,14 @@ export function Hero({ carouselItems = [] }: { carouselItems?: any[] }) {
       <div className="absolute inset-x-0 bottom-1/2 md:bottom-12 md:top-auto px-4 md:px-12 flex justify-between md:justify-end items-center gap-6 z-20 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
         <button
           onClick={prevImage}
-          className="p-3 rounded-full bg-[var(--color-parchment)]/10 text-[var(--color-parchment)] hover:bg-[var(--color-parchment)]/30 backdrop-blur-md transition-all active:scale-95"
+          className="material p-3 rounded-full bg-[var(--color-parchment)]/10 text-[var(--color-parchment)] hover:bg-[var(--color-parchment)]/30 backdrop-blur-md transition-all active:scale-95 [--material-bg:rgba(0,0,0,0.55)]"
           aria-label="Previous Slide"
         >
           <ChevronLeft className="w-6 h-6 stroke-[1.5]" />
         </button>
         <button
           onClick={nextImage}
-          className="p-3 rounded-full bg-[var(--color-parchment)]/10 text-[var(--color-parchment)] hover:bg-[var(--color-parchment)]/30 backdrop-blur-md transition-all active:scale-95"
+          className="material p-3 rounded-full bg-[var(--color-parchment)]/10 text-[var(--color-parchment)] hover:bg-[var(--color-parchment)]/30 backdrop-blur-md transition-all active:scale-95 [--material-bg:rgba(0,0,0,0.55)]"
           aria-label="Next Slide"
         >
           <ChevronRight className="w-6 h-6 stroke-[1.5]" />

@@ -58,9 +58,9 @@ export function Header({ theme = "light", navLinks: propNavLinks }: { theme?: "l
     <>
       <motion.header
         animate={{ y: isHidden ? "-100%" : 0 }}
-        transition={{ duration: 0.4, ease: "easeInOut" }}
-        className={`fixed top-0 left-0 right-0 z-40 px-6 py-5 md:px-12 flex justify-between items-center transition-colors duration-700 pointer-events-none ${
-          isScrolled ? "bg-[var(--color-parchment)] shadow-sm py-4" : "bg-transparent"
+        transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+        className={`fixed top-0 left-0 right-0 z-40 px-6 py-5 md:px-12 flex justify-between items-center transition-[background-color,backdrop-filter,padding] duration-700 pointer-events-none ${
+          isScrolled ? "material bg-[var(--color-parchment)]/70 backdrop-blur-xl backdrop-saturate-150 shadow-sm py-4" : "bg-transparent"
         }`}
       >
         <div className={`pointer-events-auto transition-colors duration-700 ${textColorClass} flex-shrink-0`}>
@@ -89,7 +89,7 @@ export function Header({ theme = "light", navLinks: propNavLinks }: { theme?: "l
             <Link
               key={link.name}
               href={link.href}
-              className="font-sans font-bold text-xs md:text-sm uppercase tracking-[0.15em] hover:underline underline-offset-[6px] decoration-[1px] transition-all"
+              className="press font-sans font-bold text-xs md:text-sm uppercase tracking-[0.15em] hover:underline underline-offset-[6px] decoration-[1px] transition-all"
             >
               {link.name}
             </Link>
@@ -99,7 +99,7 @@ export function Header({ theme = "light", navLinks: propNavLinks }: { theme?: "l
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMenuOpen(true)}
-          className={`md:hidden pointer-events-auto font-bold text-[10px] uppercase tracking-widest font-sans transition-colors duration-700 ${textColorClass}`}
+          className={`press md:hidden pointer-events-auto font-bold text-[10px] uppercase tracking-widest font-sans transition-colors duration-700 ${textColorClass}`}
         >
           Menu
         </button>
@@ -112,12 +112,12 @@ export function Header({ theme = "light", navLinks: propNavLinks }: { theme?: "l
             initial={{ opacity: 0, y: "-100%" }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "-100%" }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+            transition={{ type: "spring", bounce: 0, duration: 0.55 }}
             className="fixed inset-0 z-50 bg-[#000000] flex flex-col items-center justify-center"
           >
             <button
               onClick={() => setMenuOpen(false)}
-              className="absolute top-8 right-6 md:top-12 md:right-12 font-sans font-bold text-[10px] uppercase tracking-widest text-[var(--color-parchment)] opacity-50 hover:opacity-100 transition-opacity p-2"
+              className="press absolute top-8 right-6 md:top-12 md:right-12 font-sans font-bold text-[10px] uppercase tracking-widest text-[var(--color-parchment)] opacity-50 hover:opacity-100 transition-opacity p-2"
             >
               Close
             </button>
@@ -133,7 +133,7 @@ export function Header({ theme = "light", navLinks: propNavLinks }: { theme?: "l
                   <Link
                     href={link.href}
                     onClick={() => setMenuOpen(false)}
-                    className="font-serif text-3xl md:text-5xl tracking-[0.2em] uppercase text-[var(--color-parchment)] hover:opacity-50 transition-opacity block py-2"
+                    className="font-serif text-3xl md:text-5xl tracking-[0.2em] md:tracking-[0.14em] uppercase text-[var(--color-parchment)] hover:opacity-50 transition-opacity block py-2"
                   >
                     {link.name}
                   </Link>

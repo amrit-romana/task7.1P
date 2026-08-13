@@ -75,7 +75,7 @@ export default async function CoursesPage() {
                       </div>
                     )}
                     {/* Subtle luxury badge */}
-                    <div className="absolute top-6 left-6 bg-black/80 backdrop-blur-sm text-[var(--color-parchment)] px-4 py-2 font-futura text-[10px] uppercase tracking-widest font-semibold">
+                    <div className="material absolute top-6 left-6 bg-black/80 backdrop-blur-sm text-[var(--color-parchment)] px-4 py-2 font-futura text-[10px] uppercase tracking-widest font-semibold [--material-bg:rgba(0,0,0,0.9)]">
                       {course.duration}
                     </div>
                   </div>
@@ -86,7 +86,7 @@ export default async function CoursesPage() {
                       <span className="font-futura text-[9px] uppercase tracking-[0.25em] text-[var(--color-bark)] mb-2 block">
                         Professional Training
                       </span>
-                      <h2 className="font-futura font-bold text-xl md:text-2xl lg:text-3xl text-[var(--color-charcoal)] uppercase tracking-[0.1em] leading-tight">
+                      <h2 className="font-futura font-bold text-xl md:text-2xl lg:text-3xl text-[var(--color-charcoal)] uppercase tracking-[0.1em] md:tracking-[0.08em] lg:tracking-[0.06em] leading-tight">
                         {course.title}
                       </h2>
                     </div>

@@ -159,10 +159,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F8F7F5]" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+    <div data-admin className="flex h-screen overflow-hidden bg-[#F8F7F5]" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
 
       {/* ────────── SIDEBAR ────────── */}
-      <aside className="w-[240px] flex-shrink-0 bg-white border-r border-gray-100 flex flex-col overflow-y-auto">
+      <aside className="material w-[240px] flex-shrink-0 bg-white/70 backdrop-blur-xl backdrop-saturate-150 border-r border-gray-100 flex flex-col overflow-y-auto [--material-bg:#ffffff]">
 
         {/* Logo */}
         <div className="px-6 py-5 border-b border-gray-100 flex-shrink-0">
@@ -191,7 +191,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium transition-all duration-150 ${
+                      className={`press flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium transition-all duration-150 ${
                         active
                           ? "bg-gray-900 text-white"
                           : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
@@ -212,7 +212,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link
             href="/"
             target="_blank"
-            className="flex items-center gap-2 px-2.5 py-2 rounded-lg text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-all"
+            className="press flex items-center gap-2 px-2.5 py-2 rounded-lg text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-all"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
@@ -222,7 +222,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <form action={logoutAction}>
             <button
               type="submit"
-              className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-sm text-red-500 hover:bg-red-50 transition-all text-left"
+              className="press w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-sm text-red-500 hover:bg-red-50 transition-all text-left"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
@@ -238,7 +238,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="flex-1 flex flex-col overflow-hidden">
 
         {/* Top bar */}
-        <header className="flex-shrink-0 h-14 bg-white border-b border-gray-100 flex items-center justify-between px-8">
+        <header className="material flex-shrink-0 h-14 bg-white/70 backdrop-blur-xl backdrop-saturate-150 border-b border-gray-100 flex items-center justify-between px-8 [--material-bg:#ffffff]">
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <span className="text-gray-300">/</span>
             <span className="text-gray-800 font-medium capitalize">

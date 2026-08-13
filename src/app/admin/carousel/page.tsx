@@ -84,7 +84,7 @@ export default function AdminCarouselPage() {
               <div className="absolute top-2 left-2">
                 <span className="bg-black/60 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">Slide {idx + 1}</span>
               </div>
-              <div className="absolute top-2 right-2 flex gap-1 bg-black/60 rounded-lg p-0.5 backdrop-blur-sm">
+              <div className="material absolute top-2 right-2 flex gap-1 bg-black/60 rounded-lg p-0.5 backdrop-blur-sm [--material-bg:rgba(0,0,0,0.85)]">
                 <button
                   onClick={() => moveSlideUp(idx)}
                   disabled={idx === 0}
