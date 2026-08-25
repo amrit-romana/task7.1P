@@ -64,19 +64,17 @@ Australian-made products and bespoke surface solutions.
         
         </div>
         
-        <div className="lg:col-span-7 flex flex-col justify-center">
-          <FadeIn delay={0.5} direction="left" className="w-full">
-            <div className="overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://i.ibb.co/4ZZF9sg2/carousel-image.jpg"
-                alt="Renaissance Decor Application"
-                className="w-full block"
-                style={{ height: "auto", marginTop: "-25%", marginBottom: "-25%" }}
-              />
-            </div>
-          </FadeIn>
-        </div>
+        <div className="lg:col-span-7 flex items-center">
+  <FadeIn delay={0.5} direction="left" className="w-full">
+    <div className="relative w-full overflow-hidden">
+      <img
+        src="https://i.ibb.co/4ZZF9sg2/carousel-image.jpg"
+        alt="Renaissance Decor Application"
+        className="w-full h-auto block object-contain"
+      />
+    </div>
+  </FadeIn>
+</div>
       </section>
 
       {/* 2. About Team (Dark Section) */}
@@ -162,7 +160,7 @@ every project we deliver.
             <div className="md:w-1/2 flex justify-end md:pr-24 w-full">
               <FadeIn direction="right" className="w-full max-w-[400px]">
                 <div className="relative w-full aspect-[4/5] bg-stone-200">
-                  <Image src="https://i.ibb.co/7NdPvs8b/DSC08531-email.jp" alt="Consultation" fill className="object-cover" />
+                  <Image src="https://i.ibb.co/7NdPvs8b/DSC08531-email.jpg" alt="Consultation" fill className="object-cover" />
                 </div>
               </FadeIn>
             </div>
