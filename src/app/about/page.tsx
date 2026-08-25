@@ -69,7 +69,7 @@ Australian-made products and bespoke surface solutions.
             <div className="overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://i.ibb.co/4RB4m7TB/IMG-9936-2.jpg"
+                src="https://i.ibb.co/4ZZF9sg2/carousel-image.jpg"
                 alt="Renaissance Decor Application"
                 className="w-full block"
                 style={{ height: "auto", marginTop: "-25%", marginBottom: "-25%" }}
@@ -162,7 +162,7 @@ every project we deliver.
             <div className="md:w-1/2 flex justify-end md:pr-24 w-full">
               <FadeIn direction="right" className="w-full max-w-[400px]">
                 <div className="relative w-full aspect-[4/5] bg-stone-200">
-                  <Image src="https://i.ibb.co/zVwfty39/SHOWROOM.jpg" alt="Consultation" fill className="object-cover" />
+                  <Image src="https://i.ibb.co/7NdPvs8b/DSC08531-email.jp" alt="Consultation" fill className="object-cover" />
                 </div>
               </FadeIn>
             </div>
@@ -185,7 +185,7 @@ every project we deliver.
             <div className="md:w-1/2 flex justify-start md:pl-24 w-full">
               <FadeIn direction="left" className="w-full max-w-[400px]">
                 <div className="relative w-full aspect-[4/3] bg-stone-200">
-                  <Image src="https://i.ibb.co/8yh5XrF/494208455-1273030034823090-647951896159338908-n.jpg" alt="Sampling" fill className="object-cover" />
+                  <Image src="https://i.ibb.co/4nS0hrjT/DSC08507.jpg" alt="Sampling" fill className="object-cover" />
                 </div>
               </FadeIn>
             </div>
@@ -206,7 +206,7 @@ every project we deliver.
             <div className="md:w-1/2 flex justify-end md:pr-24 w-full">
               <FadeIn direction="right" className="w-full max-w-[400px]">
                 <div className="relative w-full aspect-[4/5] bg-stone-200">
-                  <Image src="https://i.ibb.co/Wpyc8FD4/626429525-18092861459004740-604214084003201179-n.jpg" alt="Application" fill className="object-cover" />
+                  <Image src="https://i.ibb.co/5g63qm3C/A7404399-email.jpg" alt="Application" fill className="object-cover" />
                 </div>
               </FadeIn>
             </div>
