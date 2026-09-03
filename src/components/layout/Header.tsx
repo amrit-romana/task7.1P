@@ -59,13 +59,13 @@ export function Header({ theme = "light", navLinks: propNavLinks }: { theme?: "l
       <motion.header
         animate={{ y: isHidden ? "-100%" : 0 }}
         transition={{ type: "spring", bounce: 0, duration: 0.4 }}
-        className={`fixed top-0 left-0 right-0 z-40 px-6 py-5 md:px-12 flex justify-between items-center transition-[background-color,backdrop-filter,padding] duration-700 pointer-events-none ${
-          isScrolled ? "material bg-[var(--color-parchment)]/70 backdrop-blur-xl backdrop-saturate-150 shadow-sm py-4" : "bg-transparent"
+        className={`fixed top-0 left-0 right-0 z-40 px-6 py-3 md:px-12 md:py-4 flex justify-between items-center transition-[background-color,backdrop-filter,padding] duration-700 pointer-events-none ${
+          isScrolled ? "material bg-[var(--color-parchment)]/70 backdrop-blur-xl backdrop-saturate-150 shadow-sm py-3 md:py-4" : "bg-transparent"
         }`}
       >
         <div className={`pointer-events-auto transition-colors duration-700 ${textColorClass} flex-shrink-0`}>
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-72 h-16 sm:w-80 sm:h-20 md:w-md md:h-24 lg:w-160 lg:h-28">
+            <div className="relative w-60 h-14 sm:w-72 sm:h-16 md:w-80 md:h-20 lg:w-96 lg:h-24">
               <Image
                 src="/images/header-logo-initial.png"
                 alt="Renaissance Decor Initial Logo"
